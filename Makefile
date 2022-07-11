@@ -6,7 +6,7 @@ HEADERS 	= $(shell find . -name "*.h")
 OBJECTS 	= $(patsubst %.c, %.o, $(SOURCES))
 DEPENDS 	= $(patsubst %.c, %.d, $(SOURCES))
 
-CFLAGS = -g -Wall
+CFLAGS 		= -g -Wall
 
 all: $(NAME)
 
