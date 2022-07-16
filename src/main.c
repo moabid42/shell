@@ -1,51 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/12 21:09:16 by moabid           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-bool    minishell_create(struct minishell *minishell)
-{
-	// here we are gonna do smth that I don't know yet
-
-}
-
-bool    minishell_init(struct minishell *minishell)
-{
-    // here we are gonna init the file descriptors and so on 
-}
-
-void	minishell_loop(struct minishell *minishell)
-{
-	readline(0);
-	while (1)
-	{
-		if (signal_is_thrown() == true)
-			break;
-		minishell_start(minishell);
-	}
-}
-
-bool    minishell_run(struct minishell *minishell)
-{
-	//// here where we are gonna have all our code /// 
-	/// bla bla bla 
-	if (minishell_init(minishell))
-		minishell_loop(minishell);
-
-}
-
-void    minishell_destroy(struct minishell *minishell)
-{
-	// here we are gonna terminate all the processes and free all the leaks 
-
-}
-
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
     struct minishell minishell;
 
-    if (argc > 1)
+    if (argc != 2 && my_strcmp(argv[0], NAME))
         ft_error(SYNTAX_ERROR);
-    if (minishell_create(&minishell))
-        if (minishell_run(&minishell))
-            minishell_destroy(&minishell);
+    minishell_create(&minishell, env);
+	minishell_run(&minishell);
+	minishell_destroy(&minishell);
     return (0);
 }

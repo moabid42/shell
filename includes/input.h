@@ -1,34 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/14 00:10:18 by moabid           ###   ########.fr       */
+/*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/14 22:01:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef INPUT_H
+#define INPUT_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libft.h"
+#include "minishell.h"
 #include "utils.h"
-#include "input.h"
-#include "get_next_line.h"
 
-struct minishell {
-	char	**env;
-	char	**g_env;
-	char	*prompt; // can be changed when exporting PS1
-	char	*input_str;
-	bool	variable;
-	char	**variables;
+struct input {
+	struct commands commands;
+	struct piped_cmds piped_cmds;
+	struct minishell *minishell;
 };
+
+struct token_stream {
+	char	*token_name;
+	char	*attr_value;	
+	struct token_stream *next;	
+};
+
+struct syntax_tree {
+	
+};
+
+struct ast {
+	
+};
+
+struct commands {
+	char *command;
+	struct commands *next;
+};
+
+struct piped_cmds {
+	char *piped_cmd;
+	struct piped_cmds *next;
+};
+
 
 #endif
