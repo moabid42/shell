@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/25 14:40:08 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/27 17:42:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	return (env);
-}
+	unsigned int	i;
+	char			*new;
 
+	if (!s || f == 0)
+		return (NULL);
+	new = malloc(ft_strlen(s) + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new[i] = f(i, s[i]);
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}

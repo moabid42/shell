@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/22 21:05:24 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:28:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+int	ft_isprint(int c)
 {
-	return (env);
+	return (c >= 32 && c < 127);
 }
-

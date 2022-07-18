@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/22 20:52:18 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/27 17:08:25 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+static int	ft_islowercase(int c)
 {
-	return (env);
+	if ((c >= 'a') && (c <= 'z'))
+		return (1);
+	else
+		return (0);
 }
 
+static int	ft_isuppercase(int c)
+{
+	if ((c >= 'A') && (c <= 'Z'))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isalpha(int c)
+{
+	return (ft_islowercase(c) || ft_isuppercase(c));
+}

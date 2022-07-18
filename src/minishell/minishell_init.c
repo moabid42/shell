@@ -6,49 +6,79 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/13 23:49:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/17 00:39:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    minishell_create(struct minishell *minishell)
+void    minishell_create(struct minishell *minishell, char **env)
 {
-	minishell->env = minishell_env_init(minishell, env);
+	minishell->env = minishell_env_init(env);
 	if (minishell->env == NULL)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
 	minishell->prompt = PROMPT;
-	minishell->input = NULL;
+	minishell->input_str = NULL;
 	minishell->variable = false;
 	minishell->variables = NULL;
+	minishell->scripts = NULL;
 }
 
-bool	minishell_get_input(struct minishell *minishell)
+char	*minishell_get_input()
 {
 	//To be implemented
 	// if (enviroment_value_get(PROMPT_TITLE))
 	// 	minishell->prompt = enviroment_value_get(PROMPT_TITLE);
-	char	*input;
-
-	input = readline(minishell->prompt);
-	if (input == NULL)
-		return (false);
-	add_history(input);
-	minishell->input = input;
-	return (true);
+	int c;
+	int bufsize = 1024;
+	int position = 0;
+	char *buffer = malloc(sizeof(char) * bufsize);
+	if (!buffer)
+	{
+	  	fprintf(stderr, "lsh: allocation error\n");
+	  	exit(EXIT_FAILURE);
+	}	
+	while (1) {
+	  	// Read a character
+	  	c = getchar();	
+	  	if (c == EOF)
+	  		exit(EXIT_SUCCESS);
+		else if (c == '\n')
+		{
+	  		buffer[position] = '\0';
+	  		return buffer;
+	  	}
+		else
+	  		buffer[position] = c;
+	  	position++;
+	  	// If we have exceeded the buffer, reallocate.
+	  	if (position >= bufsize)
+		{
+	    	bufsize += 1024;
+	    	buffer = realloc(buffer, bufsize);
+	    	if (!buffer)
+			{
+	    		fprintf(stderr, "lsh: allocation error\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
 }
+
 
 void    minishell_run(struct minishell *minishell)
 {	
 	while(1)
 	{
 		// To do : Handle signals
-		if (!minishell_get_input(minishell))
-		{
-			ft_putendl_fd("exit", STDERR_FILENO);
-			break ;
-		}
+		// if (!minishell_get_input())
+		// {
+		// 	ft_putendl_fd("exit", STDERR_FILENO);
+		// 	break ;
+		// }
+		printf("\033[31mesh$\033[0m");
+		minishell->input_str = minishell_get_input();
 		minishell_process_input(minishell);
 	}
 }
@@ -56,6 +86,6 @@ void    minishell_run(struct minishell *minishell)
 void    minishell_destroy(struct minishell *minishell)
 {
 	// here we are gonna terminate all the processes and free all the leaks 
-	rl_clear_history();
-	minishell_env_destroy(minishell);
+	// rl_clear_history();
+	// minishell_env_destroy(minishell);
 }

@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/25 14:57:12 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:33:25 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+void	ft_putstr_fd(char *s, int fd)
 {
-	return (env);
-}
+	size_t	i;
 
+	i = 0;
+	if (!s || fd < 0)
+		return ;
+	while (i < ft_strlen(s))
+		ft_putchar_fd(s[i++], fd);
+}

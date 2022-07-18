@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/24 14:21:12 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:59:46 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	return (env);
-}
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
+	i = 0;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	if (!n)
+		return (0);
+	while (n--)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	return (0);
+}

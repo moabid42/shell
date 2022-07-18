@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   semantic_analyzer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/17 01:02:02 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 #include "parser.h"
 #include "utils.h"
 
-char	**minishell_env_init(char **env)
+void	semantic_analyzer_create(struct syntax_tree *syntax_tree, struct ast *ast)
 {
-	return (env);
+	
 }
 
+void	semantic_analyzer_destroy(struct ast *ast)
+{
+	
+}

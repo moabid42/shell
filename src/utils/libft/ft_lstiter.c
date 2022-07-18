@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/25 23:07:18 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/28 14:46:48 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	return (env);
-}
+	t_list	*temp;
 
+	temp = lst;
+	if (lst == NULL || f == NULL)
+		return ;
+	while (temp)
+	{
+		f(temp -> content);
+		temp = temp -> next;
+	}
+}

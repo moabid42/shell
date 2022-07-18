@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/22 22:13:08 by moabid            #+#    #+#             */
+/*   Updated: 2022/06/17 16:41:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-char	**minishell_env_init(char **env)
+void	*ft_memmove(void *dest, const void *src, size_t len)
 {
-	return (env);
-}
+	char	*s;
+	char	*d;
 
+	s = (char *)src;
+	d = (char *)dest;
+	if (!dest && !src)
+		return (dest);
+	if (src < dest)
+		while (len--)
+			d[len] = s[len];
+	else
+		while (len--)
+			*d++ = *s++;
+	return (dest);
+}

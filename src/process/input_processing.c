@@ -6,11 +6,13 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/14 22:02:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/17 00:59:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
+#include "utils.h"
 
 // bool	minishell_input_parse(struct minishell *minishell, struct input *input)
 // {
@@ -30,16 +32,14 @@ void	minishell_process_input(struct minishell *minishell)
 {
 	struct token_stream token_stream;
 	struct syntax_tree	syntax_tree;
-	struct ast		ast;
+	struct ast			ast;
 
-	if (lexical_analyzer_create(minishell, &token_stream))
-		if (syntax_analyzer_create(&token_stream, &syntax_tree))
-			if (smantic_analyzer_create(&syntax_tree, &ast))
-			{
-				minishell_ast_execute(&ast);
-				lexical_analyzer_destroy(&token_stream);
-				syntax_analyzer_destroy(&ast);
-				return ;
-			}
-	ft_error(PARSE_ERROR);
+	lexical_analyzer_create(minishell, &token_stream);
+	syntax_analyzer_create(&token_stream, &syntax_tree);
+	semantic_analyzer_create(&syntax_tree, &ast);
+	// minishell_ast_execute(&ast);
+	// semantic_analyzer_destroy(&ast);
+	// syntax_analyzer_destroy(&syntax_tree);
+	// lexical_analyzer_destroy(&token_stream);
+	return ;
 }

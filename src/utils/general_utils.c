@@ -6,11 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/14 00:13:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/18 21:05:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 #include "utils.h"
 
 void	ft_error(char *str)
@@ -45,4 +46,39 @@ void	*ft_malloc(size_t size)
 		exit(1);
 	}
 	return (ptr);
+}
+
+unsigned int	ft_get_nb_strs(char const *s, char c)
+{
+	unsigned int	i;
+	unsigned int	nb_strs;
+
+	if (!s[0])
+		return (0);
+	i = 0;
+	nb_strs = 0;
+	while (s[i] && s[i] == c)
+		i++;
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			nb_strs++;
+			while (s[i] && s[i] == c)
+				i++;
+			continue ;
+		}
+		i++;
+	}
+	if (s[i - 1] != c)
+		nb_strs++;
+	if (nb_strs == 0)
+		return (1);
+	return (nb_strs);
+}
+
+int	ft_isspace(int c)
+{
+	return (c == '\f' || c == '\n' || c == '\r' \
+	|| c == '\t' || c == '\v' || c == ' ');
 }

@@ -1,50 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.h                                            :+:      :+:    :+:   */
+/*   syntax_analyzer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/14 22:01:41 by moabid           ###   ########.fr       */
+/*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/17 01:02:05 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_H
-#define INPUT_H
-
 #include "minishell.h"
+#include "parser.h"
 #include "utils.h"
 
-struct input {
-	struct commands commands;
-	struct piped_cmds piped_cmds;
-	struct minishell *minishell;
-};
-
-struct token_stream {
-	char	*token_name;
-	char	*attr_value;	
-	struct token_stream *next;	
-};
-
-struct syntax_tree {
+void	syntax_analyzer_create(struct token_stream *token_stream, struct syntax_tree *syntax_tree)
+{
 	
-};
+}
 
-struct ast {
+void	syntax_analyzer_destroy(struct syntax_tree *syntax_tree)
+{
 	
-};
-
-struct commands {
-	char *command;
-	struct commands *next;
-};
-
-struct piped_cmds {
-	char *piped_cmd;
-	struct piped_cmds *next;
-};
-
-
-#endif
+}
