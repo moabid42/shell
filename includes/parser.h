@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 12:34:02 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 12:56:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ enum token_type {
 	PARENTHS,
 	SQUARE_BRACKETS,
 	CURLY_BRACKERTS,
-	
 
 	LOGICAL_OP,
+	WILDCARD,
 
 	PIPE,
 	REDIRACTION,
+
+	SPACE,
 	OTHER
 };
 
@@ -55,8 +57,7 @@ struct token_stream {
 };
 
 struct syntax_stream {
-	char	*token;
-	enum	type;
+
 };
 
 struct ast {
@@ -74,7 +75,8 @@ struct ast {
 // };
 
 bool	minishell_scripts_parse(struct minishell *minishell);
-
+void	token_stream_destroy(struct minishell *minishell);
+void	minishell_scripts_destory(struct minishell *minishell);
 
 void	lexical_analyzer_create(struct minishell *minishell);
 void	token_stream_create(struct minishell *minishell);
@@ -82,8 +84,8 @@ void	token_stream_destory(struct minishell *minishell);
 void	lexical_analyzer_destroy(struct minishell *minishell);
 
 
-void	syntax_analyzer_create(struct minishell *minishell, struct syntax_stream *syntax_stream);
-void	syntax_analyzer_destroy(struct syntax_stream *syntax_stream, struct ast *ast);
+void	syntax_analyzer_create(struct minishell *minishell);
+void	syntax_analyzer_destroy(struct minishell *minishell);
 
 void	semantic_analyzer_create(struct minishell *minishell);
 void	semantic_analyzer_destroy(struct minishell *minishell);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/17 01:25:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 12:58:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #include "parser.h"
 #include "../src/utils/libft/get_next_line.h"
 
+struct ast;
+struct scripts;
+
 struct minishell {
 	char	**env;
 	char	**g_env;
@@ -31,6 +34,7 @@ struct minishell {
 	char	**variables;
 	int		scripts_num;
 	struct	scripts *scripts;
+	struct	ast		*ast;
 };
 
 void    minishell_create(struct minishell *minishell, char **env);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/18 22:29:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 13:03:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,13 @@ void	token_stream_create(struct minishell *minishell)
 	while (i < minishell->scripts_num)
 	{
 		tokens = ft_split_tokens(tmp);
-		minishell->scripts->tokens_num = get_nb_tokens(tmp->input_line);
-		minishell->scripts->token_stream = ft_create_stack_tkstream(tokens, minishell->scripts->tokens_num);
-		printer_token(minishell->scripts->token_stream);
+		tmp->tokens_num = get_nb_tokens(tmp->input_line);
+		tmp->token_stream = ft_create_stack_tkstream(tokens, tmp->tokens_num);
+		printer_token(tmp->token_stream);
 		tmp = tmp->next;
 		i++;
 	}
 }
-
-void	token_stream_destroy(struct minishell *minishell)
-{
-	
-}
-
-
 
 void	lexical_analyzer_create(struct minishell *minishell)
 {
@@ -66,6 +59,16 @@ void	lexical_analyzer_create(struct minishell *minishell)
 		ft_error(UNEXPECTED_TOKEN);
 	token_stream_create(minishell);
 	exit(0);
+}
+
+void	token_stream_destroy(struct minishell *minishell)
+{
+	
+}
+
+void	minishell_scripts_destroy(struct minishell *minishell)
+{
+	
 }
 
 void	lexical_analyzer_destroy(struct minishell *minishell)
