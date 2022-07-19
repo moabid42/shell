@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/18 22:27:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/18 22:29:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	if (minishell->scripts == NULL)
 		return (false);
 	return (true);
-}
-
-void	tokens_printer(char **tokens, int count)
-{
-	int i;
-
-	i = 0;
-	printf("-->The count is :%d\n", count);
-	while (i < count)
-	{
-		printf("-->TOKEN:[%s]\n", tokens[i]);
-		i++;
-	}
 }
 
 void	token_stream_create(struct minishell *minishell)

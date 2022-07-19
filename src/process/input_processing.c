@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/17 00:59:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 11:26:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@
 
 void	minishell_process_input(struct minishell *minishell)
 {
-	struct token_stream token_stream;
-	struct syntax_tree	syntax_tree;
-	struct ast			ast;
+	struct syntax_stream	syntax_stream;
+	struct ast				ast;
 
-	lexical_analyzer_create(minishell, &token_stream);
-	syntax_analyzer_create(&token_stream, &syntax_tree);
-	semantic_analyzer_create(&syntax_tree, &ast);
+	lexical_analyzer_create(minishell);
+	syntax_analyzer_create(minishell, &syntax_stream);
+	semantic_analyzer_create(&syntax_stream, &ast);
 	// minishell_ast_execute(&ast);
-	// semantic_analyzer_destroy(&ast);
-	// syntax_analyzer_destroy(&syntax_tree);
-	// lexical_analyzer_destroy(&token_stream);
+	semantic_analyzer_destroy(minishell);
+	syntax_analyzer_destroy(minishell);
+	lexical_analyzer_destroy(minishell);
 	return ;
 }
