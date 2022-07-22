@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 18:40:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/22 17:49:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	minishell_process_input(struct scripts *script)
 {
 	struct token_stream token_stream;
 
-	if (script)
+	if (!script)
 		return ;
 	printf("We are creating a token_stream for : %s\n", script->input_line);
 	lexical_analyzer_create(&token_stream, script);
@@ -56,7 +56,7 @@ void	minishell_process_input(struct scripts *script)
 
 void	minishell_destroy_input(struct scripts *script)
 {
-	if (script)
+	if (!script)
 		return ;
 	// semantic_analyzer_destroy(token_stream, script);
 	// syntax_analyzer_destroy(minishell);
@@ -68,13 +68,11 @@ void	minishell_read_input(struct minishell *minishell)
 {
 	struct	scripts *tmp_cr;
 	struct	scripts *tmp_ds;
-	
-	tmp_cr = minishell->scripts;
-	tmp_ds = minishell->scripts;
+
 	if (!minishell_scripts_parse(minishell))
 		ft_error(UNEXPECTED_TOKEN);
-	printf("]]]]]]      %s\n", tmp_cr->input_line);
-	printf("[[[[]]]]       %s\n", scripts_line[1]);
+	tmp_cr = minishell->scripts;
 	minishell_process_input(tmp_cr);
+	tmp_ds = minishell->scripts;
 	minishell_destroy_input(tmp_ds);
 }
