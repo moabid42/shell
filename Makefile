@@ -20,7 +20,7 @@ $(NAME): $(OBJECTS)
 
 clean:
 	-@$(RM) $(OBJECTS) $(DEPENDS)
-	@echo "Everything is Cleaned !"
+	echo "Everything is Cleaned !"
 
 fclean: clean
 	-@$(RM) $(NAME)

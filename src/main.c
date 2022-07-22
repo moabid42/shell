@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **env)
 {
     struct minishell minishell;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
+    if (argc != 1)
         ft_error(SYNTAX_ERROR);
     minishell_create(&minishell, env);
 	minishell_run(&minishell);
