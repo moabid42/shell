@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/07/12 21:09:37 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/16 23:32:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 #include "parser.h"
 #include "utils.h"
 
-int main(int argc, char **argv, char **env)
-{
-    struct minishell minishell;
+// char	**minishell_env_init(struct minishell *minishell, char **env)
+// {
+		
+// }
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
-}
+// void	minishell_env_destroy(struct minishell *minishell)
+// {
+	
+// }

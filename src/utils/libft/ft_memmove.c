@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/22 22:13:08 by moabid            #+#    #+#             */
+/*   Updated: 2022/06/17 16:41:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+void	*ft_memmove(void *dest, const void *src, size_t len)
 {
-    struct minishell minishell;
+	char	*s;
+	char	*d;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
+	s = (char *)src;
+	d = (char *)dest;
+	if (!dest && !src)
+		return (dest);
+	if (src < dest)
+		while (len--)
+			d[len] = s[len];
+	else
+		while (len--)
+			*d++ = *s++;
+	return (dest);
 }

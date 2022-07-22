@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/22 22:23:47 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:39:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-    struct minishell minishell;
+	size_t	i;
+	size_t	j;
+	size_t	srclen;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
+	i = 0;
+	j = 0;
+	srclen = ft_strlen(src);
+	while (dst[j] && j < size)
+		j++;
+	while ((src[i]) && ((j + i + 1) < size))
+	{
+		dst[j + i] = src[i];
+		i++;
+	}
+	if (j != size)
+		dst[j + i] = '\0';
+	return (j + srclen);
 }

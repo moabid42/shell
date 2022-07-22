@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/23 13:53:47 by moabid            #+#    #+#             */
+/*   Updated: 2022/06/16 22:00:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+char	*ft_strchr(const char *s, int c)
 {
-    struct minishell minishell;
+	int		i;
+	char	char_c;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
+	i = 0;
+	char_c = (char)c;
+	while (s[i] != '\0')
+	{
+		if (s[i] == char_c)
+			return ((char *)s + i);
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)s + i);
+	return (0);
 }

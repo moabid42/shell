@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/24 14:21:12 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:59:46 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-    struct minishell minishell;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
+	i = 0;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	if (!n)
+		return (0);
+	while (n--)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	return (0);
 }

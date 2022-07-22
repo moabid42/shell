@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Created: 2022/03/24 17:53:45 by moabid            #+#    #+#             */
+/*   Updated: 2022/03/25 16:34:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+char	*ft_strdup(const char *s)
 {
-    struct minishell minishell;
+	char	*buffer;
+	size_t	i;
 
-    if (argc != 2 && my_strcmp(argv[0], NAME))
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	minishell_destroy(&minishell);
-    return (0);
+	i = 0;
+	buffer = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!buffer)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		buffer[i] = s[i];
+		i++;
+	}
+	buffer[i++] = '\0';
+	return (buffer);
 }

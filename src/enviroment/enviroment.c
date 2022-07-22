@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 21:46:57 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/11 21:46:58 by moabid           ###   ########.fr       */
+/*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
+/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "minishell.h"
+#include "parser.h"
+#include "utils.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
+char	**minishell_env_init(char **env)
+{
+	return (env);
+}
 
-
-
-#endif
