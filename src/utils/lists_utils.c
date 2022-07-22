@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/18 21:02:49 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:25:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,12 @@ struct scripts	*ft_create_node_script(char *cmd)
 	new_node->input_line = ft_strdup(cmd);
 	new_node->next = NULL;
 	return (new_node);
+}
+
+void	garbage_collect_token(struct token_stream *lst)
+{
+	if (lst == NULL)
+		return ;
+	free(lst->token_name);
+	free(lst);
 }

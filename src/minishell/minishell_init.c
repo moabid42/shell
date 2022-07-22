@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/17 00:39:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 13:44:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*minishell_get_input()
 	char *buffer = malloc(sizeof(char) * bufsize);
 	if (!buffer)
 	{
-	  	fprintf(stderr, "lsh: allocation error\n");
+	  	fprintf(stderr, "esh: allocation error\n");
 	  	exit(EXIT_FAILURE);
 	}	
 	while (1) {
@@ -59,7 +59,7 @@ char	*minishell_get_input()
 	    	buffer = realloc(buffer, bufsize);
 	    	if (!buffer)
 			{
-	    		fprintf(stderr, "lsh: allocation error\n");
+	    		fprintf(stderr, "esh: allocation error\n");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -79,7 +79,7 @@ void    minishell_run(struct minishell *minishell)
 		// }
 		printf("\033[31mesh$\033[0m");
 		minishell->input_str = minishell_get_input();
-		minishell_process_input(minishell);
+		minishell_read_input(minishell);
 	}
 }
 

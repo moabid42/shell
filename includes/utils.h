@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/18 19:04:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:26:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ char				**ft_split_tokens(struct scripts *script);
 void				get_next_str(char **next_str, unsigned int *next_str_len);
 unsigned int		get_nb_tokens(char const *s);
 struct token_stream	*ft_create_stack_tkstream(char **tokens, int count);
+
+void				garbage_collect_token(struct token_stream *lst);
 
 #endif

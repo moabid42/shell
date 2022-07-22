@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 13:03:10 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:38:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,45 +34,39 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	return (true);
 }
 
-void	token_stream_create(struct minishell *minishell)
+void	lexical_analyzer_create(struct token_stream *token_stream, struct scripts *script)
 {
-	struct scripts		*tmp;
-	int					i;
 	char				**tokens;
-	
-	i = 0;
-	tmp = minishell->scripts;
-	while (i < minishell->scripts_num)
-	{
-		tokens = ft_split_tokens(tmp);
-		tmp->tokens_num = get_nb_tokens(tmp->input_line);
-		tmp->token_stream = ft_create_stack_tkstream(tokens, tmp->tokens_num);
-		printer_token(tmp->token_stream);
-		tmp = tmp->next;
-		i++;
-	}
+
+	tokens = ft_split_tokens(script);
+	script->tokens_num = get_nb_tokens(script->input_line);
+	token_stream = ft_create_stack_tkstream(tokens, script->tokens_num);
+	script->token_stream = token_stream;
+	printer_token(token_stream);
 }
 
-void	lexical_analyzer_create(struct minishell *minishell)
-{
-	if (!minishell_scripts_parse(minishell))
-		ft_error(UNEXPECTED_TOKEN);
-	token_stream_create(minishell);
-	exit(0);
-}
-
-void	token_stream_destroy(struct minishell *minishell)
-{
-	
-}
+// void	lexical_analyzer_create(struct minishell *minishell)
+// {
+// 	if (!minishell_scripts_parse(minishell))
+// 		ft_error(UNEXPECTED_TOKEN);
+// 	token_stream_create(minishell);
+// 	exit(0);
+// }
 
 void	minishell_scripts_destroy(struct minishell *minishell)
 {
 	
 }
 
-void	lexical_analyzer_destroy(struct minishell *minishell)
+void	lexical_analyzer_destroy(struct token_stream **token_stream)
 {
-	token_stream_destroy(minishell);
-	minishell_scripts_destroy(minishell);
+	struct token_stream *tmp;
+
+	tmp = *token_stream;
+	while (tmp)
+	{
+		garbage_collect_token(tmp);
+		tmp = tmp->next;
+	}
+	*token_stream = NULL;
 }

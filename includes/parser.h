@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 12:56:03 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:31:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "utils.h"
 
 struct minishell;
+struct scripts;
 
 enum token_type {
 	WORD,
@@ -74,14 +75,17 @@ struct ast {
 // 	struct piped_cmds *next;
 // };
 
+void	minishell_read_input(struct minishell *minishell);
 bool	minishell_scripts_parse(struct minishell *minishell);
-void	token_stream_destroy(struct minishell *minishell);
 void	minishell_scripts_destory(struct minishell *minishell);
 
-void	lexical_analyzer_create(struct minishell *minishell);
-void	token_stream_create(struct minishell *minishell);
-void	token_stream_destory(struct minishell *minishell);
-void	lexical_analyzer_destroy(struct minishell *minishell);
+
+void	minishell_destroy_input(struct scripts *script);
+void	minishell_process_input(struct scripts *script);
+
+
+void	lexical_analyzer_create(struct token_stream *token_stream, struct scripts *script);
+void	lexical_analyzer_destroy(struct token_stream **token_stream);
 
 
 void	syntax_analyzer_create(struct minishell *minishell);
