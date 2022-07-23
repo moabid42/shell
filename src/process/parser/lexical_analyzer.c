@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 18:38:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/23 22:13:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 
 	i = 0;
 	scripts_line = ft_split(minishell->input_str, ';');
-	// printf("]]]]]]      %s\n", scripts_line[0]);
-	// printf("[[[[]]]]       %s\n", scripts_line[1]);
 	minishell->scripts_num = ft_get_nb_strs(minishell->input_str, ';');
+	if (quotes_string_check(scripts_line) == true)
+	{
+		free(scripts_line);
+		scripts_line = new_split(minishell->input_str);
+		minishell->scripts_num = get_new_nb_strs(scripts_line);
+	}
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
@@ -34,24 +38,17 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	return (true);
 }
 
-void	lexical_analyzer_create(struct token_stream *token_stream, struct scripts *script)
+struct token_stream	*lexical_analyzer_create(struct scripts *script)
 {
 	char				**tokens;
+	struct token_stream	*token_stream;
 
 	tokens = ft_split_tokens(script);
 	script->tokens_num = get_nb_tokens(script->input_line);
 	token_stream = ft_create_stack_tkstream(tokens, script->tokens_num);
 	script->token_stream = token_stream;
-	printer_token(token_stream);
+	return (token_stream);
 }
-
-// void	lexical_analyzer_create(struct minishell *minishell)
-// {
-// 	if (!minishell_scripts_parse(minishell))
-// 		ft_error(UNEXPECTED_TOKEN);
-// 	token_stream_create(minishell);
-// 	exit(0);
-// }
 
 void	minishell_scripts_destroy(struct minishell *minishell)
 {

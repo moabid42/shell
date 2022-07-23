@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser.h"
 #include "utils.h"
 
 int main(int argc, char **argv, char **env)

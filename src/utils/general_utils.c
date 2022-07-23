@@ -11,8 +11,21 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser.h"
 #include "utils.h"
+
+bool	ft_isword(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (!ft_isalnum(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	ft_error(char *str)
 {

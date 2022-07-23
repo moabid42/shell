@@ -42,13 +42,14 @@
 
 void	minishell_process_input(struct scripts *script)
 {
-	struct token_stream token_stream;
+	struct token_stream *token_stream;
 
 	if (!script)
 		return ;
 	printf("We are creating a token_stream for : %s\n", script->input_line);
-	lexical_analyzer_create(&token_stream, script);
-	// syntax_analyzer_create(minishell);
+	token_stream = lexical_analyzer_create(script);
+	printer_token(token_stream);
+	syntax_analyzer_create(token_stream, script);
 	// semantic_analyzer_create(minishell);
 	// minishell_ast_execute(&ast);
 	minishell_process_input(script->next);

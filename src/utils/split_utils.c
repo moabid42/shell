@@ -14,57 +14,6 @@
 #include "parser.h"
 #include "utils.h"
 
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <unistd.h>
-
-// int					ft_isalpha(int c);
-// size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);;
-// void				*ft_malloc(size_t size);
-// void				ft_bzero(void *s, size_t n);
-// void				*ft_memset(void *b, int c, size_t n);
-
-// int	ft_isspace(int c)
-// {
-// 	return (c == '\f' || c == '\n' || c == '\r' \
-// 	|| c == '\t' || c == '\v' || c == ' ');
-// }
-
-// void	ft_bzero(void *s, size_t n)
-// {
-// 	ft_memset(s, 0, n);
-// }
-
-// void	*ft_memset(void *b, int c, size_t n)
-// {
-// 	unsigned char	*dest;
-// 	unsigned char	src;
-// 	size_t			i;
-
-// 	dest = b;
-// 	src = c;
-// 	i = 0;
-// 	while (i++ < n)
-// 		*dest++ = src;
-// 	return (b);
-// }
-
-
-// void	*ft_malloc(size_t size)
-// {
-// 	void	*ptr;
-
-// 	ptr = malloc(size);
-// 	if (ptr)
-// 		ft_bzero(ptr, size);
-// 	else
-// 	{
-// 		free(ptr);
-// 		exit(1);
-// 	}
-// 	return (ptr);
-// }
-
 unsigned int	get_nb_tokens(char const *s)
 {
 	unsigned int	i;
@@ -79,8 +28,8 @@ unsigned int	get_nb_tokens(char const *s)
 	while (s[i])
 	{
 		nb_strs++;
-		if (ft_isalpha(s[i]))
-			while (s[i] && ft_isalpha(s[i]))
+		if (ft_isalnum(s[i]))
+			while (s[i] && ft_isalnum(s[i]))
 				i++;
 		else if (!ft_isspace(s[i]))
 			i++;
@@ -102,7 +51,7 @@ void	get_next_str(char **next_str, unsigned int *next_str_len)
 	i = 0;
 	if (ft_isalpha((*next_str)[i]))
 	{
-		while ((*next_str)[i] && ft_isalpha((*next_str)[i]))
+		while ((*next_str)[i] && ft_isalnum((*next_str)[i]))
 		{
 			(*next_str_len)++;
 			i++;
@@ -151,15 +100,3 @@ char	**ft_split_tokens(struct scripts *script)
 	tokens[i] = NULL;
 	return (tokens);
 }
-
-// int main(void)
-// {
-// 	int index;
-// 	char	random[] = "what'is     '/ this' fu''cking'sh it' ";
-// 	char **strs;
-
-// 	printf("--------> [%s]\n", random);
-// 	strs = ft_split_tokens(random);
-// 	index = get_nb_tokens(random);
-// 	printf("%d\n", index);
-// }
