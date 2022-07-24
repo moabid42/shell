@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/23 22:13:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/24 20:29:46 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 #include "parser.h"
 #include "utils.h"
 
-bool minishell_scripts_parse(struct minishell *minishell) {
-	char **scripts_line;
-	int i;
+bool	minishell_scripts_parse(struct minishell *minishell)
+{
+	char	**scripts_line;
+	int		i;
 
 	i = 0;
 	scripts_line = ft_split(minishell->input_str, ';');
 	minishell->scripts_num = ft_get_nb_strs(minishell->input_str, ';');
-//	if (quotes_string_check(scripts_line) == true)
-//	{
-//		free(scripts_line);
-//		scripts_line = new_split(minishell->input_str);
-//		minishell->scripts_num = get_new_nb_strs(scripts_line);
-//	}
+	if (quotes_string_check(scripts_line, minishell->scripts_num) == true)
+	{
+		free(scripts_line);
+		scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
+		minishell->scripts_num = words_count(minishell->input_str, ';', "\"'") - 1;
+	}
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else

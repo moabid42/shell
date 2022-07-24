@@ -48,4 +48,15 @@ struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count)
 
 void				garbage_collect_token(struct token_stream *lst);
 bool				ft_isword(char *str);
+
+//francisco shit
+int		ignore_inside_special(char *string, char special);
+char	*ft_cutter (char *string, int n_byte);
+int		in_special( char c, char *special);
+int		words_count(char *string, char split_char, char *special);
+int		increase_i(char *string, char split_char, char *special);
+bool	quotes_string_check(char **scripts_line, int num);
+char	**ft_new_split(char *string, char split_char, char* special);
+
+
 #endif
