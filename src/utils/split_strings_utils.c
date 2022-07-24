@@ -14,22 +14,22 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	quotes_string_check(char **scripts_line)
-{
-	int count;
-
-	count = 0;
-	while (scripts_line)
-	{
-		if (count == 2)
-			return (true);
-		if (ft_strchr(*scripts_line, '\"'))
-			count++;
-		*scripts_line++;
-	}
-	return (false);
-}
-
-
-
-char	**new_split(char )
+//bool	quotes_string_check(char **scripts_line)
+//{
+//	int count;
+//
+//	count = 0;
+//	while (scripts_line)
+//	{
+//		if (count == 2)
+//			return (true);
+//		if (ft_strchr(*scripts_line, '\"'))
+//			count++;
+//		*scripts_line++;
+//	}
+//	return (false);
+//}
+//
+//
+//
+//char	**new_split(char )
