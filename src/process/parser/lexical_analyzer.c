@@ -14,20 +14,19 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	minishell_scripts_parse(struct minishell *minishell)
-{
-	char	**scripts_line;
-	int		i;
+bool minishell_scripts_parse(struct minishell *minishell) {
+	char **scripts_line;
+	int i;
 
 	i = 0;
 	scripts_line = ft_split(minishell->input_str, ';');
 	minishell->scripts_num = ft_get_nb_strs(minishell->input_str, ';');
-	if (quotes_string_check(scripts_line) == true)
-	{
-		free(scripts_line);
-		scripts_line = new_split(minishell->input_str);
-		minishell->scripts_num = get_new_nb_strs(scripts_line);
-	}
+//	if (quotes_string_check(scripts_line) == true)
+//	{
+//		free(scripts_line);
+//		scripts_line = new_split(minishell->input_str);
+//		minishell->scripts_num = get_new_nb_strs(scripts_line);
+//	}
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
@@ -38,10 +37,9 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	return (true);
 }
 
-struct token_stream	*lexical_analyzer_create(struct scripts *script)
-{
-	char				**tokens;
-	struct token_stream	*token_stream;
+struct token_stream *lexical_analyzer_create(struct scripts *script) {
+	char **tokens;
+	struct token_stream *token_stream;
 
 	tokens = ft_split_tokens(script);
 	script->tokens_num = get_nb_tokens(script->input_line);
@@ -50,18 +48,15 @@ struct token_stream	*lexical_analyzer_create(struct scripts *script)
 	return (token_stream);
 }
 
-void	minishell_scripts_destroy(struct minishell *minishell)
-{
-	
+void minishell_scripts_destroy(struct minishell *minishell) {
+
 }
 
-void	lexical_analyzer_destroy(struct token_stream **token_stream)
-{
+void lexical_analyzer_destroy(struct token_stream **token_stream) {
 	struct token_stream *tmp;
 
 	tmp = *token_stream;
-	while (tmp)
-	{
+	while (tmp) {
 		garbage_collect_token(tmp);
 		tmp = tmp->next;
 	}

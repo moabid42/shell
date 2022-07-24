@@ -14,19 +14,17 @@
 #include "parser.h"
 #include "utils.h"
 
-struct scripts	*ft_create_stack_scripts(char **scripts_line, unsigned int count)
-{
-	int		i;
-	struct scripts	*new_node;
-	struct scripts	*curr;
+struct scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count) {
+	int i;
+	struct scripts *new_node;
+	struct scripts *curr;
 
 	i = 0;
-	new_node = (struct scripts *)ft_malloc(sizeof(struct scripts));
+	new_node = (struct scripts *) ft_malloc(sizeof(struct scripts));
 	curr = new_node;
-	while (i < count)
-	{
+	while (i < count) {
 		if (i < count - 1)
-			new_node->next = (struct scripts *)ft_malloc(sizeof(struct scripts));
+			new_node->next = (struct scripts *) ft_malloc(sizeof(struct scripts));
 		new_node->input_line = ft_strdup(scripts_line[i]);
 		new_node->have_herdoc = false;
 		if (i == (count - 1))
@@ -38,8 +36,7 @@ struct scripts	*ft_create_stack_scripts(char **scripts_line, unsigned int count)
 	return (curr);
 }
 
-enum token_type find_parenth(char *token)
-{
+enum token_type find_parenth(char *token) {
 	if (!my_strcmp(token, "("))
 		return (PARENTHS_OP);
 	else if (!my_strcmp(token, ")"))
@@ -54,16 +51,14 @@ enum token_type find_parenth(char *token)
 		return (CURLY_BRACKERTS_CL);
 }
 
-enum token_type find_quotes(char *token)
-{
+enum token_type find_quotes(char *token) {
 	if (!my_strcmp(token, "'"))
 		return (SINGLE_QUOTES);
 	else
 		return (DOUBLE_QUOTES);
 }
 
-enum token_type find_wildcard(char *token)
-{
+enum token_type find_wildcard(char *token) {
 	if (!my_strcmp(token, "*"))
 		return (STAR);
 	else if (!my_strcmp(token, "!"))
@@ -72,8 +67,7 @@ enum token_type find_wildcard(char *token)
 		return (QUESTION);
 }
 
-enum token_type find_rediraction(char *token)
-{
+enum token_type find_rediraction(char *token) {
 	if (!my_strcmp(token, ">"))
 		return (GREATER);
 	else if (!my_strcmp(token, "<"))
@@ -84,9 +78,10 @@ enum token_type find_rediraction(char *token)
 		return (DOUBLE_SMALLER);
 }
 
-enum token_type find_pipe_or_space(char *token)
-{
-	if (!my_strcmp(token, " "))
+enum token_type find_pipe_or_space(char *token) {
+	if (!my_strcmp(token, " ") || !my_strcmp(token, "\t")
+	    || !my_strcmp(token, "\v") || !my_strcmp(token, "\f")
+	    || !my_strcmp(token, "\r") || !my_strcmp(token, "\n"))
 		return (SPACE);
 	else if (!my_strcmp(token, "|"))
 		return (PIPE);
@@ -94,29 +89,28 @@ enum token_type find_pipe_or_space(char *token)
 		return (BACKSLASH);
 }
 
-enum	token_type find_var_shit(char *token)
-{
+enum token_type find_var_shit(char *token) {
 	if (!my_strcmp(token, "="))
 		return (EQUAL);
 	else
 		return (VARIABLE);
 }
 
-enum	token_type find_logicalop(char *token)
-{
+enum token_type find_logicalop(char *token) {
 	if (!my_strcmp(token, "&&"))
 		return (ANDAND);
 	else
 		return (OROR);
 }
 
-enum	token_type find_type(char *token)
-{
-	if (!my_strcmp(token, " ")|| !my_strcmp(token, "|")
-		|| !my_strcmp(token, "\\"))
+enum token_type find_type(char *token) {
+	if (!my_strcmp(token, " ") || !my_strcmp(token, "\t")
+	    || !my_strcmp(token, "\v") || !my_strcmp(token, "\f")
+	    || !my_strcmp(token, "\r") || !my_strcmp(token, "\n")
+	    || !my_strcmp(token, "|") || !my_strcmp(token, "\\"))
 		return (find_pipe_or_space(token));
 	else if (!my_strcmp(token, ">") || !my_strcmp(token, "<")
-		|| !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
+		   || !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
 		return (find_rediraction(token));
 	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
 		return (find_logicalop(token));
@@ -127,11 +121,11 @@ enum	token_type find_type(char *token)
 	else if (!my_strcmp(token, "=") || !my_strcmp(token, "$"))
 		return (find_var_shit(token));
 	else if (!my_strcmp(token, "*") || !my_strcmp(token, "!")
-		|| !my_strcmp(token, "?"))
+		   || !my_strcmp(token, "?"))
 		return (find_wildcard(token));
 	else if (!my_strcmp(token, "(") || !my_strcmp(token, ")")
-		|| !my_strcmp(token, "[") || !my_strcmp(token, "]")
-		|| !my_strcmp(token, "{") || !my_strcmp(token, "}"))
+		   || !my_strcmp(token, "[") || !my_strcmp(token, "]")
+		   || !my_strcmp(token, "{") || !my_strcmp(token, "}"))
 		return (find_parenth(token));
 	else if (token[0] == '-')
 		return (FLAG);
@@ -141,22 +135,20 @@ enum	token_type find_type(char *token)
 		return (OTHER);
 }
 
-struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count)
-{
-	int		i;
-	struct token_stream	*new_node;
-	struct token_stream	*curr;
+struct token_stream *ft_create_stack_tkstream(char **tokens, unsigned int count) {
+	int i;
+	struct token_stream *new_node;
+	struct token_stream *curr;
 
 	i = 0;
-	new_node = (struct token_stream *)ft_malloc(sizeof(struct token_stream));
+	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 	curr = new_node;
-	while (i < count)
-	{
+	while (i < count) {
 		if (i < count - 1)
-			new_node->next = (struct token_stream *)ft_malloc(sizeof(struct token_stream));
+			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 		new_node->token_name = tokens[i];
-        	new_node->token_type = find_type(tokens[i]);
-		new_node->closed	   = false;
+		new_node->token_type = find_type(tokens[i]);
+		new_node->closed = false;
 		if (i == (count - 1))
 			new_node->next = NULL;
 		else
@@ -166,13 +158,11 @@ struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count)
 	return (curr);
 }
 
-void	free_split(char **strs)
-{
-	int	i;
+void free_split(char **strs) {
+	int i;
 
 	i = 0;
-	while(strs[i])
-	{
+	while (strs[i]) {
 		free(strs[i]);
 		i++;
 	}
@@ -180,15 +170,13 @@ void	free_split(char **strs)
 	strs = NULL;
 }
 
-void	printer(struct scripts *scripts)
-{
+void printer(struct scripts *scripts) {
 	struct scripts *tmp;
-	int		i;
+	int i;
 
 	tmp = scripts;
 	i = 0;
-	while (tmp)
-	{
+	while (tmp) {
 		printf("[%s] -> ", tmp->input_line);
 		tmp = tmp->next;
 		i++;
@@ -196,36 +184,32 @@ void	printer(struct scripts *scripts)
 	printf("\n");
 }
 
-void	printer_token(struct token_stream *scripts)
-{
+void printer_token(struct token_stream *scripts) {
 	struct token_stream *tmp;
-	int		i;
+	int i;
 
 	tmp = scripts;
 	i = 0;
-	while (tmp)
-	{
-		printf("TOKEN [[%d]]: [%s] -> [%d]\n", i, tmp->token_name, tmp->token_type);
+	while (tmp) {
+		printf("TOKEN [[%d]]: [%s] -> [%d] : {%d}\n", i, tmp->token_name, tmp->token_type, tmp->closed);
 		tmp = tmp->next;
 		i++;
 	}
 	printf("\n");
 }
 
-struct scripts	*ft_create_node_script(char *cmd)
-{
-	struct scripts	*new_node;
-	
-	new_node = (struct scripts *)ft_malloc(sizeof(struct scripts));
+struct scripts *ft_create_node_script(char *cmd) {
+	struct scripts *new_node;
+
+	new_node = (struct scripts *) ft_malloc(sizeof(struct scripts));
 	new_node->input_line = ft_strdup(cmd);
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void	garbage_collect_token(struct token_stream *lst)
-{
+void garbage_collect_token(struct token_stream *lst) {
 	if (lst == NULL)
-		return ;
+		return;
 	free(lst->token_name);
 	free(lst);
 }
