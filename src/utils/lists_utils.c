@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 18:25:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:10:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "utils.h"
 
-struct scripts	*ft_create_stack_scripts(char **scripts_line, int count)
+struct scripts	*ft_create_stack_scripts(char **scripts_line, unsigned int count)
 {
 	int		i;
 	struct scripts	*new_node;
@@ -28,6 +28,7 @@ struct scripts	*ft_create_stack_scripts(char **scripts_line, int count)
 		if (i < count - 1)
 			new_node->next = (struct scripts *)ft_malloc(sizeof(struct scripts));
 		new_node->input_line = ft_strdup(scripts_line[i]);
+		new_node->have_herdoc = false;
 		if (i == (count - 1))
 			new_node->next = NULL;
 		else
@@ -37,7 +38,110 @@ struct scripts	*ft_create_stack_scripts(char **scripts_line, int count)
 	return (curr);
 }
 
-struct token_stream	*ft_create_stack_tkstream(char **tokens, int count)
+enum token_type find_parenth(char *token)
+{
+	if (!my_strcmp(token, "("))
+		return (PARENTHS_OP);
+	else if (!my_strcmp(token, ")"))
+		return (PARENTHS_CL);
+	else if (!my_strcmp(token, "["))
+		return (SQUARE_BRACKETS_OP);
+	else if (!my_strcmp(token, "]"))
+		return (SQUARE_BRACKETS_CL);
+	else if (!my_strcmp(token, "{"))
+		return (CURLY_BRACKERTS_OP);
+	else
+		return (CURLY_BRACKERTS_CL);
+}
+
+enum token_type find_quotes(char *token)
+{
+	if (!my_strcmp(token, "'"))
+		return (SINGLE_QUOTES);
+	else
+		return (DOUBLE_QUOTES);
+}
+
+enum token_type find_wildcard(char *token)
+{
+	if (!my_strcmp(token, "*"))
+		return (STAR);
+	else if (!my_strcmp(token, "!"))
+		return (EXCAMATION);
+	else
+		return (QUESTION);
+}
+
+enum token_type find_rediraction(char *token)
+{
+	if (!my_strcmp(token, ">"))
+		return (GREATER);
+	else if (!my_strcmp(token, "<"))
+		return (LESS);
+	else if (!my_strcmp(token, ">>"))
+		return (DOUBLE_GREATER);
+	else
+		return (DOUBLE_SMALLER);
+}
+
+enum token_type find_pipe_or_space(char *token)
+{
+	if (!my_strcmp(token, " "))
+		return (SPACE);
+	else if (!my_strcmp(token, "|"))
+		return (PIPE);
+	else
+		return (BACKSLASH);
+}
+
+enum	token_type find_var_shit(char *token)
+{
+	if (!my_strcmp(token, "="))
+		return (EQUAL);
+	else
+		return (VARIABLE);
+}
+
+enum	token_type find_logicalop(char *token)
+{
+	if (!my_strcmp(token, "&&"))
+		return (ANDAND);
+	else
+		return (OROR);
+}
+
+enum	token_type find_type(char *token)
+{
+	if (!my_strcmp(token, " ")|| !my_strcmp(token, "|")
+		|| !my_strcmp(token, "\\"))
+		return (find_pipe_or_space(token));
+	else if (!my_strcmp(token, ">") || !my_strcmp(token, "<")
+		|| !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
+		return (find_rediraction(token));
+	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
+		return (find_logicalop(token));
+	else if (!my_strcmp(token, "'") || !my_strcmp(token, "\""))
+		return (find_quotes(token));
+	else if (!my_strcmp(token, "\\"))
+		return (BACKSLASH);
+	else if (!my_strcmp(token, "=") || !my_strcmp(token, "$"))
+		return (find_var_shit(token));
+	else if (!my_strcmp(token, "*") || !my_strcmp(token, "!")
+		|| !my_strcmp(token, "?"))
+		return (find_wildcard(token));
+	else if (!my_strcmp(token, "(") || !my_strcmp(token, ")")
+		|| !my_strcmp(token, "[") || !my_strcmp(token, "]")
+		|| !my_strcmp(token, "{") || !my_strcmp(token, "}"))
+		return (find_parenth(token));
+	else if (token[0] == '-')
+		return (FLAG);
+	else if (ft_isword(token))
+		return (WORD);
+	else
+		return (OTHER);
+}
+
+struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count)
 {
 	int		i;
 	struct token_stream	*new_node;
@@ -50,7 +154,9 @@ struct token_stream	*ft_create_stack_tkstream(char **tokens, int count)
 	{
 		if (i < count - 1)
 			new_node->next = (struct token_stream *)ft_malloc(sizeof(struct token_stream));
-		new_node->token_name= tokens[i];
+		new_node->token_name = tokens[i];
+        	new_node->token_type = find_type(tokens[i]);
+		new_node->closed	   = false;
 		if (i == (count - 1))
 			new_node->next = NULL;
 		else
@@ -99,7 +205,7 @@ void	printer_token(struct token_stream *scripts)
 	i = 0;
 	while (tmp)
 	{
-		printf("TOKEN %d: [%s]\n", i, tmp->token_name);
+		printf("TOKEN [[%d]]: [%s] -> [%d]\n", i, tmp->token_name, tmp->token_type);
 		tmp = tmp->next;
 		i++;
 	}
