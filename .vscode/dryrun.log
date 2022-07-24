@@ -1,0 +1,72 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/frmessin/Documents/minishell/shell'
+cc -Iincludes -g -Wall -MMD -MP -c src/enviroment/enviroment.c -o src/enviroment/enviroment.o
+ 
+cc -Iincludes -g -Wall -MMD -MP -c src/main.c -o src/main.o
+cc -Iincludes -g -Wall -MMD -MP -c src/minishell/minishell_env.c -o src/minishell/minishell_env.o
+cc -Iincludes -g -Wall -MMD -MP -c src/minishell/minishell_init.c -o src/minishell/minishell_init.o
+cc -Iincludes -g -Wall -MMD -MP -c src/process/input_processing.c -o src/process/input_processing.o
+cc -Iincludes -g -Wall -MMD -MP -c src/process/parser/lexical_analyzer.c -o src/process/parser/lexical_analyzer.o
+ 
+cc -Iincludes -g -Wall -MMD -MP -c src/process/parser/semantic_analyzer.c -o src/process/parser/semantic_analyzer.o
+cc -Iincludes -g -Wall -MMD -MP -c src/process/parser/syntax_analyzer.c -o src/process/parser/syntax_analyzer.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/general_utils.c -o src/utils/general_utils.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_atoi.c -o src/utils/libft/ft_atoi.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_bzero.c -o src/utils/libft/ft_bzero.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_calloc.c -o src/utils/libft/ft_calloc.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_isalnum.c -o src/utils/libft/ft_isalnum.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_isalpha.c -o src/utils/libft/ft_isalpha.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_isascii.c -o src/utils/libft/ft_isascii.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_isdigit.c -o src/utils/libft/ft_isdigit.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_isprint.c -o src/utils/libft/ft_isprint.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_itoa.c -o src/utils/libft/ft_itoa.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstadd_back.c -o src/utils/libft/ft_lstadd_back.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstadd_front.c -o src/utils/libft/ft_lstadd_front.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstclear.c -o src/utils/libft/ft_lstclear.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstdelone.c -o src/utils/libft/ft_lstdelone.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstiter.c -o src/utils/libft/ft_lstiter.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstlast.c -o src/utils/libft/ft_lstlast.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstmap.c -o src/utils/libft/ft_lstmap.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstnew.c -o src/utils/libft/ft_lstnew.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_lstsize.c -o src/utils/libft/ft_lstsize.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_memchr.c -o src/utils/libft/ft_memchr.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_memcmp.c -o src/utils/libft/ft_memcmp.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_memcpy.c -o src/utils/libft/ft_memcpy.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_memmove.c -o src/utils/libft/ft_memmove.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_memset.c -o src/utils/libft/ft_memset.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_putchar_fd.c -o src/utils/libft/ft_putchar_fd.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_putendl_fd.c -o src/utils/libft/ft_putendl_fd.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_putnbr_fd.c -o src/utils/libft/ft_putnbr_fd.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_putstr_fd.c -o src/utils/libft/ft_putstr_fd.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_split.c -o src/utils/libft/ft_split.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strchr.c -o src/utils/libft/ft_strchr.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strdup.c -o src/utils/libft/ft_strdup.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_striteri.c -o src/utils/libft/ft_striteri.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strjoin.c -o src/utils/libft/ft_strjoin.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strlcat.c -o src/utils/libft/ft_strlcat.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strlcpy.c -o src/utils/libft/ft_strlcpy.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strlen.c -o src/utils/libft/ft_strlen.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strmapi.c -o src/utils/libft/ft_strmapi.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strncmp.c -o src/utils/libft/ft_strncmp.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strnstr.c -o src/utils/libft/ft_strnstr.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strrchr.c -o src/utils/libft/ft_strrchr.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_strtrim.c -o src/utils/libft/ft_strtrim.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_substr.c -o src/utils/libft/ft_substr.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_tolower.c -o src/utils/libft/ft_tolower.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/ft_toupper.c -o src/utils/libft/ft_toupper.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/get_next_line.c -o src/utils/libft/get_next_line.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/get_next_line_utils.c -o src/utils/libft/get_next_line_utils.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/c_specifier.c -o src/utils/libft/printf/c_specifier.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/dui_specifier.c -o src/utils/libft/printf/dui_specifier.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/ft_printf.c -o src/utils/libft/printf/ft_printf.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/others.c -o src/utils/libft/printf/others.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/percent_specifier.c -o src/utils/libft/printf/percent_specifier.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/pxX_specifier.c -o src/utils/libft/printf/pxX_specifier.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/libft/printf/s_specifier.c -o src/utils/libft/printf/s_specifier.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/lists_utils.c -o src/utils/lists_utils.o
+cc -Iincludes -g -Wall -MMD -MP -c src/utils/split_utils.c -o src/utils/split_utils.o
+echo "Dependencies Compiled !"
+cc -Iincludes  ./src/enviroment/enviroment.o  ./src/main.o  ./src/minishell/minishell_env.o  ./src/minishell/minishell_init.o  ./src/process/input_processing.o  ./src/process/parser/lexical_analyzer.o  ./src/process/parser/semantic_analyzer.o  ./src/process/parser/syntax_analyzer.o  ./src/utils/general_utils.o  ./src/utils/libft/ft_atoi.o  ./src/utils/libft/ft_bzero.o  ./src/utils/libft/ft_calloc.o  ./src/utils/libft/ft_isalnum.o  ./src/utils/libft/ft_isalpha.o  ./src/utils/libft/ft_isascii.o  ./src/utils/libft/ft_isdigit.o  ./src/utils/libft/ft_isprint.o  ./src/utils/libft/ft_itoa.o  ./src/utils/libft/ft_lstadd_back.o  ./src/utils/libft/ft_lstadd_front.o  ./src/utils/libft/ft_lstclear.o  ./src/utils/libft/ft_lstdelone.o  ./src/utils/libft/ft_lstiter.o  ./src/utils/libft/ft_lstlast.o  ./src/utils/libft/ft_lstmap.o  ./src/utils/libft/ft_lstnew.o  ./src/utils/libft/ft_lstsize.o  ./src/utils/libft/ft_memchr.o  ./src/utils/libft/ft_memcmp.o  ./src/utils/libft/ft_memcpy.o  ./src/utils/libft/ft_memmove.o  ./src/utils/libft/ft_memset.o  ./src/utils/libft/ft_putchar_fd.o  ./src/utils/libft/ft_putendl_fd.o  ./src/utils/libft/ft_putnbr_fd.o  ./src/utils/libft/ft_putstr_fd.o  ./src/utils/libft/ft_split.o  ./src/utils/libft/ft_strchr.o  ./src/utils/libft/ft_strdup.o  ./src/utils/libft/ft_striteri.o  ./src/utils/libft/ft_strjoin.o  ./src/utils/libft/ft_strlcat.o  ./src/utils/libft/ft_strlcpy.o  ./src/utils/libft/ft_strlen.o  ./src/utils/libft/ft_strmapi.o  ./src/utils/libft/ft_strncmp.o  ./src/utils/libft/ft_strnstr.o  ./src/utils/libft/ft_strrchr.o  ./src/utils/libft/ft_strtrim.o  ./src/utils/libft/ft_substr.o  ./src/utils/libft/ft_tolower.o  ./src/utils/libft/ft_toupper.o  ./src/utils/libft/get_next_line.o  ./src/utils/libft/get_next_line_utils.o  ./src/utils/libft/printf/c_specifier.o  ./src/utils/libft/printf/dui_specifier.o  ./src/utils/libft/printf/ft_printf.o  ./src/utils/libft/printf/others.o  ./src/utils/libft/printf/percent_specifier.o  ./src/utils/libft/printf/pxX_specifier.o  ./src/utils/libft/printf/s_specifier.o  ./src/utils/lists_utils.o  ./src/utils/split_utils.o  -o minishell
+echo "Compiled !"
+make: Leaving directory `/Users/frmessin/Documents/minishell/shell'
+ 
