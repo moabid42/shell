@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 18:10:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/26 19:44:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,13 @@ enum token_type find_logicalop(char *token) {
 		return (OROR);
 }
 
+enum token_type find_bool(char *token) {
+	if (!my_strcmp(token, "true"))
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
 enum token_type find_type(char *token) {
 	if (!my_strcmp(token, " ") || !my_strcmp(token, "\t")
 	    || !my_strcmp(token, "\v") || !my_strcmp(token, "\f")
@@ -131,6 +138,8 @@ enum token_type find_type(char *token) {
 		return (FLAG);
 	else if (ft_isword(token))
 		return (WORD);
+	else if (!my_strcmp(token, "false") || !my_strcmp(token, "true"))
+		return (find_bool(token));
 	else
 		return (OTHER);
 }
@@ -141,6 +150,7 @@ struct token_stream *ft_create_stack_tkstream(char **tokens, unsigned int count)
 	struct token_stream *curr;
 
 	i = 0;
+	// printer_split(tokens);
 	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 	curr = new_node;
 	while (i < count) {

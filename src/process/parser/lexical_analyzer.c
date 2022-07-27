@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/24 20:29:46 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/07/27 22:00:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,34 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	minishell_scripts_parse(struct minishell *minishell)
+void	print_tokens(char **scripts_line, int count)
+{
+	int i;
+
+	i = 0;
+	while (i < count)
+	{
+		printf("The token value is : %s\n", scripts_line[i]);
+		i++;
+	}
+}
+
+bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
 	int		i;
 
 	i = 0;
-	scripts_line = ft_split(minishell->input_str, ';');
-	minishell->scripts_num = ft_get_nb_strs(minishell->input_str, ';');
-	if (quotes_string_check(scripts_line, minishell->scripts_num) == true)
-	{
-		free(scripts_line);
-		scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
-		minishell->scripts_num = words_count(minishell->input_str, ';', "\"'") - 1;
-	}
+	// scripts_line = ft_split(minishell->input_str, ';');
+	// minishell->scripts_num = ft_get_nb_strs(minishell->input_str, ';');
+	// printf("The number of elem: %d\n", minishell->scripts_num);
+	// if (quotes_string_check(scripts_line, minishell->scripts_num) == true) {
+	// 	free(scripts_line);
+	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
+	print_tokens(scripts_line, words_count(minishell->input_str, ';', "\"'"));
+	printf("The number of elem: %d\n", words_count(minishell->input_str, ';', "\"'") );
+	minishell->scripts_num = words_count(minishell->input_str, ';', "\"'");
+	// }
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
@@ -38,13 +52,25 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	return (true);
 }
 
+void	printer_split(char **tokens)
+{
+	while(*tokens)
+	{
+		printf("The token is : %s\n", *tokens);
+		tokens++;
+	}
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script) {
 	char **tokens;
 	struct token_stream *token_stream;
 
-	tokens = ft_split_tokens(script);
-	script->tokens_num = get_nb_tokens(script->input_line);
+	tokens = ft_new_split(script->input_line, ' ', "\"'");
+	script->tokens_num = words_count(script->input_line, ' ', "\"'");
+	printf("The number of tokens: %d\n", words_count(script->input_line, ';', "\"'") );
+	printer_split(tokens);
 	token_stream = ft_create_stack_tkstream(tokens, script->tokens_num);
+	printer_token(token_stream);
 	script->token_stream = token_stream;
 	return (token_stream);
 }

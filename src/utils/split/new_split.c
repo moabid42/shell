@@ -3,48 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   new_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 22:52:20 by frmessin          #+#    #+#             */
-/*   Updated: 2022/07/24 20:14:56 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/07/27 22:13:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "minishell.h"
 #include "parser.h"
 #include "utils.h"
 
-static bool	char_exist(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (i < ft_strlen(str))
-	{
-		if (str[i] == c)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-bool	quotes_string_check(char **scripts_line, int num)
-{
-	int count;
-	int	i;
-
-	count = 0;
-	i = 0; 
-	while (i < num)
-	{
-		if (char_exist(scripts_line[i], '\"') || char_exist(scripts_line[i], '\''))
-			count++;
-		i++;
-	}
-	if (count == 2)
-		return (true);
-	return (false);
-}
 
 char	*manage_word(int *start, char *string, char *special, char split_char)
 {
@@ -65,8 +34,6 @@ char	*manage_word(int *start, char *string, char *special, char split_char)
 		else
 			i++;  
 	}
-	// printf(" start :%d i:%d i - start: %d\n", *start,i,i - *start);
-	// fflush(NULL);
 	word = ft_cutter (&string[*start], i - *start);
 	*start = i;
 	return (word);
@@ -88,8 +55,7 @@ char	**ft_new_split(char *string, char split_char, char* special)
 		if(string[i] != split_char)
 		{
 			split_string[tab] = manage_word(&i, string, special, split_char);
-			// printf("%s \n", split_string[tab]);
-			//printf("index : %d %s tab \n", split_string[tab]);
+			printf("%s \n", split_string[tab]);
 			tab++;
 		}
 		i++;
@@ -100,7 +66,14 @@ char	**ft_new_split(char *string, char split_char, char* special)
 
 // int main ()
 // {
-// 	char		**j;//       [c][1][2][3][;]
-// 	j = ft_new_split("adavo a centa ;ll\"ora ;per\" veder;e la partita", ';', "\"'");
+// 	char		**j;
+// 	char		**z;
+// 	char		**w;
+// 	char *string= "echo && ; \"djhfihfihw  ;   kjl\"";
+// 	j = ft_new_split(string, ';', "\"'");
+// 	z = ft_new_split(j[0], ' ', "\"'");
+// 	w = ft_new_split(j[1], ' ', "\"'");
+// 	//j = ft_new_split("adavo a centa ll\"ora per\" vedere la partita", ' ', "\"");
+// 	// printf("word count should be 7");
 // 	return 0;
 // }

@@ -13,14 +13,13 @@
 #include "minishell.h"
 #include "utils.h"
 
-int main(int argc, char **argv, char **env)
-{
-    struct minishell minishell;
+int main(int argc, char **argv, char **env) {
+	struct minishell minishell;
 
-    if (argc != 1)
-        ft_error(SYNTAX_ERROR);
-    minishell_create(&minishell, env);
+	if (argc != 1)
+		ft_error(SYNTAX_ERROR);
+	minishell_create(&minishell, env);
 	minishell_run(&minishell);
 	minishell_destroy(&minishell);
-    return (0);
+	return (0);
 }

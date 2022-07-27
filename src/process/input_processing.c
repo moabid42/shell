@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:49:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/26 19:43:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
 // 		input->minishell->variables = NULL;
 // 	else
 // 		input->minishell->variables = input_save_variables(minishell, input);
-		
+
 // }
 
 // bool	input_ast_create(struct input *input, struct ast *ast)
 // {
-	
+
 // }
 
 // void	minishell_process_input(struct minishell *minishell)
@@ -40,40 +40,38 @@
 // 	return ;
 // }
 
-void	minishell_process_input(struct scripts *script)
-{
+void minishell_process_input(struct scripts *script, struct minishell *minishell) {
 	struct token_stream *token_stream;
+	struct ast *ast;
 
 	if (!script)
-		return ;
+		return;
 	printf("We are creating a token_stream for : %s\n", script->input_line);
 	token_stream = lexical_analyzer_create(script);
-	printer_token(token_stream);
+	// printer_token(token_stream);
 	syntax_analyzer_create(token_stream, script);
-	// semantic_analyzer_create(minishell);
-	// minishell_ast_execute(&ast);
-	minishell_process_input(script->next);
+	ast = semantic_analyzer_create(minishell, script);
+	// minishell_ast_execute(ast);
+	minishell_process_input(script->next, minishell);
 }
 
-void	minishell_destroy_input(struct scripts *script)
-{
+void minishell_destroy_input(struct scripts *script) {
 	if (!script)
-		return ;
+		return;
 	// semantic_analyzer_destroy(token_stream, script);
 	// syntax_analyzer_destroy(minishell);
 	lexical_analyzer_destroy(&script->token_stream);
 	minishell_destroy_input(script->next);
 }
 
-void	minishell_read_input(struct minishell *minishell)
-{
-	struct	scripts *tmp_cr;
-	struct	scripts *tmp_ds;
+void minishell_read_input(struct minishell *minishell) {
+	struct scripts *tmp_cr;
+	struct scripts *tmp_ds;
 
 	if (!minishell_scripts_parse(minishell))
 		ft_error(UNEXPECTED_TOKEN);
 	tmp_cr = minishell->scripts;
-	minishell_process_input(tmp_cr);
+	minishell_process_input(tmp_cr, minishell);
 	tmp_ds = minishell->scripts;
 	minishell_destroy_input(tmp_ds);
 }

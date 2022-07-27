@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:40:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/07/24 19:56:37 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/07/27 22:14:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 #include "utils.h"
 
@@ -27,22 +28,19 @@ int		in_special( char c, char *special)
 	return (-1);
 }
 
-int		ignore_inside_special(char *string, char special)
+int		ignore_inside_special(char *string, char c_special)
 {
 	int i;
 
 	i = 0;
-	if(string[i] == special)
+	if(string[i] == c_special)
 	{
 		i++;
-		while(string[i] != special)
+		while(string[i] != c_special)
 		{
 			i++;
 			if(string[i] == '\0')
-			{
-				//should it return error?
 				break;
-			}
 		}
 	}
 	return i;

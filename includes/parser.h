@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/24 18:04:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/26 18:32:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,19 @@ struct minishell;
 struct scripts;
 
 enum token_type {
+    ANDAND,
+    OROR,
+    
+	PIPE,
+
+    GREATER,
+    LESS,
+    DOUBLE_GREATER,
+    DOUBLE_SMALLER,
+
     WORD,
+	FALSE,
+	TRUE,
     FLAG,
 
     VARIABLE,
@@ -37,20 +49,12 @@ enum token_type {
     CURLY_BRACKERTS_OP,
     CURLY_BRACKERTS_CL,
 
-    ANDAND,
-    OROR,
 
     STAR,
     EXCAMATION,
     QUESTION,
 
-    PIPE,
     SPACE,
-
-    GREATER,
-    LESS,
-    DOUBLE_GREATER,
-    DOUBLE_SMALLER,
 
     OTHER
 };
@@ -66,14 +70,21 @@ struct scripts {
 struct token_stream {
     char *token_name;
     enum token_type token_type;
+	bool in_string;
     bool closed;
     struct token_stream *next;
 };
 
+struct AST_value {
+    char *token_name;
+    enum token_type token_type;
+};
 
 //
 struct ast {
-	
+    struct AST_value value;
+    struct ast *right;
+    struct ast *left;
 };
 
 // struct commands {
@@ -113,7 +124,7 @@ void minishell_scripts_destory(struct minishell *minishell);
 
 void minishell_destroy_input(struct scripts *script);
 
-void minishell_process_input(struct scripts *script);
+void minishell_process_input(struct scripts *script, struct minishell *minishell);
 
 
 struct token_stream *lexical_analyzer_create(struct scripts *script);
@@ -125,7 +136,7 @@ void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *s
 
 void syntax_analyzer_destroy(struct minishell *minishell);
 
-void semantic_analyzer_create(struct minishell *minishell);
+struct ast *semantic_analyzer_create(struct minishell *minishell, struct scripts *script);
 
 void semantic_analyzer_destroy(struct minishell *minishell);
 
