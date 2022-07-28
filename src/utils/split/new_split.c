@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 22:52:20 by frmessin          #+#    #+#             */
-/*   Updated: 2022/07/27 22:13:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/27 22:21:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**ft_new_split(char *string, char split_char, char* special)
 		if(string[i] != split_char)
 		{
 			split_string[tab] = manage_word(&i, string, special, split_char);
-			printf("%s \n", split_string[tab]);
+			// printf("%s \n", split_string[tab]);
 			tab++;
 		}
 		i++;

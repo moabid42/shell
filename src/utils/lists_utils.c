@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/26 19:44:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/27 23:34:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ enum token_type find_parenth(char *token) {
 }
 
 enum token_type find_quotes(char *token) {
-	if (!my_strcmp(token, "'"))
-		return (SINGLE_QUOTES);
+	if (token[0] == '\"')
+		return (STRING_DOUBLE);
 	else
-		return (DOUBLE_QUOTES);
+		return (STRING_SINGLE);
 }
 
 enum token_type find_wildcard(char *token) {
@@ -121,7 +121,7 @@ enum token_type find_type(char *token) {
 		return (find_rediraction(token));
 	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
 		return (find_logicalop(token));
-	else if (!my_strcmp(token, "'") || !my_strcmp(token, "\""))
+	else if (token[0] == '\"' || token[0] == '\'')
 		return (find_quotes(token));
 	else if (!my_strcmp(token, "\\"))
 		return (BACKSLASH);
@@ -150,7 +150,6 @@ struct token_stream *ft_create_stack_tkstream(char **tokens, unsigned int count)
 	struct token_stream *curr;
 
 	i = 0;
-	// printer_split(tokens);
 	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 	curr = new_node;
 	while (i < count) {

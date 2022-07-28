@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/26 18:32:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 00:19:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ enum token_type {
     DOUBLE_GREATER,
     DOUBLE_SMALLER,
 
+	COMMAND,
+	FILES,
     WORD,
 	FALSE,
 	TRUE,
@@ -38,8 +40,8 @@ enum token_type {
     VARIABLE,
     EQUAL,
 
-    SINGLE_QUOTES,
-    DOUBLE_QUOTES,
+	STRING_DOUBLE,
+	STRING_SINGLE,
     BACKSLASH,
 
     PARENTHS_OP,
@@ -82,6 +84,7 @@ struct AST_value {
 
 //
 struct ast {
+	bool	isroot;
     struct AST_value value;
     struct ast *right;
     struct ast *left;

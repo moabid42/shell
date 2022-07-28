@@ -6,12 +6,20 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/18 21:05:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/27 23:34:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
+
+bool	ft_iscommand(char *str)
+{
+	if (ft_isword(str) == true)
+	{
+		
+	}
+}
 
 bool	ft_isword(char *str)
 {
