@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/23 21:46:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 17:35:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ struct minishell {
 };
 
 void    minishell_create(struct minishell *minishell, char **env);
-char	*minishell_get_input();
+void	minishell_get_input(struct minishell *minishell);
 void    minishell_destroy(struct minishell *minishell);
 void    minishell_run(struct minishell *minishell);
 char	**minishell_env_init(char **env);

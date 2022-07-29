@@ -6,19 +6,85 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/27 23:34:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 04:18:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 
-bool	ft_iscommand(char *str)
+char	*parser(char *cmd, char *paths)
 {
-	if (ft_isword(str) == true)
+	char	*with_slash;
+	char	*l_path;
+	char	*path;
+
+	with_slash = ft_strrchr(cmd, '/');
+	if (with_slash)
 	{
-		
+		path = ft_strjoin(paths, with_slash);
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
 	}
+	else
+	{
+		l_path = ft_strjoin(paths, "/");
+		path = ft_strjoin(l_path, cmd);
+		free(l_path);
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+	}
+	free(path);
+	return (NULL);
+}
+
+void	freeme(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
+}
+
+char	*get_path(char *cmd, char **env)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (ft_strnstr(env[i], "PATH=", 5) == 0)
+		i++;
+	paths = ft_split(env[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path = parser(cmd, paths[i]);
+		if (path)
+			return (path);
+		i++;
+	}
+	freeme(paths);
+	return (NULL);
+}
+
+bool	ft_iscommand(char *str, char **env)
+{
+	if (get_path(str, env))
+		return (true);
+	return (false);
+}
+
+bool	ft_isfile(char *str)
+{
+	if (access(str, F_OK))
+		return (true);
+	return (false);
 }
 
 bool	ft_isword(char *str)

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/28 00:19:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/29 15:57:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ enum token_type {
     STAR,
     EXCAMATION,
     QUESTION,
-
-    SPACE,
 
     OTHER
 };
@@ -139,7 +137,7 @@ void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *s
 
 void syntax_analyzer_destroy(struct minishell *minishell);
 
-struct ast *semantic_analyzer_create(struct minishell *minishell, struct scripts *script);
+struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_stream *token_stream);
 
 void semantic_analyzer_destroy(struct minishell *minishell);
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 13:44:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 17:36:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    minishell_create(struct minishell *minishell, char **env)
 	minishell->scripts = NULL;
 }
 
-char	*minishell_get_input()
+void 	minishell_get_input(struct minishell *minishell)
 {
 	//To be implemented
 	// if (enviroment_value_get(PROMPT_TITLE))
@@ -39,7 +39,8 @@ char	*minishell_get_input()
 	  	fprintf(stderr, "esh: allocation error\n");
 	  	exit(EXIT_FAILURE);
 	}	
-	while (1) {
+	while (1)
+	{
 	  	// Read a character
 	  	c = getchar();	
 	  	if (c == EOF)
@@ -47,7 +48,8 @@ char	*minishell_get_input()
 		else if (c == '\n')
 		{
 	  		buffer[position] = '\0';
-	  		return buffer;
+	  		minishell->input_str = buffer;
+			return ;
 	  	}
 		else
 	  		buffer[position] = c;
@@ -78,7 +80,7 @@ void    minishell_run(struct minishell *minishell)
 		// 	break ;
 		// }
 		printf("\033[31mesh$\033[0m");
-		minishell->input_str = minishell_get_input();
+		minishell_get_input(minishell);
 		minishell_read_input(minishell);
 	}
 }

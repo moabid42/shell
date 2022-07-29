@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/27 23:34:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:19:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ enum token_type find_wildcard(char *token) {
 		return (QUESTION);
 }
 
-enum token_type find_rediraction(char *token) {
+enum token_type find_rediraction(char *token)
+{
 	if (!my_strcmp(token, ">"))
 		return (GREATER);
 	else if (!my_strcmp(token, "<"))
@@ -78,12 +79,9 @@ enum token_type find_rediraction(char *token) {
 		return (DOUBLE_SMALLER);
 }
 
-enum token_type find_pipe_or_space(char *token) {
-	if (!my_strcmp(token, " ") || !my_strcmp(token, "\t")
-	    || !my_strcmp(token, "\v") || !my_strcmp(token, "\f")
-	    || !my_strcmp(token, "\r") || !my_strcmp(token, "\n"))
-		return (SPACE);
-	else if (!my_strcmp(token, "|"))
+enum token_type find_pipe_or_space(char *token)
+{
+	if (!my_strcmp(token, "|"))
 		return (PIPE);
 	else
 		return (BACKSLASH);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/27 21:54:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/29 16:02:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,10 @@ int		increase_i(char *string, char split_char, char *special);
 bool	quotes_string_check(char **scripts_line, int num);
 char	**ft_new_split(char *string, char split_char, char* special);
 void	printer_split(char **tokens);
+
+bool	ft_iscommand(char *str, char **env);
+bool	ft_isfile(char *str);
+bool	ft_isword(char *str);
+
 
 #endif

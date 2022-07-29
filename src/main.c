@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/22 17:41:00 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/28 22:10:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,4 @@ int main(int argc, char **argv, char **env) {
 	minishell_destroy(&minishell);
 	return (0);
 }
+
