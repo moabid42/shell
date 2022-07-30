@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/27 23:00:44 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:25:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool iterator_check_backslash(struct token_stream **iterator)
 
 void iterator_trigger_heredoc(struct scripts **script) {
 	printf("We did trigger heredoc \n");
-	(*script)->have_herdoc = true;
+	(*script)->have_herdoc++;
 }
 
 bool iterator_pth_br_closure_met(struct token_stream **tmp) {
@@ -89,6 +89,13 @@ bool iterator_check_pth_br(struct token_stream **iterator) {
 			return (true);
 		*iterator = (*iterator)->next;
 	}
+	return (false);
+}
+
+bool	heredoc_rediraction(struct token_stream **iterator)
+{
+	if ((*iterator)->token_type == DOUBLE_GREATER)
+		return (true);
 	return (false);
 }
 
@@ -131,8 +138,9 @@ void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *s
 				iterator_trigger_error(tmp);
 				break;
 			}
-//			 printf("The valueo f the flag %s is : [%d]\n", iterator->token_name, iterator->closed);
 		}
+		else if (heredoc_rediraction(&tmp) == true)
+			iterator_trigger_heredoc(&script);
 		tmp = tmp->next;
 	}
 }

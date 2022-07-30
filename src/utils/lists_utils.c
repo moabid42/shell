@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/28 16:19:49 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:20:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ struct scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count)
 		if (i < count - 1)
 			new_node->next = (struct scripts *) ft_malloc(sizeof(struct scripts));
 		new_node->input_line = ft_strdup(scripts_line[i]);
-		new_node->have_herdoc = false;
+		new_node->have_herdoc = 0;
 		if (i == (count - 1))
 			new_node->next = NULL;
 		else

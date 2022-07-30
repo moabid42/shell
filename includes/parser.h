@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/29 15:57:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:19:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ enum token_type {
 };
 
 struct scripts {
-    char *input_line;
-    unsigned int tokens_num;
-    bool have_herdoc;
+    char 				*input_line;
+    unsigned int 		tokens_num;
+    int 				have_herdoc;
+	char				*delimiter;
     struct token_stream *token_stream;
-    struct scripts *next;
+    struct scripts 		*next;
 };
 
 struct token_stream {
