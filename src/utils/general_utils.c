@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/28 04:18:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/09 20:12:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,60 @@ int	ft_isspace(int c)
 {
 	return (c == '\f' || c == '\n' || c == '\r' \
 	|| c == '\t' || c == '\v' || c == ' ');
+}
+
+bool	node_contain_special_single(char *str, int c)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+bool	node_contain_special(char *str, int c)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		// printf("%c   %d\n", str[i], count);
+		if (str[i] == c)
+			count++;
+		if (count == 2)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+// create a function the remove the character from the beginning and the end of the string
+char	*ft_special_trim(char *str, int c, int size)
+{
+	char	*new;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	new = ft_malloc(sizeof(char) * size);
+	while (str[i])
+	{
+		if (str[i] != c)
+		{
+			new[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	new[ft_strlen(new)] = '\0';
+	return (new);
 }

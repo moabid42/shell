@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/29 18:25:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/09 20:16:46 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool iterator_create(struct token_stream **iterator, struct token_stream **tmp) 
 	    && (*tmp)->closed == false)
 	{
 		*iterator = *tmp;
-		printf("Iterator created for %d!!\n", (*iterator)->token_type);
+		// printf("Iterator created for %d!!\n", (*iterator)->token_type);
 		return (true);
 	}
 	else
@@ -71,7 +71,7 @@ bool iterator_check_backslash(struct token_stream **iterator)
 }
 
 void iterator_trigger_heredoc(struct scripts **script) {
-	printf("We did trigger heredoc \n");
+	// printf("We did trigger heredoc \n");
 	(*script)->have_herdoc++;
 }
 
@@ -113,7 +113,7 @@ bool	check_string_closed(struct token_stream **token_stream)
 			== (*token_stream)->token_name[ft_strlen((*token_stream)->token_name) - 1]
 			&& ft_strlen((*token_stream)->token_name) != 1)
 			return (true);
-		printf("We found a heredoc\n");
+		// printf("We found a heredoc\n");
 		return (false);
 	}
 	return (true);
@@ -130,7 +130,7 @@ void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *s
 	{
 		if (iterator_create(&iterator, &tmp) == true)
 		{
-			printf("The value of the flag is : %d for the element %s\n", tmp->closed, tmp->token_name);
+			// printf("The value of the flag is : %d for the element %s\n", tmp->closed, tmp->token_name);
 			if (check_string_closed(&tmp) == false
 			    || iterator_check_backslash(&iterator) == true)
 				iterator_trigger_heredoc(&script);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/28 17:35:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/08 23:43:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../src/utils/libft/libft.h"
 #include "utils.h"
 #include "parser.h"
+#include "execute.h"
 #include "../src/utils/libft/get_next_line.h"
 
 struct ast;

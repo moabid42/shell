@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/29 15:58:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/09 20:18:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 
 	if (!script)
 		return;
-	printf("We are creating a token_stream for : %s\n", script->input_line);
+	// printf("We are creating a token_stream for : %s\n", script->input_line);
 	token_stream = lexical_analyzer_create(script);
 	// printer_token(token_stream);
 	syntax_analyzer_create(token_stream, script);
 	ast = semantic_analyzer_create(minishell, script->token_stream);
-	// minishell_ast_execute(ast);
+	minishell_ast_execute(ast, minishell);
 	minishell_process_input(script->next, minishell);
 }
 

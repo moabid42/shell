@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/29 16:02:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/09 19:42:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "minishell.h"
 #include "parser.h"
+#include "execute.h"
 #include "../src/utils/libft/libft.h"
 
 #define SYNTAX_ERROR 	"[-] syntax error: format ./minishell"
@@ -28,6 +29,8 @@
 
 struct scripts;
 struct token_stream;
+
+char			*get_path(char *cmd, char **env);    
 
 void			ft_error(char *str);
 int				my_strcmp(const char *strg1, char *strg2);
@@ -48,6 +51,11 @@ struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count)
 
 void				garbage_collect_token(struct token_stream *lst);
 bool				ft_isword(char *str);
+char				*ft_special_trim(char *str, int c, int size);
+
+bool				node_contain_special(char *str, int c);
+bool				node_contain_special_single(char *str, int c);
+
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);

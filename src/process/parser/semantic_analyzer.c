@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/29 18:13:05 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/09 20:13:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,18 @@ struct ast	*node_create_child(struct token_stream *tmp)
 	struct ast *node;
 
 	node = ft_malloc(sizeof(struct ast));
-	node->value.token_name = tmp->token_name;
+	if (node_contain_special(tmp->token_name, '\"') == true)
+	{
+		// printf("Hi\n");
+		node->value.token_name = ft_special_trim(tmp->token_name, '\"', ft_strlen(tmp->token_name) - 1);
+	}
+	else if (node_contain_special(tmp->token_name, '\'') == true)
+		node->value.token_name = ft_special_trim(tmp->token_name, '\'', ft_strlen(tmp->token_name) - 1);
+	else if (node_contain_special_single(tmp->token_name, '\\') == true)
+		node->value.token_name = ft_special_trim(tmp->token_name, '\\', ft_strlen(tmp->token_name));	
+	else
+		node->value.token_name = tmp->token_name;
+	// printf("[s  %s]\n", node->value.token_name);
 	node->value.token_type = tmp->token_type;
 	if (node->value.token_type == WORD)
 		if (ft_isfile(node->value.token_name) == true)
@@ -158,6 +169,18 @@ struct ast	*node_create_child(struct token_stream *tmp)
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
+}
+
+bool	ast_not_right_type(struct ast *ast)
+{
+	return (ast->value.token_type == COMMAND 
+	|| ast->value.token_type == DOUBLE_SMALLER
+	|| ast->value.token_type == LESS
+	|| ast->value.token_type == PIPE
+	|| ast->value.token_type == ANDAND
+	|| ast->value.token_type == OROR
+	|| ast->value.token_type == TRUE
+	|| ast->value.token_type == FALSE);
 }
 
 struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_stream *token_stream)
@@ -173,14 +196,14 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	while (tmp)
 	{
 		if (is_child(prev->token_type, tmp) == true)
-		{
 			ast_insert_child(node_create_child(tmp), &ast);
-		}
 		else
 			node_create_parent(tmp, &ast);
 		tmp = tmp->next;
 	}
-	print_tree(ast);
+	if (ast_not_right_type(ast) == false)
+		ft_error("Error : AST not right root type");
+	// print_tree(ast);
 	return (ast);
 }
 
