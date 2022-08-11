@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/08 23:48:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/11 07:33:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ struct minishell;
 void	minishell_ast_execute(struct ast *ast, struct minishell *minishell);
 char	**command_statement_create(struct ast *ast);
 void	command_statement_destroy(char **command_statement);
+void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell);
+void	minishell_process_command(struct ast *ast, struct minishell *minishell);
+int	ast_child_num(struct ast *node);
 
 #endif
