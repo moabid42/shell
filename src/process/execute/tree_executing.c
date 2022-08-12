@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/11 20:44:25 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:07:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,37 +78,77 @@ void	command_statement_execute_complexe(struct ast *ast, struct minishell *minis
 	command_statement_destroy(command_statement);
 }
 
-void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell)
+void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 {
-	pid_t	pid;
 	pid_t	pid2;
 	int		pfd[2];
 
+	if (pipe(pfd) == -1)
+			ft_error("pipe error");
+	pid2 = fork();
+	if (pid2 == -1)
+		ft_error("fork error");
+	if (!pid2)
+	{
+		close(pfd[0]);
+		dup2(pfd[1], 1);
+		command_statement_execute_complexe(ast->left, minishell);
+	}
+	else
+	{
+		close(pfd[1]);
+		dup2(pfd[0], 0);
+		waitpid(pid2, NULL, 0);
+	}
+}
+
+void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
+{
+	pid_t	pid2;
+	int		pfd[2];
+
+	if (pipe(pfd) == -1)
+			ft_error("pipe error");
+	pid2 = fork();
+	if (pid2 == -1)
+		ft_error("fork error");
+	if (!pid2)
+	{
+		close(pfd[0]);
+		dup2(pfd[1], 1);
+		command_statement_execute_complexe(ast->right, minishell);
+	}
+	else
+	{
+		close(pfd[1]);
+		dup2(pfd[0], 0);
+		waitpid(pid2, NULL, 0);
+	}
+}
+
+void	process_pipe_run_first(struct ast *ast,struct ast *first, struct minishell *minishell)
+{
+	if (ast->left->value.token_type == PIPE)
+		process_pipe_run_first(ast->left, first, minishell);
+	if (ast->left->value.token_type != PIPE)
+		process_pipe_run_left(ast, minishell);
+	if (ast->right != first->right)
+		process_pipe_run_right(ast, minishell);
+	else
+		command_statement_execute_complexe(first->right, minishell);
+}
+
+void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell)
+{
+	pid_t	pid;
+	struct ast *tmp;
+
 	pid = fork();
+	tmp = ast;
 	if (pid == -1)
 		ft_error("fork error");
 	if (!pid)
-	{
-		if (pipe(pfd) == -1)
-			ft_error("pipe error");
-		pid2 = fork();
-		if (pid2 == -1)
-			ft_error("fork error");
-		if (!pid2)
-		{
-			close(pfd[0]);
-			dup2(pfd[1], 1);
-			command_statement_execute_complexe(ast->left, minishell);
-		}
-		else
-		{
-			close(pfd[1]);
-			dup2(pfd[0], 0);
-			waitpid(pid2, NULL, 0);
-		}
-		command_statement_execute_complexe(ast->right, minishell);
-		close(pfd[0]);
-	}
+		process_pipe_run_first(tmp, ast,minishell);
 	else
 		waitpid(pid, NULL, 0);
 }
