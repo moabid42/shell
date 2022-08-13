@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/10 22:13:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/13 06:26:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void	node_create_parent(struct token_stream *tmp, struct ast **child)
 }
 
 //create a child node
-struct ast	*node_create_child(struct token_stream *tmp)
+struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minishell)
 {
 	struct ast *node;
 
@@ -215,8 +215,12 @@ struct ast	*node_create_child(struct token_stream *tmp)
 		node->value.token_name = tmp->token_name;
 	node->value.token_type = tmp->token_type;
 	if (node->value.token_type == WORD)
-		if (ft_isfile(node->value.token_name) == true)
+	{
+		if (ft_iscommand(node->value.token_name, minishell->env) == true)
+			node->value.token_type = COMMAND;
+		else if (ft_isfile(node->value.token_name) == true)
 			node->value.token_type = FILES;
+	}
 	node->isroot = false;
 	node->left = NULL;
 	node->right = NULL;
@@ -270,7 +274,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	while (tmp)
 	{
 		if (is_child(prev->token_type, tmp) == true)
-			ast_insert_child(node_create_child(tmp), &ast, prev);
+			ast_insert_child(node_create_child(tmp, minishell), &ast, prev);
 		else
 			node_create_parent(tmp, &ast);
 		prev = tmp;	

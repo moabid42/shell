@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/28 17:36:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/13 21:09:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void    minishell_run(struct minishell *minishell)
 		// 	ft_putendl_fd("exit", STDERR_FILENO);
 		// 	break ;
 		// }
-		printf("\033[31mesh$\033[0m");
+		printf("\033[31mesh$\033[0m ");
 		minishell_get_input(minishell);
 		minishell_read_input(minishell);
 	}

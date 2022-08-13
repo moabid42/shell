@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/12 19:07:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/13 21:48:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	**command_statement_create_complexe(struct ast *ast)
 	i = 0;
 	tmp = ast;
 	command_statement = ft_malloc(sizeof(char *) * (ast_child_num(ast) + 2));
-	// printf("%d\n", ast_child_num(ast));
 	command_statement[i] = ft_strdup(tmp->value.token_name);
 	if (tmp->left)
 		command_statement[++i] = ft_strdup(tmp->left->value.token_name);
@@ -58,7 +57,6 @@ char	**command_statement_create_complexe(struct ast *ast)
 		tmp = tmp->left;
 		while (tmp->left)
 		{
-			// printf("We are in the node %s\n", tmp->value.token_name);
 			command_statement[++i] = ft_strdup(tmp->left->value.token_name);
 			tmp = tmp->left;
 		}
@@ -74,6 +72,7 @@ void	command_statement_execute_complexe(struct ast *ast, struct minishell *minis
 
 	command_statement = command_statement_create_complexe(ast);
 	command_path = get_path(command_statement[0], minishell->env);
+
 	command_statement_run(command_statement, command_path, minishell);
 	command_statement_destroy(command_statement);
 }
@@ -155,12 +154,6 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
 {
-	// printf("we are gonna start the pipeline\n");
-	// fflush(stdout);
-	// minishell_process_command_pipe(ast->left, minishell);
-	// printf("we are gonna go right\n");
-	// fflush(stdout);
-	// minishell_process_command_pipe(ast->right, minishell);
+	
 	minishell_process_command_pipe(ast, minishell);
-	// minishell_process_command(ast->right, minishell);
 }

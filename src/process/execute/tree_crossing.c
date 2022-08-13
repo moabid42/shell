@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 02:59:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/13 21:48:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,26 +138,38 @@ int	openfile(char *file, int re_or_wr)
 	return (ret);
 }
 
-void	less_statement_execute(char **command_statement, struct minishell *minishell)
+void	less_statement_execute_child(char **command_statement, struct ast *ast, struct minishell *minishell)
 {
-	pid_t	pid;
 	char	buffer[256];
 	int		fd_in;
+
+	fd_in = openfile(command_statement[1], 0);
+	if (fd_in == -1)
+		ft_error("File not found\n");
+	if (ast->right == NULL)
+	{
+		read(fd_in, &buffer, sizeof(buffer));
+		printf("%s", buffer);
+	}
+	else
+	{
+		dup2(fd_in, 0);
+		command_statement_execute_complexe(ast->right, minishell);
+	}
+	close(fd_in);
+}
+
+void	less_statement_execute(char **command_statement, struct ast *ast, struct minishell *minishell)
+{
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 		ft_error("FORK ERROR");
 	if (!pid)
-	{
-		fd_in = openfile(command_statement[1], 0);
-		if (fd_in == -1)
-			ft_error("File not found\n");
-		else
-			read(fd_in, &buffer, sizeof(buffer));
-	}
+		less_statement_execute_child(command_statement, ast, minishell);
 	else
 		wait(NULL);
-	printf("%s", buffer);
 }
 
 void	print_file(char  *file)
@@ -220,7 +232,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	if (ast->value.token_type == COMMAND)
 		command_statement_execute(command_statement, command_path, minishell);
 	else if (ast->value.token_type == LESS)
-		less_statement_execute(command_statement, minishell);
+		less_statement_execute(command_statement, ast, minishell);
 	else
 		heredoc_statement_execute(command_statement, minishell);
 	command_statement_destroy(command_statement);
