@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 21:48:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 05:42:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	command_statement_execute_complexe(struct ast *ast, struct minishell *minis
 	char	*command_path;
 
 	command_statement = command_statement_create_complexe(ast);
+	// printer_split(command_statement);
 	command_path = get_path(command_statement[0], minishell->env);
-
 	command_statement_run(command_statement, command_path, minishell);
 	command_statement_destroy(command_statement);
 }
@@ -137,23 +137,77 @@ void	process_pipe_run_first(struct ast *ast,struct ast *first, struct minishell 
 		command_statement_execute_complexe(first->right, minishell);
 }
 
+void	process_redirect_left(struct ast *ast)
+{
+	int	fd_in;
+
+	fd_in = openfile(ast->left->value.token_name, 0);
+	if (fd_in == -1)
+		ft_error("File not found\n");
+	dup2(fd_in, 0);
+}
+
+void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minishell)
+{
+	if (ast->left->value.token_type == PIPE)
+		redirection_run(ast->left, first, minishell);
+	if (ast->left->value.token_type != PIPE)
+	{
+		process_redirect_left(ast->left);
+		// printf("We are gonna run %s\n", ast->right->value.token_name);
+		process_pipe_run_right(ast, minishell);
+	}
+	if (ast->right != first->right)
+	{
+		// printf("We are running a a pipe with %s\n", ast->right->value.token_name);
+		process_pipe_run_right(ast, minishell);
+	}
+	else
+	{
+		// printf("We are gonna execute this command %s\n", ast->right->value.token_name);
+		command_statement_execute_complexe(first->right, minishell);
+	}
+}
+
+bool	redirection_exist(struct ast *ast)
+{
+	while (1)
+	{
+		if (ast == NULL)
+			return (false);
+		else if (ast->value.token_type == LESS)
+			return (true);
+		ast = ast->left;
+	}
+	return (false);
+}
+
 void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell)
 {
 	pid_t	pid;
 	struct ast *tmp;
+	struct ast *tmp2;
 
 	pid = fork();
 	tmp = ast;
+	tmp2 = ast;
 	if (pid == -1)
 		ft_error("fork error");
 	if (!pid)
-		process_pipe_run_first(tmp, ast,minishell);
+	{
+		if (redirection_exist(tmp) == true)
+			redirection_run(tmp2, ast, minishell);
+		else
+		{
+			// printf("hi\n");
+			process_pipe_run_first(tmp, ast, minishell);
+		}
+	}
 	else
 		waitpid(pid, NULL, 0);
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
 {
-	
 	minishell_process_command_pipe(ast, minishell);
 }

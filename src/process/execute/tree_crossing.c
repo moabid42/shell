@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 21:48:10 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 04:40:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,19 +138,28 @@ int	openfile(char *file, int re_or_wr)
 	return (ret);
 }
 
+void	file_reader(int fd_in)
+{
+	char	*line;
+	while (1)
+	{
+		line = get_next_line(fd_in);
+		if (line == NULL)
+			break ;
+		printf("%s", line);
+	}
+	printf("\n");
+}
+
 void	less_statement_execute_child(char **command_statement, struct ast *ast, struct minishell *minishell)
 {
-	char	buffer[256];
 	int		fd_in;
 
 	fd_in = openfile(command_statement[1], 0);
 	if (fd_in == -1)
 		ft_error("File not found\n");
 	if (ast->right == NULL)
-	{
-		read(fd_in, &buffer, sizeof(buffer));
-		printf("%s", buffer);
-	}
+		file_reader(fd_in);
 	else
 	{
 		dup2(fd_in, 0);

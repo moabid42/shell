@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 06:44:58 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 03:28:47 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell);
 void	minishell_process_command(struct ast *ast, struct minishell *minishell);
 int	ast_child_num(struct ast *node);
 
+int	openfile(char *file, int re_or_wr);
 
 
 void	minishell_process_rediraction_open(struct ast *ast, struct minishell *minishell);
