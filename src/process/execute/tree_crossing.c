@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 16:18:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 22:44:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,17 +201,20 @@ void	print_file(char  *file)
 	}
 }
 
-void	execute_heredoc(char **argv)
+void	execute_heredoc(char *delimiter, int magic)
 {
 	char	*line;
 	int     fd_out;
 
-	fd_out = openfile("/tmp/bullshit", 1);
+	if (magic == 0)
+		fd_out = openfile("/tmp/bullshit", 1);
+	else
+		fd_out = openfile("/tmp/bullshit", 2);
 	while (1)
 	{
 		write(1, "heredoc> ", 10);
 		line = get_next_line(0);
-		if (ft_strncmp(line, argv[1], ft_strlen(argv[1])) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);
 			break ;
@@ -219,18 +222,44 @@ void	execute_heredoc(char **argv)
 		ft_putstr_fd(line, fd_out);
 		free(line);
 	}
-	print_file("/tmp/bullshit");
 }
 
-void	heredoc_statement_execute(char **command_statement, struct minishell *minishell)
+void	heredoc_execute_caller(struct ast *tmp)
+{
+	// int	i;
+
+	// i = 0;
+	// while (tmp->left->value.token_type == DOUBLE_SMALLER)
+	// {
+	// 	execute_heredoc(tmp->right->value.token_name, i);
+	// 	tmp = tmp->left;
+	// 	i++;
+	// }
+	if (tmp->left->value.token_type == DOUBLE_SMALLER)
+		heredoc_execute_caller(tmp->left);
+	if (tmp->left->value.token_type != DOUBLE_SMALLER)
+	{
+		execute_heredoc(tmp->left->value.token_name, 0);
+		return ;
+	}
+	else
+		execute_heredoc(tmp->right->value.token_name, 1);
+}
+
+void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
 {
 	pid_t	pid;
+	struct ast	*tmp;
 
+	tmp = ast;
 	pid = fork();
 	if (pid == -1)
 		ft_error("FORK ERROR");
 	if (!pid)
-		execute_heredoc(command_statement);
+	{
+		heredoc_execute_caller(tmp);
+		print_file("/tmp/bullshit");
+	}
 	else
 		wait(NULL);
 }
@@ -257,7 +286,6 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		fd_out = 1;
 	command_statement = command_statement_create(jump);
 	command_path = get_path(command_statement[0], minishell->env);
-	printf("The node is pointing to %s but the command is %s\n", ast->value.token_name, command_statement[0]);
 	if (ast->value.token_type == COMMAND
 		|| ast->left->value.token_type == COMMAND)
 		command_statement_execute(command_statement, command_path, minishell, fd_out);
@@ -266,7 +294,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	else if (ast->value.token_type == LESS)
 		less_statement_execute(command_statement, ast, minishell, fd_out);
 	else
-		heredoc_statement_execute(command_statement, minishell);
+		heredoc_statement_execute(ast, minishell);
 	command_statement_destroy(command_statement);
 }
 

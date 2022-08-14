@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 07:18:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 16:51:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
 {
-	printf("The type is %d\n", ast->value.token_type);
+	// printf("The type is %d\n", ast->value.token_type);
 	if (ast->value.token_type == PIPE)
 		minishell_process_command_pipe(ast, minishell, DIRECT);
 	else if (ast->value.token_type == GREATER)
