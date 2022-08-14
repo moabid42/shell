@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 05:42:39 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 06:33:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,19 +154,12 @@ void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minish
 	if (ast->left->value.token_type != PIPE)
 	{
 		process_redirect_left(ast->left);
-		// printf("We are gonna run %s\n", ast->right->value.token_name);
-		process_pipe_run_right(ast, minishell);
+		process_pipe_run_right(ast->left, minishell);
 	}
 	if (ast->right != first->right)
-	{
-		// printf("We are running a a pipe with %s\n", ast->right->value.token_name);
 		process_pipe_run_right(ast, minishell);
-	}
 	else
-	{
-		// printf("We are gonna execute this command %s\n", ast->right->value.token_name);
 		command_statement_execute_complexe(first->right, minishell);
-	}
 }
 
 bool	redirection_exist(struct ast *ast)
