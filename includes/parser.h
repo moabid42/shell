@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 19:17:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 07:10:05 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ enum token_type {
 	PIPE,
 
     GREATER,
-    LESS,
     DOUBLE_GREATER,
+    LESS,
     DOUBLE_SMALLER,
 
 	COMMAND,

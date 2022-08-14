@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 04:40:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 07:41:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	command_statement_destroy(char **command_statement)
 	free(command_statement);
 }
 
-void	command_statement_execute(char **command_statement, char *path, struct minishell *minishell)
+void	command_statement_execute(char **command_statement, char *path, struct minishell *minishell, int fd_out)
 {
 	pid_t	pid;
 
@@ -112,6 +112,7 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 		ft_error("FORK ERROR");
 	if (!pid)
 	{
+		dup2(fd_out, 1);
 		if (execve(path, command_statement, minishell->env) == -1)
 			ft_error(command_statement[0]);
 	}
@@ -233,13 +234,29 @@ void	heredoc_statement_execute(char **command_statement, struct minishell *minis
 
 void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 {
+	int		fd_out;
 	char 	**command_statement;
 	char	*command_path;
 
-	command_statement = command_statement_create(ast);
+	if (ast->value.token_type == GREATER)
+	{
+		fd_out = openfile(ast->right->value.token_name, 1);
+		command_statement = command_statement_create(ast->left);
+	}
+	else if (ast->value.token_type == DOUBLE_GREATER)
+	{
+		fd_out = openfile(ast->right->value.token_name, 2);
+		command_statement = command_statement_create(ast->left);
+	}
+	else
+	{
+		fd_out = 1;
+		command_statement = command_statement_create(ast);
+	}
 	command_path = get_path(command_statement[0], minishell->env);
-	if (ast->value.token_type == COMMAND)
-		command_statement_execute(command_statement, command_path, minishell);
+	if (ast->value.token_type == COMMAND
+		|| ast->left->value.token_type == COMMAND)
+		command_statement_execute(command_statement, command_path, minishell, fd_out);
 	else if (ast->value.token_type == LESS)
 		less_statement_execute(command_statement, ast, minishell);
 	else
@@ -255,6 +272,19 @@ void	minishell_process_bool(struct ast *ast, struct minishell *minshell)
 		write(1, "1\n", 2);
 }
 
+bool	ast_is_simple(struct ast *ast)
+{
+	if (ast->value.token_type == COMMAND
+		|| ast->value.token_type == DOUBLE_SMALLER
+		|| ast->value.token_type == LESS
+		|| (ast->value.token_type == GREATER
+		&& ast->left->value.token_type != PIPE)
+		|| (ast->value.token_type == DOUBLE_GREATER
+		&& ast->left->value.token_type != PIPE))
+		return (true);
+	return (false);
+}
+
 void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
@@ -262,14 +292,14 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	tmp = ast;
 	if (!ast)
 		return ;
-	if (ast->value.token_type == COMMAND
-		|| ast->value.token_type == DOUBLE_SMALLER
-		|| ast->value.token_type == LESS)
+	if (ast_is_simple(ast) == true)
 		minishell_process_command(ast, minishell);
 	else if (ast->value.token_type == FALSE
 		|| ast->value.token_type == TRUE)
 		minishell_process_bool(ast, minishell);
-	else if (ast->value.token_type == PIPE)
+	else if (ast->value.token_type == PIPE
+		|| ast->value.token_type == GREATER
+		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
 	// else if (ast->value.token_type == DOUBLE_SMALLER
 	// 	|| ast->value.token_type == LESS)

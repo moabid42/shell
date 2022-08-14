@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 06:33:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 07:18:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,16 +125,21 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 	}
 }
 
-void	process_pipe_run_first(struct ast *ast,struct ast *first, struct minishell *minishell)
+void	process_pipe_run_first(struct ast *ast,struct ast *first, struct minishell *minishell, int fd_out)
 {
 	if (ast->left->value.token_type == PIPE)
-		process_pipe_run_first(ast->left, first, minishell);
+		process_pipe_run_first(ast->left, first, minishell, fd_out);
 	if (ast->left->value.token_type != PIPE)
 		process_pipe_run_left(ast, minishell);
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else
+	{
+		if (minishell->redirection == APPEND
+			|| minishell->redirection == OVERWRITE)
+			dup2(fd_out, 1);
 		command_statement_execute_complexe(first->right, minishell);
+	}
 }
 
 void	process_redirect_left(struct ast *ast)
@@ -147,10 +152,10 @@ void	process_redirect_left(struct ast *ast)
 	dup2(fd_in, 0);
 }
 
-void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minishell)
+void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minishell, int fd_out)
 {
 	if (ast->left->value.token_type == PIPE)
-		redirection_run(ast->left, first, minishell);
+		redirection_run(ast->left, first, minishell, fd_out);
 	if (ast->left->value.token_type != PIPE)
 	{
 		process_redirect_left(ast->left);
@@ -159,42 +164,85 @@ void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minish
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else
+	{
+		if (minishell->redirection == APPEND
+			|| minishell->redirection == OVERWRITE)
+			dup2(fd_out, 1);
 		command_statement_execute_complexe(first->right, minishell);
+	}
 }
 
 bool	redirection_exist(struct ast *ast)
 {
+	struct ast *tmp;
+
+	tmp = ast;
 	while (1)
 	{
-		if (ast == NULL)
+		if (tmp == NULL)
 			return (false);
-		else if (ast->value.token_type == LESS)
+		else if (tmp->value.token_type == LESS)
 			return (true);
-		ast = ast->left;
+		tmp = tmp->left;
 	}
 	return (false);
 }
 
-void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell)
+void	process_direct(struct ast *ast, struct minishell *minishell)
+{
+	struct ast *tmp;
+
+	tmp = ast;
+	minishell->redirection = DIRECT;
+	if (redirection_exist(tmp) == true)
+		redirection_run(tmp, ast, minishell, 1);
+	else
+		process_pipe_run_first(tmp, ast, minishell, 1);
+}
+
+void	process_redirect_overwrite(struct ast *ast, struct minishell *minishell)
+{
+	int fd_out;
+	struct ast *tmp;
+
+	tmp = ast;
+	minishell->redirection = OVERWRITE;
+	fd_out = openfile(tmp->right->value.token_name, 1);
+	if (redirection_exist(tmp->left) == true)
+		redirection_run(tmp->left, ast->left, minishell, fd_out);
+	else
+		process_pipe_run_first(tmp->left, ast->left, minishell, fd_out);
+}
+
+void	process_redirect_append(struct ast *ast, struct minishell *minishell)
+{
+	int fd_out;
+	struct ast *tmp;
+
+	tmp = ast;
+	minishell->redirection = APPEND;
+	fd_out = openfile(tmp->right->value.token_name, 2);
+	if (redirection_exist(tmp->left) == true)
+		redirection_run(tmp->left, ast->left, minishell, fd_out);
+	else
+		process_pipe_run_first(tmp->left, ast->left, minishell, fd_out);
+}
+
+void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell, int type)
 {
 	pid_t	pid;
-	struct ast *tmp;
-	struct ast *tmp2;
 
 	pid = fork();
-	tmp = ast;
-	tmp2 = ast;
 	if (pid == -1)
 		ft_error("fork error");
 	if (!pid)
 	{
-		if (redirection_exist(tmp) == true)
-			redirection_run(tmp2, ast, minishell);
+		if (type == OVERWRITE)
+			process_redirect_overwrite(ast, minishell);
+		else if (type == APPEND)
+			process_redirect_append(ast, minishell);
 		else
-		{
-			// printf("hi\n");
-			process_pipe_run_first(tmp, ast, minishell);
-		}
+			process_direct(ast, minishell);
 	}
 	else
 		waitpid(pid, NULL, 0);
@@ -202,5 +250,11 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
 {
-	minishell_process_command_pipe(ast, minishell);
+	printf("The type is %d\n", ast->value.token_type);
+	if (ast->value.token_type == PIPE)
+		minishell_process_command_pipe(ast, minishell, DIRECT);
+	else if (ast->value.token_type == GREATER)
+		minishell_process_command_pipe(ast, minishell, OVERWRITE);
+	else
+		minishell_process_command_pipe(ast, minishell, APPEND);
 }

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 05:49:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 07:11:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,9 @@ bool	ast_not_right_type(struct ast *ast)
 	|| ast->value.token_type == ANDAND
 	|| ast->value.token_type == OROR
 	|| ast->value.token_type == TRUE
-	|| ast->value.token_type == FALSE);
+	|| ast->value.token_type == FALSE
+	|| ast->value.token_type == GREATER
+	|| ast->value.token_type == DOUBLE_GREATER);
 }
 
 void padding ( char ch, int n )
@@ -280,7 +282,6 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		prev = tmp;	
 		tmp = tmp->next;
 	}
-	// print_tree(ast);
 	structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 		ft_error("Error : AST not right root type");

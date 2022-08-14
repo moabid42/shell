@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/08 23:43:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 07:04:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 struct ast;
 struct scripts;
+enum e_redirection;
 
 struct minishell {
 	char	**env;
@@ -33,6 +34,7 @@ struct minishell {
 	char	*input_str;
 	bool	variable;
 	char	**variables;
+	enum	e_redirection redirection;
 	unsigned int scripts_num;
 	struct	scripts *scripts;
 };
