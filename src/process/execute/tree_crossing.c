@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 07:41:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/14 16:18:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	less_statement_execute_child(char **command_statement, struct ast *ast, str
 	close(fd_in);
 }
 
-void	less_statement_execute(char **command_statement, struct ast *ast, struct minishell *minishell)
+void	less_statement_execute(char **command_statement, struct ast *ast, struct minishell *minishell, int fd_out)
 {
 	pid_t	pid;
 
@@ -177,7 +177,10 @@ void	less_statement_execute(char **command_statement, struct ast *ast, struct mi
 	if (pid == -1)
 		ft_error("FORK ERROR");
 	if (!pid)
+	{
+		dup2(fd_out, 1);
 		less_statement_execute_child(command_statement, ast, minishell);
+	}
 	else
 		wait(NULL);
 }
@@ -235,30 +238,33 @@ void	heredoc_statement_execute(char **command_statement, struct minishell *minis
 void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 {
 	int		fd_out;
+	struct ast	*jump;
 	char 	**command_statement;
 	char	*command_path;
 
+	jump = ast;
 	if (ast->value.token_type == GREATER)
 	{
 		fd_out = openfile(ast->right->value.token_name, 1);
-		command_statement = command_statement_create(ast->left);
+		jump = jump->left;
 	}
 	else if (ast->value.token_type == DOUBLE_GREATER)
 	{
 		fd_out = openfile(ast->right->value.token_name, 2);
-		command_statement = command_statement_create(ast->left);
+		jump = jump->left;
 	}
 	else
-	{
 		fd_out = 1;
-		command_statement = command_statement_create(ast);
-	}
+	command_statement = command_statement_create(jump);
 	command_path = get_path(command_statement[0], minishell->env);
+	printf("The node is pointing to %s but the command is %s\n", ast->value.token_name, command_statement[0]);
 	if (ast->value.token_type == COMMAND
 		|| ast->left->value.token_type == COMMAND)
 		command_statement_execute(command_statement, command_path, minishell, fd_out);
+	else if (ast->left->value.token_type == LESS)
+		less_statement_execute(command_statement, ast->left, minishell, fd_out);
 	else if (ast->value.token_type == LESS)
-		less_statement_execute(command_statement, ast, minishell);
+		less_statement_execute(command_statement, ast, minishell, fd_out);
 	else
 		heredoc_statement_execute(command_statement, minishell);
 	command_statement_destroy(command_statement);
