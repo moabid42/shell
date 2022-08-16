@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/13 22:10:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 07:22:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void 	minishell_get_input(struct minishell *minishell)
 	  		buffer[position] = c;
 	  	position++;
 	  	// If we have exceeded the buffer, reallocate.
-	  	if (position >= bufsize)
+		if (position >= bufsize)
 		{
 	    	bufsize += 1024;
 	    	buffer = realloc(buffer, bufsize);
@@ -81,6 +81,11 @@ void    minishell_run(struct minishell *minishell)
 		// 
 		printf("\033[31mesh$\033[0m ");
 		minishell_get_input(minishell);
+	  	if (my_strcmp(minishell->input_str, "exit") == 0)
+		{
+			printf("exit\n");
+	  		exit(EXIT_SUCCESS);
+		}
 		minishell_read_input(minishell);
 	}
 }

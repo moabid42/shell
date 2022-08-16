@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 07:11:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 15:49:50 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 //check if the node is a child of the previous node
 bool	is_child(int prev_type, struct token_stream *tmp)
 {
+	// printf("This token type is : %d of %s and the prev is : %d\n", tmp->token_type, tmp->token_name, prev_type);
 	if (tmp->token_type >= prev_type)
 		return (true);
 	return (false);

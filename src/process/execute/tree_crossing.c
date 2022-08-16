@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 06:56:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 16:00:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ void	heredoc_forward_command(struct ast *ast, struct minishell *minishell)
 		ft_error("FORK ERROR");
 	if (!pid)
 	{
-		fd_in = openfile("/tmp/bullshit", 1);
+		fd_in = openfile("/tmp/bullshit", 0);
 		dup2(fd_in, 0);
 		command_statement_execute_complexe(ast, minishell);
 	}
@@ -286,13 +286,13 @@ void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
 			heredoc_execute_caller(tmp, RIGHT);
 		else
 			heredoc_execute_caller(tmp, LEFT);
+		if (end->value.token_type == COMMAND)
+			heredoc_forward_command(end, minishell);
+		else
+			print_file("/tmp/bullshit");
 	}
 	else
 		wait(NULL);
-	if (end->value.token_type == COMMAND)
-		heredoc_forward_command(end, minishell);
-	else
-		print_file("/tmp/bullshit");
 }
 
 void	minishell_process_command(struct ast *ast, struct minishell *minishell)
