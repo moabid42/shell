@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 06:50:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 05:38:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 
 struct ast;
 struct minishell;
+
+enum	e_direction {
+	LEFT,
+	RIGHT
+};
 
 enum	e_redirection {
 	DIRECT,

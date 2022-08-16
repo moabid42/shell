@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 16:51:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 06:04:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 	int		pfd[2];
 
 	if (pipe(pfd) == -1)
-			ft_error("pipe error");
+		ft_error("pipe error");
 	pid2 = fork();
 	if (pid2 == -1)
 		ft_error("fork error");

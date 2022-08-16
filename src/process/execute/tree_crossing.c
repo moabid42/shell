@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 22:44:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/16 06:56:26 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,44 +224,75 @@ void	execute_heredoc(char *delimiter, int magic)
 	}
 }
 
-void	heredoc_execute_caller(struct ast *tmp)
+void	heredoc_execute_caller(struct ast *tmp, int direction)
 {
-	// int	i;
-
-	// i = 0;
-	// while (tmp->left->value.token_type == DOUBLE_SMALLER)
-	// {
-	// 	execute_heredoc(tmp->right->value.token_name, i);
-	// 	tmp = tmp->left;
-	// 	i++;
-	// }
 	if (tmp->left->value.token_type == DOUBLE_SMALLER)
-		heredoc_execute_caller(tmp->left);
+		heredoc_execute_caller(tmp->left, direction);
 	if (tmp->left->value.token_type != DOUBLE_SMALLER)
 	{
-		execute_heredoc(tmp->left->value.token_name, 0);
+		if (direction == 0)
+			execute_heredoc(tmp->left->value.token_name, 0);
+		else
+			execute_heredoc(tmp->right->value.token_name, 0);
 		return ;
 	}
 	else
 		execute_heredoc(tmp->right->value.token_name, 1);
 }
 
-void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
+void	heredoc_forward_command(struct ast *ast, struct minishell *minishell)
 {
 	pid_t	pid;
-	struct ast	*tmp;
+	int		fd_in;
 
-	tmp = ast;
 	pid = fork();
 	if (pid == -1)
 		ft_error("FORK ERROR");
 	if (!pid)
 	{
-		heredoc_execute_caller(tmp);
-		print_file("/tmp/bullshit");
+		fd_in = openfile("/tmp/bullshit", 1);
+		dup2(fd_in, 0);
+		command_statement_execute_complexe(ast, minishell);
 	}
 	else
 		wait(NULL);
+}
+
+struct ast *ast_seek_end(struct ast *ast)
+{
+	if (ast->value.token_type == COMMAND)
+	{
+		printf("We are at the end with %s\n", ast->value.token_name);
+		return (ast);
+	}
+	else
+		return (ast_seek_end(ast->left));
+}
+
+void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
+{
+	pid_t	pid;
+	struct ast	*tmp;
+	struct ast	*end;
+
+	tmp = ast;
+	end = ast_seek_end(tmp);
+	pid = fork();
+	if (pid == -1)
+		ft_error("FORK ERROR");
+	if (!pid)
+	{
+		if (end->value.token_type == COMMAND)
+			heredoc_execute_caller(tmp, RIGHT);
+		else
+			heredoc_execute_caller(tmp, LEFT);
+	}
+	else
+		wait(NULL);
+	if (end->value.token_type == COMMAND)
+		heredoc_forward_command(end, minishell);
+	else
+		print_file("/tmp/bullshit");
 }
 
 void	minishell_process_command(struct ast *ast, struct minishell *minishell)
@@ -286,7 +317,10 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		fd_out = 1;
 	command_statement = command_statement_create(jump);
 	command_path = get_path(command_statement[0], minishell->env);
-	if (ast->value.token_type == COMMAND
+	// printer_split(command_statement);
+	if (ast->value.token_type == DOUBLE_SMALLER)
+		heredoc_statement_execute(ast, minishell);
+	else if (ast->value.token_type == COMMAND
 		|| ast->left->value.token_type == COMMAND)
 		command_statement_execute(command_statement, command_path, minishell, fd_out);
 	else if (ast->left->value.token_type == LESS)
@@ -294,7 +328,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	else if (ast->value.token_type == LESS)
 		less_statement_execute(command_statement, ast, minishell, fd_out);
 	else
-		heredoc_statement_execute(ast, minishell);
+		ft_error("Something is wrong with the execution\n");
 	command_statement_destroy(command_statement);
 }
 
