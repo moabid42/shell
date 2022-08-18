@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 02:18:58 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 04:17:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ void    minishell_run(struct minishell *minishell)
 	while(1)
 	{
 		// To do : Handle signals
-		// if (!minishell_get_input())
-		// {
-		// 	ft_putendl_fd("exit", STDERR_FILENO);
-		// 	break ;
-		// 
 		printf("\033[31mesh$\033[0m ");
 		minishell_get_input(minishell);
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
