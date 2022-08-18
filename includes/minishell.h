@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/14 07:04:10 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 02:18:25 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <signal.h>
 #include "../src/utils/libft/libft.h"
 #include "utils.h"
 #include "parser.h"
@@ -27,13 +28,20 @@ struct ast;
 struct scripts;
 enum e_redirection;
 
+struct s_variable {
+	char *var;
+	char *value;
+	struct s_variable *next;
+};	
+
+
 struct minishell {
 	char	**env;
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
-	bool	variable;
-	char	**variables;
+	// bool	variable;
+	struct	s_variable *variables;
 	enum	e_redirection redirection;
 	unsigned int scripts_num;
 	struct	scripts *scripts;

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 16:00:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 03:48:52 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,39 +260,27 @@ void	heredoc_forward_command(struct ast *ast, struct minishell *minishell)
 
 struct ast *ast_seek_end(struct ast *ast)
 {
-	if (ast->value.token_type == COMMAND)
-	{
-		printf("We are at the end with %s\n", ast->value.token_name);
+	if (ast->value.token_type == COMMAND || ast->left == NULL)
 		return (ast);
-	}
 	else
 		return (ast_seek_end(ast->left));
 }
 
 void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
 {
-	pid_t	pid;
 	struct ast	*tmp;
 	struct ast	*end;
 
 	tmp = ast;
 	end = ast_seek_end(tmp);
-	pid = fork();
-	if (pid == -1)
-		ft_error("FORK ERROR");
-	if (!pid)
-	{
-		if (end->value.token_type == COMMAND)
-			heredoc_execute_caller(tmp, RIGHT);
-		else
-			heredoc_execute_caller(tmp, LEFT);
-		if (end->value.token_type == COMMAND)
-			heredoc_forward_command(end, minishell);
-		else
-			print_file("/tmp/bullshit");
-	}
+	if (end->value.token_type == COMMAND)
+		heredoc_execute_caller(tmp, RIGHT);
 	else
-		wait(NULL);
+		heredoc_execute_caller(tmp, LEFT);
+	if (end->value.token_type == COMMAND)
+		heredoc_forward_command(end, minishell);
+	else
+		print_file("/tmp/bullshit");
 }
 
 void	minishell_process_command(struct ast *ast, struct minishell *minishell)
@@ -353,6 +341,65 @@ bool	ast_is_simple(struct ast *ast)
 	return (false);
 }
 
+struct s_variable *variable_create(char **variable_list)
+{
+	struct s_variable *variable;
+
+	variable = ft_malloc(sizeof(struct s_variable));
+	variable->var = variable_list[0];
+	variable->value = variable_list[1];
+	variable->next = NULL;
+	return (variable);
+}
+
+//create a function that will insert a node in the end of the list
+void	variable_insert_node(struct s_variable *variable, struct s_variable *list)
+{
+	while (list)
+	{
+		printf("We are checking %s and %s\n", list->var, variable->var);
+		if (!my_strcmp(list->var, variable->var))
+		{
+			list->value = variable->value;
+			return ;
+		}
+		if (list->next)
+			list = list->next;
+		else
+			break;
+	}
+	list->next = variable;
+}
+
+void	minishell_save_variable(char *variable_assigned, struct minishell *minishell)
+{
+	char **variable_list;
+	struct s_variable *new;
+	
+	variable_list = ft_split(variable_assigned, '=');
+	printf("We are gonna save the variable with %s and %s\n", variable_list[0], variable_list[1]);
+	if (!minishell->variables)
+		minishell->variables = variable_create(variable_list);
+	else
+	{
+		new = variable_create(variable_list);
+		variable_insert_node(new, minishell->variables);
+	}
+	printer_variable(minishell->variables);
+}
+
+void	printer_variable(struct s_variable *variable)
+{
+	struct s_variable *tmp;
+
+	tmp = variable;
+	while (tmp)
+	{
+		printf("We have %s = %s\n", tmp->var, tmp->value);
+		tmp = tmp->next;
+	}
+}
+
 void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
@@ -360,7 +407,9 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	tmp = ast;
 	if (!ast)
 		return ;
-	if (ast_is_simple(ast) == true)
+	if (ast->value.token_type == EQUAL)
+		minishell_save_variable(ast->value.token_name, minishell);
+	else if (ast_is_simple(ast) == true)
 		minishell_process_command(ast, minishell);
 	else if (ast->value.token_type == FALSE
 		|| ast->value.token_type == TRUE)
@@ -369,6 +418,7 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		|| ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
+	// printer_variable(minishell->variables);
 	// else if (ast->value.token_type == DOUBLE_SMALLER
 	// 	|| ast->value.token_type == LESS)
 	// 	minishell_process_redirection_open(ast, minishell);

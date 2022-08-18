@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 07:11:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 02:41:05 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ enum token_type {
     WORD,
 	FALSE,
 	TRUE,
-    // FLAG,
 
     VARIABLE,
     EQUAL,
@@ -130,7 +129,7 @@ void minishell_destroy_input(struct scripts *script);
 void minishell_process_input(struct scripts *script, struct minishell *minishell);
 
 
-struct token_stream *lexical_analyzer_create(struct scripts *script);
+struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell);
 
 void lexical_analyzer_destroy(struct token_stream **token_stream);
 

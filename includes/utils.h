@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/09 19:42:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 03:28:16 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 struct scripts;
 struct token_stream;
+struct s_variable;
 
 char			*get_path(char *cmd, char **env);    
 
@@ -47,7 +48,7 @@ int				ft_isspace(int c);
 char				**ft_split_tokens(struct scripts *script);
 void				get_next_str(char **next_str, unsigned int *next_str_len);
 unsigned int		get_nb_tokens(char const *s);
-struct token_stream	*ft_create_stack_tkstream(char **tokens, unsigned int count);
+struct token_stream	*ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count);
 
 void				garbage_collect_token(struct token_stream *lst);
 bool				ft_isword(char *str);
@@ -70,6 +71,6 @@ void	printer_split(char **tokens);
 bool	ft_iscommand(char *str, char **env);
 bool	ft_isfile(char *str);
 bool	ft_isword(char *str);
-
+void	printer_variable(struct s_variable *variable);
 
 #endif

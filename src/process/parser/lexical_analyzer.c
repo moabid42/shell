@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/09 20:18:30 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/17 07:00:33 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	printer_split(char **tokens)
 	}
 }
 
-struct token_stream *lexical_analyzer_create(struct scripts *script)
+struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
 	struct token_stream *token_stream;
@@ -65,7 +65,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script)
 	script->tokens_num = words_count(script->input_line, ' ', "\"'");
 	// printf("The number of tokens: %d\n", words_count(script->input_line, ';', "\"'") );
 	// printer_split(tokens);
-	token_stream = ft_create_stack_tkstream(tokens, script->tokens_num);
+	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);
 	// printer_token(token_stream);
 	script->token_stream = token_stream;
 	return (token_stream);

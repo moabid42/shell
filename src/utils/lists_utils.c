@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 07:12:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 02:10:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ enum token_type find_pipe_or_space(char *token)
 }
 
 enum token_type find_var_shit(char *token) {
-	if (!my_strcmp(token, "="))
-		return (EQUAL);
-	else
+	if (token[0] == '$')
 		return (VARIABLE);
+	else
+		return (EQUAL);
 }
 
 enum token_type find_logicalop(char *token) {
@@ -124,7 +124,7 @@ enum token_type find_type(char *token)
 		return (find_quotes(token));
 	else if (!my_strcmp(token, "\\"))
 		return (BACKSLASH);
-	else if (!my_strcmp(token, "=") || !my_strcmp(token, "$"))
+	else if (token[0] == '$' || ft_strchr(token, '='))
 		return (find_var_shit(token));
 	else if (!my_strcmp(token, "*") || !my_strcmp(token, "!")
 		   || !my_strcmp(token, "?"))
@@ -143,7 +143,7 @@ enum token_type find_type(char *token)
 		return (OTHER);
 }
 
-struct token_stream *ft_create_stack_tkstream(char **tokens, unsigned int count) {
+struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count) {
 	int i;
 	struct token_stream *new_node;
 	struct token_stream *curr;
@@ -156,6 +156,8 @@ struct token_stream *ft_create_stack_tkstream(char **tokens, unsigned int count)
 			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 		new_node->token_name = tokens[i];
 		new_node->token_type = find_type(tokens[i]);
+		// if (new_node->token_type == EQUAL)
+		// 	save_variable(minishell, new_node->token_name);
 		new_node->closed = false;
 		if (i == (count - 1))
 			new_node->next = NULL;

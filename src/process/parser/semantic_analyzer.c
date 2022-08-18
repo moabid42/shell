@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 15:49:50 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 02:47:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,77 +14,44 @@
 #include "parser.h"
 #include "utils.h"
 
-// bool	is_instring(struct token_stream *stream, char *token)
-// {
-// 	while (stream)
-// 	{
-// 		if (stream->token_type == DOUBLE_QUOTES 
-// 			|| stream->token_type == SINGLE_QUOTES)
-// 			return (true);
-// 		stream = stream->next;
-// 	}
-// 	return (false);
-// }
+char	*minishell_find_variable(struct minishell *minishell, char *variable)
+{
+	struct s_variable *iterator;
 
-// struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stream *token_stream)
-// {
-// 	struct ast	*tmp;
+	iterator = minishell->variables;
+	while (iterator)
+	{
+		if (my_strcmp(iterator->var, variable + 1) == 0)
+			return (iterator->value);
+		iterator = iterator->next;
+	}
+	return (NULL);
+}
 
-// 	tmp = ft_malloc(sizeof(struct ast));
-// 	tmp->value.token_name = token_stream->token_name;
-// 	tmp->value.token_type = token_stream->token_type;
-// 	if (tmp->value.token_type == WORD)
-// 		if (ft_iscommand(tmp->value.token_name, minishell->env) == true)
-// 			tmp->value.token_type = COMMAND;
-// 	tmp->isroot = true;
-// 	tmp->left = NULL;
-// 	tmp->right = NULL;
-// 	return (tmp);
-// }
-
-// struct ast	*node_create_child(struct token_stream *tmp)
-// {
-// 	struct ast *node;
-
-// 	node = ft_malloc(sizeof(struct ast));
-// 	node->value.token_name = tmp->token_name;
-// 	node->value.token_type = tmp->token_type;
-// 	if (node->value.token_type == WORD)
-// 		if (ft_isfile(node->value.token_name) == true)
-// 			node->value.token_type = FILES;
-// 	node->isroot = false;
-// 	node->left = NULL;
-// 	node->right = NULL;
-// 	return (node);
-// }
-
-// struct ast 	*node_create_parent(struct ast *node, struct ast **child)
-// {
-// 	struct ast *node;
-
-// 	node = ft_malloc(sizeof(struct ast));
-// 	node->value.token_name = tmp->token_name;
-// 	node->value.token_type = tmp->token_type;
-// 	node->isroot = true;
-// 	node->left = *child;
-// 	node->right = NULL;
-// 	return (node);
-// }
-
-// create the first node of the ast
 struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stream *token_stream)
 {
 	struct ast	*tmp;
 
 	tmp = ft_malloc(sizeof(struct ast));
-	tmp->value.token_name = token_stream->token_name;
-	tmp->value.token_type = token_stream->token_type;
-	if (tmp->value.token_type == WORD)
+	if (token_stream->token_type == VARIABLE)
+	{
+		tmp->value.token_name = minishell_find_variable(minishell, token_stream->token_name);
+		tmp->value.token_type = WORD;
+		if (tmp->value.token_name == NULL)
+			ft_error("Error: variable not found");
+	}	
+	else
+	{
+		tmp->value.token_name = token_stream->token_name;
+		tmp->value.token_type = token_stream->token_type;
+	}
+	if (tmp->value.token_type == WORD || tmp->value.token_type == VARIABLE)
 		if (ft_iscommand(tmp->value.token_name, minishell->env) == true)
 			tmp->value.token_type = COMMAND;
 	tmp->isroot = true;
 	tmp->left = NULL;
 	tmp->right = NULL;
+	// printf("The token name is %s and the type is %d\n", tmp->value.token_name, tmp->value.token_type);
 	return (tmp);
 }
 
@@ -118,19 +85,6 @@ void	print_tree(struct ast *node)
 	}
 }
 
-
-// bool	search_tree(struct ast *node, char *token_name)
-// {
-// 	if (node->value.token_name == token_name)
-// 		return (true);
-// 	if (node->left)
-// 		if (search_tree(node->left, token_name) == true)
-// 			return (true);
-// 	if (node->right)
-// 		if (search_tree(node->right, token_name) == true)
-// 			return (true);
-// 	return (false);
-// }
 //create a function that looks for a char inside the binary tree
 struct ast *find_prev(struct ast *node, char *token_name)
 {
@@ -144,7 +98,6 @@ struct ast *find_prev(struct ast *node, char *token_name)
 			return (find_prev(node->left, token_name));
 	return (NULL);
 }
-
 
 void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev)
 {
@@ -212,10 +165,17 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 		node->value.token_name = ft_special_trim(tmp->token_name, '\'', ft_strlen(tmp->token_name) - 1);
 	else if (node_contain_special_single(tmp->token_name, '\\') == true)
 		node->value.token_name = ft_special_trim(tmp->token_name, '\\', ft_strlen(tmp->token_name));	
+	else if (tmp->token_type == VARIABLE)
+	{
+		node->value.token_name = minishell_find_variable(minishell, tmp->token_name);
+		if (node->value.token_name == NULL)
+			ft_error("Error: variable not found");
+	}
 	else
 		node->value.token_name = tmp->token_name;
 	node->value.token_type = tmp->token_type;
-	if (node->value.token_type == WORD)
+	if (node->value.token_type == WORD
+		|| node->value.token_type == VARIABLE)
 	{
 		if (ft_iscommand(node->value.token_name, minishell->env) == true)
 			node->value.token_type = COMMAND;
@@ -239,7 +199,8 @@ bool	ast_not_right_type(struct ast *ast)
 	|| ast->value.token_type == TRUE
 	|| ast->value.token_type == FALSE
 	|| ast->value.token_type == GREATER
-	|| ast->value.token_type == DOUBLE_GREATER);
+	|| ast->value.token_type == DOUBLE_GREATER
+	|| ast->value.token_type == EQUAL);
 }
 
 void padding ( char ch, int n )
@@ -276,7 +237,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	tmp = tmp->next;
 	while (tmp)
 	{
-		if (is_child(prev->token_type, tmp) == true)
+		if (is_child(ast->value.token_type, tmp) == true)
 			ast_insert_child(node_create_child(tmp, minishell), &ast, prev);
 		else
 			node_create_parent(tmp, &ast);

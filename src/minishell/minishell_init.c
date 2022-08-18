@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 07:22:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/18 02:18:58 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void    minishell_create(struct minishell *minishell, char **env)
 	minishell->g_env = NULL;
 	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
-	minishell->variable = false;
 	minishell->variables = NULL;
 	minishell->scripts = NULL;
 }

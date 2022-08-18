@@ -25,6 +25,9 @@ clean:
 fclean: clean
 	-@$(RM) $(NAME)
 
+test:
+	@$(shell ./esh_tester.sh) 
+
 run: all
 	$(NAME)
 
