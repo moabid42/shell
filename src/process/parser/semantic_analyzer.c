@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/19 04:25:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/19 12:32:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 bool	is_child(int prev_type, struct token_stream *tmp)
 {
 	// printf("This token type is : %d of %s and the prev is : %d\n", tmp->token_type, tmp->token_name, prev_type);
-	if (tmp->token_type >= prev_type)
+	if (tmp->token_type > prev_type)
 		return (true);
 	return (false);
 }
@@ -140,17 +140,35 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 }
 
 //create a parent node
-void	node_create_parent(struct token_stream *tmp, struct ast **child)
+struct ast	*node_create_parent(struct token_stream *tmp)
 {
 	struct ast *node;
 
 	node = ft_malloc(sizeof(struct ast));
 	node->value.token_name = tmp->token_name;
 	node->value.token_type = tmp->token_type;
-	node->isroot = true;
-	node->left = *child;
+	node->isroot = false;
+	node->left = NULL;
 	node->right = NULL;
-	*child = node;
+	// *child = node;
+	return (node);
+}
+
+void	ast_insert_parent(struct ast *node, struct ast **root)
+{
+	// struct ast *iterator;
+
+	// iterator = *root;
+	// if (node->value.token_type < (*root)->value.token_type)
+	// {
+		node->isroot = true;
+		node->left = *root;
+		*root = node;
+	// }
+	// else
+	// {
+	// 	iterator = ast_find_real_parent(iterator, node->value.token_type);
+	// }
 }
 
 //create a child node
@@ -240,7 +258,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		if (is_child(ast->value.token_type, tmp) == true)
 			ast_insert_child(node_create_child(tmp, minishell), &ast, prev);
 		else
-			node_create_parent(tmp, &ast);
+			ast_insert_parent(node_create_parent(tmp), &ast);
 		prev = tmp;	
 		tmp = tmp->next;
 	}
