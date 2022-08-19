@@ -6,11 +6,15 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 04:17:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/19 04:41:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+
+void 	get_input(struct minishell *minishell);
 
 void    minishell_create(struct minishell *minishell, char **env)
 {
@@ -25,6 +29,31 @@ void    minishell_create(struct minishell *minishell, char **env)
 }
 
 void 	minishell_get_input(struct minishell *minishell)
+{
+	//Signal to be implemented
+	if (isatty(STDIN_FILENO))
+		minishell->input_str = readline("\033[31mesh$\033[0m ");
+	else
+		get_input(minishell);
+	if (!minishell->input_str)
+		return ;
+	if (isatty(STDIN_FILENO))
+		add_history(minishell->input_str);
+}
+
+void	signal_ctlc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+
+void 	get_input(struct minishell *minishell)
 {
 	//To be implemented
 	// if (enviroment_value_get(PROMPT_TITLE))
@@ -67,17 +96,34 @@ void 	minishell_get_input(struct minishell *minishell)
 	}
 }
 
+// void    minishell_run(struct minishell *minishell)
+// {	
+// 	signal(SIGQUIT, SIG_IGN);
+// 	while(1)
+// 	{
+// 		// To do : Handle signals
+// 		signal(SIGINT, signal_ctlc);
+// 		minishell_get_input(minishell);
+// 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
+// 		{
+// 			ft_putendl_fd("exit", STDERR_FILENO);
+// 	  		break;
+// 		}
+// 		minishell_read_input(minishell);
+// 	}
+// }
 
 void    minishell_run(struct minishell *minishell)
-{	
+{
+	signal(SIGQUIT, SIG_IGN);
 	while(1)
 	{
 		// To do : Handle signals
-		printf("\033[31mesh$\033[0m ");
+		signal(SIGINT, signal_ctlc);
 		minishell_get_input(minishell);
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
 		{
-			printf("exit\n");
+			ft_putendl_fd("exit", STDERR_FILENO);
 	  		exit(EXIT_SUCCESS);
 		}
 		minishell_read_input(minishell);

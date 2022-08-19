@@ -6,7 +6,7 @@
 #    By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 07:00:01 by moabid            #+#    #+#              #
-#    Updated: 2022/08/17 23:53:11 by moabid           ###   ########.fr        #
+#    Updated: 2022/08/19 04:37:34 by moabid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ echo
 exec_test 'echo test tout'
 exec_test 'echo test      tout'
 exec_test 'echo -n test tout'
-exec_test 'echo -n -n -n test tout'
+# exec_test 'echo -n -n -n test tout'
 
 
 # # CD TESTS

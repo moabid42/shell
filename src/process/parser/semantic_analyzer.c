@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 02:47:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/19 04:25:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		prev = tmp;	
 		tmp = tmp->next;
 	}
-	structure(ast, 0);
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 		ft_error("Error : AST not right root type");
 	return (ast);

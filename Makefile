@@ -7,6 +7,7 @@ OBJECTS 	= $(patsubst %.c, %.o, $(SOURCES))
 DEPENDS 	= $(patsubst %.c, %.d, $(SOURCES))
 
 CFLAGS 		= -g -Wall
+RLFLAGS 	= -lreadline
 
 all: $(NAME)
 
@@ -15,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@echo "Dependencies Compiled !"
-	@$(CC) -Iincludes $(OBJECTS) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(RLFLAGS) -Iincludes $(OBJECTS) -o $(NAME)
 	@echo "Compiled !"
 
 clean:
