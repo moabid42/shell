@@ -47,6 +47,16 @@ int	ast_child_num_complexe(struct ast *node)
 			tmp = tmp->left;
 		}
 	}
+	else if (tmp->left)
+	{
+		tmp = tmp->left;
+		while (tmp->left)
+		{
+			num++;
+			tmp = tmp->left;
+		}
+	}
+	// dprintf(2, "The number of child is %d\n", nuum);
 	return (num);
 }
 
@@ -72,6 +82,7 @@ char	**command_statement_create(struct ast *ast)
 	i = 0;
 	tmp = ast;
 	command_statement = ft_malloc(sizeof(char *) * (ast_child_num_complexe(ast) + 2));
+	// dprintf(2, "The number of the childs not complexe is : %d for %s\n", ast_child_num_complexe(ast) + 1, tmp->value.token_name);
 	command_statement[i] = ft_strdup(tmp->value.token_name);
 	if (tmp->left)
 		command_statement[++i] = ft_strdup(tmp->left->value.token_name);
@@ -85,8 +96,17 @@ char	**command_statement_create(struct ast *ast)
 			tmp = tmp->left;
 		}
 	}
+	else if (tmp->left)
+	{
+		tmp = tmp->left;
+		while (tmp->left)
+		{
+			command_statement[++i] = ft_strdup(tmp->left->value.token_name);
+			tmp = tmp->left;
+		}
+	}
 	command_statement[ast_child_num_complexe(ast) + 1] = NULL;
-	// printerr(command_statement);
+	// printer_split(command_statement);
 	return (command_statement);
 }
 
@@ -152,37 +172,29 @@ void	file_reader(int fd_in)
 	printf("\n");
 }
 
-void	less_statement_execute_child(char **command_statement, struct ast *ast, struct minishell *minishell)
-{
-	int		fd_in;
-
-	fd_in = openfile(command_statement[1], 0);
-	if (fd_in == -1)
-		ft_error("File not found\n");
-	if (ast->right == NULL)
-		file_reader(fd_in);
-	else
-	{
-		dup2(fd_in, 0);
-		command_statement_execute_complexe(ast->right, minishell);
-	}
-	close(fd_in);
-}
-
 void	less_statement_execute(char **command_statement, struct ast *ast, struct minishell *minishell, int fd_out)
 {
 	pid_t	pid;
+	int		fd_in;
 
-	pid = fork();
-	if (pid == -1)
-		ft_error("FORK ERROR");
-	if (!pid)
-	{
-		dup2(fd_out, 1);
-		less_statement_execute_child(command_statement, ast, minishell);
-	}
+	fd_in = openfile(command_statement[1], 0);
+	if (ast->right == NULL)
+		;
 	else
-		wait(NULL);
+	{
+		pid = fork();
+		if (pid == -1)
+			ft_error("FORK ERROR");
+		if (!pid)
+		{
+			dup2(fd_out, 1);
+			dup2(fd_in, 0);
+			command_statement_execute_complexe(ast->right, minishell);
+		}
+		else
+			wait(NULL);
+	}
+	close(fd_in);
 }
 
 void	print_file(char  *file)
@@ -418,16 +430,4 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		|| ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
-	// printer_variable(minishell->variables);
-	// else if (ast->value.token_type == DOUBLE_SMALLER
-	// 	|| ast->value.token_type == LESS)
-	// 	minishell_process_redirection_open(ast, minishell);
-	// // else if (ast->value.token_type == LESS)
-	// else if (ast->value.token_type == ANDAND
-	// 	|| ast->value.token_type == OROR)
-	// 	minishell_process_and_or(ast, minishell);
-	// else if (ast->value.token_type == AST_SUBSHELL)
-	// 	minishell_process_subshell(ast, minishell);
-	// else if (ast->value.token_type == AST_COMMAND_LIST)
-	// 	minishell_process_command_list(ast, minishell);
 }

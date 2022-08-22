@@ -47,6 +47,7 @@ char	**command_statement_create_complexe(struct ast *ast)
 	i = 0;
 	tmp = ast;
 	command_statement = ft_malloc(sizeof(char *) * (ast_child_num(ast) + 2));
+	// dprintf(2, "The number of the childs is : %d for %s\n", ast_child_num_complexe(ast) + 1, tmp->value.token_name);
 	command_statement[i] = ft_strdup(tmp->value.token_name);
 	if (tmp->left)
 		command_statement[++i] = ft_strdup(tmp->left->value.token_name);
@@ -91,13 +92,14 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 	{
 		close(pfd[0]);
 		dup2(pfd[1], 1);
-		command_statement_execute_complexe(ast->left, minishell);
+		minishell_process_command(ast->left, minishell);
+		exit(0);
 	}
 	else
 	{
+		// waitpid(pid2, NULL, 0);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
-		waitpid(pid2, NULL, 0);
 	}
 }
 
@@ -106,6 +108,7 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 	pid_t	pid2;
 	int		pfd[2];
 
+	// dprintf(2, "We are running the command in the node %s\n", ast->value.token_name);
 	if (pipe(pfd) == -1)
 			ft_error("pipe error");
 	pid2 = fork();
@@ -115,13 +118,14 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 	{
 		close(pfd[0]);
 		dup2(pfd[1], 1);
-		command_statement_execute_complexe(ast->right, minishell);
+		minishell_process_command(ast->right, minishell);
+		exit(0);
 	}
 	else
 	{
 		close(pfd[1]);
 		dup2(pfd[0], 0);
-		waitpid(pid2, NULL, 0);
+		// waitpid(pid2, NULL, 0);
 	}
 }
 
@@ -157,10 +161,7 @@ void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minish
 	if (ast->left->value.token_type == PIPE)
 		redirection_run(ast->left, first, minishell, fd_out);
 	if (ast->left->value.token_type != PIPE)
-	{
-		process_redirect_left(ast->left);
-		process_pipe_run_right(ast->left, minishell);
-	}
+		process_pipe_run_left(ast->left, minishell);
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else

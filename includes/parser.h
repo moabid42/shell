@@ -24,11 +24,10 @@ enum token_type {
     ANDAND,
     OROR,
 	
+	PIPE,
+
     GREATER,
     DOUBLE_GREATER,
-	
-	PIPE,
-    
 
     LESS,
     DOUBLE_SMALLER,
