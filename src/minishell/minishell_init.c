@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/19 04:41:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/22 12:52:58 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void    minishell_run(struct minishell *minishell)
 	while(1)
 	{
 		// To do : Handle signals
-		signal(SIGINT, signal_ctlc);
+		//signal(SIGINT, signal_ctlc);
 		minishell_get_input(minishell);
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
 		{

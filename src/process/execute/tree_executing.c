@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_executing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/16 06:04:03 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:19:35 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 #include "utils.h"
 #include "execute.h"
 
+
+bool is_builtin()
+
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
 {
-	if (execve(command_path, command_statement, minishell->env) == -1)
+	if(is_builtin(command_statement[0]) == true)
+		builtin_run(command_statement, minishell);
+	else if (execve(command_path, command_statement, minishell->env) == -1)
 			ft_error(command_statement[0]);
 }
 

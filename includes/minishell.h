@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 02:18:25 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/20 14:52:35 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdbool.h>
 #include <signal.h>
 #include "../src/utils/libft/libft.h"
+#include <errno.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include "utils.h"
 #include "parser.h"
 #include "execute.h"
@@ -34,6 +37,12 @@ struct s_variable {
 	struct s_variable *next;
 };	
 
+typedef struct	s_env
+{
+	char *name;
+	char *content;
+	struct s_env	*next;
+}				t_env;
 
 struct minishell {
 	char	**env;
