@@ -14,7 +14,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void 	get_input(struct minishell *minishell);
+char	*get_input_terminal(int fd);
 
 void    minishell_create(struct minishell *minishell, char **env)
 {
@@ -22,6 +22,7 @@ void    minishell_create(struct minishell *minishell, char **env)
 	if (minishell->env == NULL)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
+	minishell->return_value = 0;
 	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
@@ -34,7 +35,7 @@ void 	minishell_get_input(struct minishell *minishell)
 	if (isatty(STDIN_FILENO))
 		minishell->input_str = readline("\033[31mesh$\033[0m ");
 	else
-		get_input(minishell);
+		minishell->input_str = get_input_terminal(STDIN_FILENO);
 	if (!minishell->input_str)
 		return ;
 	if (isatty(STDIN_FILENO))
@@ -52,66 +53,82 @@ void	signal_ctlc(int sig)
 	}
 }
 
-
-void 	get_input(struct minishell *minishell)
-{
 	//To be implemented
 	// if (enviroment_value_get(PROMPT_TITLE))
 	// 	minishell->prompt = enviroment_value_get(PROMPT_TITLE);
-	int c;
-	int bufsize = 1024;
-	int position = 0;
-	char *buffer = malloc(sizeof(char) * bufsize);
-	if (!buffer)
-	{
-	  	fprintf(stderr, "esh: allocation error\n");
-	  	exit(EXIT_FAILURE);
-	}	
-	while (1)
-	{
-	  	// Read a character
-	  	c = getchar();	
-	  	if (c == EOF)
-	  		exit(EXIT_SUCCESS);
-		else if (c == '\n')
-		{
-	  		buffer[position] = '\0';
-	  		minishell->input_str = buffer;
-			return ;
-	  	}
-		else
-	  		buffer[position] = c;
-	  	position++;
-	  	// If we have exceeded the buffer, reallocate.
-		if (position >= bufsize)
-		{
-	    	bufsize += 1024;
-	    	buffer = realloc(buffer, bufsize);
-	    	if (!buffer)
-			{
-	    		fprintf(stderr, "esh: allocation error\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
+
+char	*ft_free(void *ptr)
+{
+	free(ptr);
+	return (NULL);
 }
 
-// void    minishell_run(struct minishell *minishell)
-// {	
-// 	signal(SIGQUIT, SIG_IGN);
-// 	while(1)
-// 	{
-// 		// To do : Handle signals
-// 		signal(SIGINT, signal_ctlc);
-// 		minishell_get_input(minishell);
-// 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
-// 		{
-// 			ft_putendl_fd("exit", STDERR_FILENO);
-// 	  		break;
-// 		}
-// 		minishell_read_input(minishell);
-// 	}
-// }
+char	*append_chr(char *str, char append)
+{
+	char	*new_str;
+	int		i;
+
+	if (str == NULL)
+		return (NULL);
+	new_str = ft_malloc(ft_strlen(str) + 2);
+	if (new_str != NULL)
+	{
+		i = 0;
+		while (str[i])
+		{
+			new_str[i] = str[i];
+			i++;
+		}
+		new_str[i] = append;
+		new_str[i + 1] = '\0';
+	}
+	free(str);
+	return (new_str);
+}
+
+char	*get_input_terminal(int fd)
+{
+	char	*line;
+	char	buffer;
+	int		check;
+
+	line = ft_strdup("");
+	if (line == NULL)
+		return (NULL);
+	check = read(fd, &buffer, 1);
+	if (check == -1 || check == 0)
+		return (ft_free(line));
+	while (check > 0)
+	{
+		line = append_chr(line, buffer);
+		if (line == NULL)
+			return (NULL);
+		if (buffer == '\n')
+			return (line);
+		check = read(fd, &buffer, 1);
+	}
+	if (check == -1)
+		return (ft_free(line));
+	return (line);
+}
+
+int	termios_change(bool echo_ctl_chr)
+{
+	struct termios	terminos_p;
+	int				status;
+
+	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+	if (status == -1)
+		return (1);
+	if (echo_ctl_chr)
+		terminos_p.c_lflag |= ECHOCTL;
+	else
+		terminos_p.c_lflag &= ~(ECHOCTL);
+	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+	if (status == -1)
+		return (1);
+	return (0);
+}
 
 void    minishell_run(struct minishell *minishell)
 {
@@ -119,8 +136,16 @@ void    minishell_run(struct minishell *minishell)
 	while(1)
 	{
 		// To do : Handle signals
-		//signal(SIGINT, signal_ctlc);
+		signal(SIGINT, signal_ctlc);
+		termios_change(false);
 		minishell_get_input(minishell);
+		if (minishell->input_str == NULL)
+		{
+			if (isatty(STDERR_FILENO))
+				ft_putendl_fd("exit", STDERR_FILENO);
+			termios_change(true);
+			break ;
+		}
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
 		{
 			ft_putendl_fd("exit", STDERR_FILENO);
@@ -133,6 +158,6 @@ void    minishell_run(struct minishell *minishell)
 void    minishell_destroy(struct minishell *minishell)
 {
 	// here we are gonna terminate all the processes and free all the leaks 
-	// rl_clear_history();
+	rl_clear_history();
 	// minishell_env_destroy(minishell);
 }

@@ -107,6 +107,11 @@ void	ft_error(char *str)
 	exit(-1);
 }
 
+void	minishell_error(struct minishell *minishell, char *str)
+{
+	minishell->return_value = 1;
+}
+
 int	my_strcmp(const char *strg1, char *strg2)
 {
 	while ((*strg1 != '\0' && *strg2 != '\0') && *strg1 == *strg2)

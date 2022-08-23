@@ -51,7 +51,7 @@ void	printer_split(char **tokens)
 {
 	while(*tokens)
 	{
-		printf("The token is : %s\n", *tokens);
+		dprintf(2, "The token is : %s\n", *tokens);
 		tokens++;
 	}
 }

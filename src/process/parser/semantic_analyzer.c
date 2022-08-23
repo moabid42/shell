@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/19 04:25:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/19 12:32:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,35 @@
 #include "parser.h"
 #include "utils.h"
 
+char	*find_return_expend(struct minishell *minishell, char return_var)
+{
+	if (return_var == '?')
+		return (ft_itoa(minishell->return_value));
+	// else if (return_var == '_')
+	// 	return ()
+	return (NULL);
+}
+
 char	*minishell_find_variable(struct minishell *minishell, char *variable)
 {
-	struct s_variable *iterator;
+	struct s_variable	*iterator;
+	char				*expend_var;
+	int					i;
 
 	iterator = minishell->variables;
+	expend_var = "!?_";
+	i = 0;
 	while (iterator)
 	{
 		if (my_strcmp(iterator->var, variable + 1) == 0)
 			return (iterator->value);
 		iterator = iterator->next;
+	}
+	while(expend_var[i])
+	{
+		if (variable[1] == expend_var[i])
+			return (find_return_expend(minishell, expend_var[i]));
+		i++;
 	}
 	return (NULL);
 }
@@ -56,10 +75,12 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 }
 
 //check if the node is a child of the previous node
-bool	is_child(int prev_type, struct token_stream *tmp)
+bool	is_child(int root, struct token_stream *tmp)
 {
 	// printf("This token type is : %d of %s and the prev is : %d\n", tmp->token_type, tmp->token_name, prev_type);
-	if (tmp->token_type >= prev_type)
+	if (tmp->token_type < DOUBLE_SMALLER)
+		return (false);
+	if (tmp->token_type > root)
 		return (true);
 	return (false);
 }
@@ -140,21 +161,40 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 }
 
 //create a parent node
-void	node_create_parent(struct token_stream *tmp, struct ast **child)
+struct ast	*node_create_parent(struct token_stream *tmp)
 {
 	struct ast *node;
 
 	node = ft_malloc(sizeof(struct ast));
 	node->value.token_name = tmp->token_name;
 	node->value.token_type = tmp->token_type;
-	node->isroot = true;
-	node->left = *child;
+	node->isroot = false;
+	node->left = NULL;
 	node->right = NULL;
-	*child = node;
+	// *child = node;
+	return (node);
+}
+
+void	ast_insert_parent(struct ast *node, struct ast **root)
+{
+	struct ast *tmp;
+
+	tmp = (*root)->right;
+	if (node->value.token_type <= (*root)->value.token_type)
+	{
+		node->isroot = true;
+		node->left = *root;
+		*root = node;
+	}
+	else
+	{
+		(*root)->right = node;
+		node->left = tmp;
+	}
 }
 
 //create a child node
-struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minishell)
+struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minishell, int prev_type)
 {
 	struct ast *node;
 
@@ -177,7 +217,8 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 	if (node->value.token_type == WORD
 		|| node->value.token_type == VARIABLE)
 	{
-		if (ft_iscommand(node->value.token_name, minishell->env) == true)
+		if (ft_iscommand(node->value.token_name, minishell->env) == true
+			&& prev_type < GREATER)
 			node->value.token_type = COMMAND;
 		else if (ft_isfile(node->value.token_name) == true)
 			node->value.token_type = FILES;
@@ -238,15 +279,18 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	while (tmp)
 	{
 		if (is_child(ast->value.token_type, tmp) == true)
-			ast_insert_child(node_create_child(tmp, minishell), &ast, prev);
+			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev);
 		else
-			node_create_parent(tmp, &ast);
+			ast_insert_parent(node_create_parent(tmp), &ast);
 		prev = tmp;	
 		tmp = tmp->next;
 	}
 	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
-		ft_error("Error : AST not right root type");
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+	}
 	return (ast);
 }
 
