@@ -18,7 +18,7 @@
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
 {
 	if (execve(command_path, command_statement, minishell->env) == -1)
-			ft_error(command_statement[0]);
+		perror("esh ");
 }
 
 int	ast_child_num(struct ast *node)
@@ -92,7 +92,7 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 	{
 		close(pfd[0]);
 		dup2(pfd[1], 1);
-		minishell_process_command(ast->left, minishell);
+		minishell_ast_execute(ast->left, minishell);
 		exit(0);
 	}
 	else
@@ -118,7 +118,7 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 	{
 		close(pfd[0]);
 		dup2(pfd[1], 1);
-		minishell_process_command(ast->right, minishell);
+		minishell_ast_execute(ast->right, minishell);
 		exit(0);
 	}
 	else
@@ -232,7 +232,9 @@ void	process_redirect_append(struct ast *ast, struct minishell *minishell)
 void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell, int type)
 {
 	pid_t	pid;
+	int		status;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
 		ft_error("fork error");
@@ -246,7 +248,11 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 			process_direct(ast, minishell);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	if (status != 0)
+		minishell->return_value = 1;
+	else
+		minishell->return_value = 0;
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)

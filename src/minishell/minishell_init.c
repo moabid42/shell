@@ -22,6 +22,7 @@ void    minishell_create(struct minishell *minishell, char **env)
 	if (minishell->env == NULL)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
+	minishell->return_value = 0;
 	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
@@ -111,6 +112,24 @@ char	*get_input_terminal(int fd)
 	return (line);
 }
 
+int	termios_change(bool echo_ctl_chr)
+{
+	struct termios	terminos_p;
+	int				status;
+
+	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+	if (status == -1)
+		return (1);
+	if (echo_ctl_chr)
+		terminos_p.c_lflag |= ECHOCTL;
+	else
+		terminos_p.c_lflag &= ~(ECHOCTL);
+	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+	if (status == -1)
+		return (1);
+	return (0);
+}
+
 void    minishell_run(struct minishell *minishell)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -118,7 +137,15 @@ void    minishell_run(struct minishell *minishell)
 	{
 		// To do : Handle signals
 		signal(SIGINT, signal_ctlc);
+		termios_change(false);
 		minishell_get_input(minishell);
+		if (minishell->input_str == NULL)
+		{
+			if (isatty(STDERR_FILENO))
+				ft_putendl_fd("exit", STDERR_FILENO);
+			termios_change(true);
+			break ;
+		}
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
 		{
 			ft_putendl_fd("exit", STDERR_FILENO);

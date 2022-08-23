@@ -15,13 +15,15 @@
 
 int main(int argc, char **argv, char **env)
 {
-	struct minishell minishell;
+	struct minishell	minishell;
+	int					exit_status;
 
 	if (argc != 1)
 		ft_error(SYNTAX_ERROR);
 	minishell_create(&minishell, env);
 	minishell_run(&minishell);
+	exit_status = minishell.return_value;
 	minishell_destroy(&minishell);
-	return (0);
+	return (exit_status);
 }
 

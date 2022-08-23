@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <termios.h>
 #include "../src/utils/libft/libft.h"
 #include "utils.h"
 #include "parser.h"
@@ -40,7 +41,7 @@ struct minishell {
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
-	// bool	variable;
+	int		return_value;
 	struct	s_variable *variables;
 	enum	e_redirection redirection;
 	unsigned int scripts_num;

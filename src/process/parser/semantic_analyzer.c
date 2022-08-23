@@ -14,16 +14,35 @@
 #include "parser.h"
 #include "utils.h"
 
+char	*find_return_expend(struct minishell *minishell, char return_var)
+{
+	if (return_var == '?')
+		return (ft_itoa(minishell->return_value));
+	// else if (return_var == '_')
+	// 	return ()
+	return (NULL);
+}
+
 char	*minishell_find_variable(struct minishell *minishell, char *variable)
 {
-	struct s_variable *iterator;
+	struct s_variable	*iterator;
+	char				*expend_var;
+	int					i;
 
 	iterator = minishell->variables;
+	expend_var = "!?_";
+	i = 0;
 	while (iterator)
 	{
 		if (my_strcmp(iterator->var, variable + 1) == 0)
 			return (iterator->value);
 		iterator = iterator->next;
+	}
+	while(expend_var[i])
+	{
+		if (variable[1] == expend_var[i])
+			return (find_return_expend(minishell, expend_var[i]));
+		i++;
 	}
 	return (NULL);
 }
@@ -268,7 +287,10 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	}
 	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
-		ft_error("Error : AST not right root type");
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+	}
 	return (ast);
 }
 
