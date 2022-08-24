@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 16:08:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 16:25:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,12 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 		exit(minishell->return_value);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	if (status != 0)
+		minishell->return_value = 1;
+	else
+		minishell->return_value = 0;
+	// dprintf(2, "The return status is : %d of that\n", minishell->return_value);
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
