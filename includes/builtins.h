@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/23 21:18:33 by moabid            #+#    #+#             */
+/*   Updated: 2022/08/24 02:28:03 by moabid           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTINS_H
 #define BUILTINS_H
 
@@ -28,6 +40,7 @@ char	*get_pwd();
 int		ft_env(int argc, char **argv, char **env);
 int		ft_echo(char **arg);
 int		ft_export(char **env);
+int     ft_exit(char **argv, struct minishell *minishell);
 /*** SORTING ***/
 t_env	*change_value(t_env *node);
 t_env	*alphabetic_order(t_env *head);

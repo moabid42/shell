@@ -6,7 +6,7 @@
 #    By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 07:00:01 by moabid            #+#    #+#              #
-#    Updated: 2022/08/19 12:31:55 by moabid           ###   ########.fr        #
+#    Updated: 2022/08/24 03:00:55 by moabid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ else
 	clear
 fi
 chmod +x minishell .
+touch test
 ls > test
 
 function exec_test()
@@ -59,8 +60,8 @@ function exec_test()
 	if [ "$TEST1" != "$TEST2" ]; then
 		echo
 		echo
-		printf $BOLDRED"Your output : \n%.20s\n$BOLDRED$TEST1\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
-		printf $BOLDGREEN"Expected output : \n%.20s\n$BOLDGREEN$TEST2\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
+		printf $BOLDRED"Your output : \n%.20s\n$RESET\n"
+		printf $BOLDGREEN"Expected output : \n%.20s\n$RESET\n"
 	fi
 	if [ "$ES_1" != "$ES_2" ]; then
 		echo
@@ -69,7 +70,7 @@ function exec_test()
 		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$ES_2$RESET\n"
 	fi
 	echo
-	sleep 1
+	sleep 0.2
 }
 
 printf "$BOLDMAGENTA ___________________________________________________\n"

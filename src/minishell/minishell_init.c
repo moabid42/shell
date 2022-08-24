@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/22 12:52:58 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:09:47 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void    minishell_create(struct minishell *minishell, char **env)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
 	minishell->return_value = 0;
+	minishell->terminate = false;
 	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
@@ -42,14 +43,14 @@ void 	minishell_get_input(struct minishell *minishell)
 		add_history(minishell->input_str);
 }
 
-void	signal_ctlc(int sig)
+void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		write(STDERR_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		rl_on_new_line();//Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
+		rl_replace_line("", 0);//removes the content of the line with texts which is "" here
+		rl_redisplay(); //Change what's displayed on the screen to reflect the current contents of rl_line_buffer.
 	}
 }
 
@@ -104,30 +105,12 @@ char	*get_input_terminal(int fd)
 		if (line == NULL)
 			return (NULL);
 		if (buffer == '\n')
-			return (line);
+			return (ft_strtrim(line, "\n"));
 		check = read(fd, &buffer, 1);
 	}
 	if (check == -1)
 		return (ft_free(line));
 	return (line);
-}
-
-int	termios_change(bool echo_ctl_chr)
-{
-	struct termios	terminos_p;
-	int				status;
-
-	status = tcgetattr(STDOUT_FILENO, &terminos_p);
-	if (status == -1)
-		return (1);
-	if (echo_ctl_chr)
-		terminos_p.c_lflag |= ECHOCTL;
-	else
-		terminos_p.c_lflag &= ~(ECHOCTL);
-	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
-	if (status == -1)
-		return (1);
-	return (0);
 }
 
 void    minishell_run(struct minishell *minishell)
@@ -136,16 +119,12 @@ void    minishell_run(struct minishell *minishell)
 	while(1)
 	{
 		// To do : Handle signals
-		signal(SIGINT, signal_ctlc);
-		termios_change(false);
+		signal(SIGINT, handler);
 		minishell_get_input(minishell);
 		if (minishell->input_str == NULL)
-		{
-			if (isatty(STDERR_FILENO))
-				ft_putendl_fd("exit", STDERR_FILENO);
-			termios_change(true);
 			break ;
-		}
+		else if(minishell->input_str[0] == 0)
+			continue;
 	  	if (my_strcmp(minishell->input_str, "exit") == 0)
 		{
 			ft_putendl_fd("exit", STDERR_FILENO);

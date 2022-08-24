@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_executing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/22 14:19:35 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:08:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,28 @@
 #include "utils.h"
 #include "execute.h"
 
+bool	is_builtin(char *cmd)
+{
+	return (!my_strcmp(cmd, "exit")
+		|| !my_strcmp(cmd, "export")
+		|| !my_strcmp(cmd, "cd")
+		|| !my_strcmp(cmd, "echo")
+		|| !my_strcmp(cmd, "env")
+		|| !my_strcmp(cmd, "pwd")
+		|| !my_strcmp(cmd, "unset"));
+}
 
-bool is_builtin()
+void	builtin_run(char **cmd_list, struct minishell *minishell)
+{
+	if (!my_strcmp(cmd_list[0], "exit"))
+		ft_exit(cmd_list, minishell);
+}
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
 {
 	if(is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
-	else if (execve(command_path, command_statement, minishell->env) == -1)
+	if (execve(command_path, command_statement, minishell->env) == -1)
 			ft_error(command_statement[0]);
 }
 
@@ -98,10 +112,11 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->left, minishell);
-		exit(0);
+		exit(minishell->return_value);
 	}
 	else
 	{
+		// dprintf(2, "The status for left is : %d\n", minishell->return_value);
 		// waitpid(pid2, NULL, 0);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
@@ -115,7 +130,7 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 
 	// dprintf(2, "We are running the command in the node %s\n", ast->value.token_name);
 	if (pipe(pfd) == -1)
-			ft_error("pipe error");
+		ft_error("pipe error");
 	pid2 = fork();
 	if (pid2 == -1)
 		ft_error("fork error");
@@ -124,10 +139,11 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->right, minishell);
-		exit(0);
+		exit(minishell->return_value);
 	}
 	else
 	{
+		// dprintf(2, "The status for right is : %d\n", minishell->return_value);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
 		// waitpid(pid2, NULL, 0);
@@ -143,12 +159,7 @@ void	process_pipe_run_first(struct ast *ast,struct ast *first, struct minishell 
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else
-	{
-		if (minishell->redirection == APPEND
-			|| minishell->redirection == OVERWRITE)
-			dup2(fd_out, 1);
-		command_statement_execute_complexe(first->right, minishell);
-	}
+		minishell_ast_execute(ast->right, minishell);
 }
 
 void	process_redirect_left(struct ast *ast)
@@ -170,12 +181,7 @@ void	redirection_run(struct ast *ast,struct ast *first, struct minishell *minish
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else
-	{
-		if (minishell->redirection == APPEND
-			|| minishell->redirection == OVERWRITE)
-			dup2(fd_out, 1);
-		command_statement_execute_complexe(first->right, minishell);
-	}
+		minishell_ast_execute(ast->right, minishell);
 }
 
 bool	redirection_exist(struct ast *ast)
@@ -251,13 +257,11 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 			process_redirect_append(ast, minishell);
 		else
 			process_direct(ast, minishell);
+		
+		exit(minishell->return_value);
 	}
 	else
-		waitpid(pid, &status, 0);
-	if (status != 0)
-		minishell->return_value = 1;
-	else
-		minishell->return_value = 0;
+		waitpid(pid, NULL, 0);
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)

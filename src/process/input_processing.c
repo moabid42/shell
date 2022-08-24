@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/17 07:02:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 03:51:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void minishell_read_input(struct minishell *minishell) {
 	struct scripts *tmp_cr;
 	struct scripts *tmp_ds;
 
+	signal(SIGINT, SIG_IGN);
 	if (!minishell_scripts_parse(minishell))
 		ft_error(UNEXPECTED_TOKEN);
 	tmp_cr = minishell->scripts;

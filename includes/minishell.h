@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/20 14:52:35 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:25:47 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct minishell {
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
+	bool	terminate;
 	int		return_value;
 	struct	s_variable *variables;
 	enum	e_redirection redirection;

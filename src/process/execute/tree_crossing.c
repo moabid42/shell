@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 03:48:52 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 16:08:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 	if (!pid)
 	{
 		dup2(fd_out, 1);
-		// printf("hi\n");
 		if (execve(path, command_statement, minishell->env) == -1)
 			ft_error("Command error");
 	}
@@ -145,7 +144,7 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 		minishell->return_value = 1;
 	else
 		minishell->return_value = 0;
-	// printf("The return status is : %d\n", status);
+	// printf("The return status is : %d of %s\n", minishell->return_value, command_statement[0]);
 }
 
 int	openfile(char *file, int re_or_wr)
@@ -311,6 +310,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	char	*command_path;
 
 	jump = ast;
+	// dprintf(2, "We are in the node %s\n", ast->value.token_name);
 	if (ast->value.token_type == GREATER)
 	{
 		fd_out = openfile(ast->right->value.token_name, 1);
@@ -436,4 +436,5 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		|| ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
+	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }
