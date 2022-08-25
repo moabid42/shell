@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:31:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 16:54:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,12 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	char	*command_path;
 
 	jump = ast;
+	if (ast->value.token_type < DOUBLE_SMALLER && ast->value.token_type == WORD)
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+		return ;
+	}
 	// dprintf(2, "We are in the node %s\n", ast->value.token_name);
 	if (ast->value.token_type == GREATER)
 	{
@@ -434,7 +440,7 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	tmp = ast;
 	if (!ast)
 		return ;
-	if (!my_strcmp("exit", ast->value.token_name))
+	else if (!my_strcmp("exit", ast->value.token_name))
 		prepare_exit(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
 		minishell_save_variable(ast->value.token_name, minishell);
@@ -447,5 +453,10 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		|| ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
+	else
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+	}
 	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:42:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 18:18:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/history.h>
 
 char	*get_input_terminal(int fd);
+int		status;
 
 void    minishell_create(struct minishell *minishell, char **env)
 {
@@ -53,10 +54,12 @@ void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		// minishell->return_value = 1;
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();//Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
 		rl_replace_line("", 0);//removes the content of the line with texts which is "" here
 		rl_redisplay(); //Change what's displayed on the screen to reflect the current contents of rl_line_buffer.
+		status = 1;
 	}
 }
 
@@ -143,7 +146,9 @@ void    minishell_run(struct minishell *minishell)
 	while(1)
 	{
 		// To do : Handle signals
+		status = 0;
 		signal(SIGINT, handler);
+		minishell->return_value = status;
 		termios_change(false);
 		minishell_get_input(minishell);
 		if (minishell->input_str == NULL)

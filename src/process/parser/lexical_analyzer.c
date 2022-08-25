@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/17 07:00:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 15:17:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	print_tokens(char **scripts_line, int count)
 bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
-	int		i;
 
-	i = 0;
+
 	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
 	// print_tokens(scripts_line, words_count(minishell->input_str, ';', "\"'"));
 	// printf("The number of elem: %d\n", words_count(minishell->input_str, ';', "\"'") );
