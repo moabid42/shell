@@ -6,11 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 16:08:56 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 20:02:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtins.h"
 #include "parser.h"
 #include "utils.h"
 
@@ -65,8 +66,13 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 		tmp->value.token_type = token_stream->token_type;
 	}
 	if (tmp->value.token_type == WORD || tmp->value.token_type == VARIABLE)
+	{		
 		if (ft_iscommand(tmp->value.token_name, minishell->env) == true)
 			tmp->value.token_type = COMMAND;
+		else if (is_builtin(tmp->value.token_name) == true
+			|| !my_strcmp(tmp->value.token_name, "exit"))
+			tmp->value.token_type = BUILTIN;
+	}
 	tmp->isroot = true;
 	tmp->left = NULL;
 	tmp->right = NULL;
@@ -138,26 +144,6 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		else if (iterator->right == NULL)
 			iterator->right = node;
 	}
-	// else
-	// {
-	// 	while (iterator->left != NULL)
-	// 		iterator = iterator->left;
-	// 	iterator->left = node;
-	// }
-	// To Do : implement for any number of childs
-	// if (!iterator)
-	// 	return ;
-	// if (my_strcmp(token->token_name, iterator->value.token_name) == 0)
-	// {
-	// 	if (iterator->left == NULL)
-	// 		iterator->left = node;
-	// 	else if (iterator->right == NULL)
-	// 		iterator->right = node;
-	// }
-	// else if (iterator->value.token_type < token->token_type)
-	// 	ast_insert_child(node, &iterator->left, token);
-	// else if (iterator->value.token_type > token->token_type)
-	// 	ast_insert_child(node, &iterator->right, token);
 }
 
 //create a parent node
@@ -241,7 +227,9 @@ bool	ast_not_right_type(struct ast *ast)
 	|| ast->value.token_type == FALSE
 	|| ast->value.token_type == GREATER
 	|| ast->value.token_type == DOUBLE_GREATER
-	|| ast->value.token_type == EQUAL);
+	|| ast->value.token_type == EQUAL
+	|| is_builtin(ast->value.token_name)
+	|| !my_strcmp(ast->value.token_name, "exit"));
 }
 
 void padding ( char ch, int n )
@@ -289,7 +277,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
 	}
 	return (ast);
 }

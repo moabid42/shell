@@ -6,13 +6,14 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 16:08:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:31:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include "utils.h"
+#include "builtins.h"
 
 // int	ast_child_num(struct ast *node)
 // {
@@ -418,6 +419,14 @@ void	printer_variable(struct s_variable *variable)
 	}
 }
 
+void	prepare_exit(struct ast *ast, struct minishell *minishell)
+{
+	char		**argv;
+
+	argv = command_statement_create(ast);
+	ft_exit(argv, minishell);
+}
+
 void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
@@ -425,7 +434,9 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	tmp = ast;
 	if (!ast)
 		return ;
-	if (ast->value.token_type == EQUAL)
+	if (!my_strcmp("exit", ast->value.token_name))
+		prepare_exit(ast, minishell);
+	else if (ast->value.token_type == EQUAL)
 		minishell_save_variable(ast->value.token_name, minishell);
 	else if (ast_is_simple(ast) == true)
 		minishell_process_command(ast, minishell);

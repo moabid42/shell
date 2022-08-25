@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 16:25:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:41:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "parser.h"
 #include "utils.h"
 #include "execute.h"
+#include "builtins.h"
 
 bool	is_builtin(char *cmd)
 {
-	return (!my_strcmp(cmd, "exit")
-		|| !my_strcmp(cmd, "export")
+	return (!my_strcmp(cmd, "export")
 		|| !my_strcmp(cmd, "cd")
 		|| !my_strcmp(cmd, "echo")
 		|| !my_strcmp(cmd, "env")
@@ -28,8 +28,9 @@ bool	is_builtin(char *cmd)
 
 void	builtin_run(char **cmd_list, struct minishell *minishell)
 {
-	if (!my_strcmp(cmd_list[0], "exit"))
-		ft_exit(cmd_list, minishell);
+	// if (!my_strcmp(cmd_list[0], "exit"))
+	// 	ft_exit(cmd_list, minishell);
+		
 }
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
@@ -272,6 +273,7 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
 {
 	// printf("The type is %d\n", ast->value.token_type);
+	minishell->type = COMPLEXE;
 	if (ast->value.token_type == PIPE)
 		minishell_process_command_pipe(ast, minishell, DIRECT);
 	else if (ast->value.token_type == GREATER)

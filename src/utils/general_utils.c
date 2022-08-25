@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/09 20:12:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:45:26 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	ft_isword(char *str)
 void	ft_error(char *str)
 {
 	write(2, str, ft_strlen(str));
-	exit(-1);
+	exit(1);
 }
 
 void	minishell_error(struct minishell *minishell, char *str)

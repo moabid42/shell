@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/23 21:25:47 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:41:26 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,30 @@
 #include "utils.h"
 #include "parser.h"
 #include "execute.h"
+#include "builtins.h"
 #include "../src/utils/libft/get_next_line.h"
 
 struct ast;
 struct scripts;
 enum e_redirection;
 
+enum e_type {
+    SIMPLE,
+    COMPLEXE
+};
+
 struct s_variable {
 	char *var;
 	char *value;
 	struct s_variable *next;
-};	
-
-typedef struct	s_env
-{
-	char *name;
-	char *content;
-	struct s_env	*next;
-}				t_env;
+};
 
 struct minishell {
 	char	**env;
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
-	bool	terminate;
+	enum    e_type type;
 	int		return_value;
 	struct	s_variable *variables;
 	enum	e_redirection redirection;

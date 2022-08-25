@@ -6,11 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 16:09:47 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:42:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtins.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -23,7 +24,6 @@ void    minishell_create(struct minishell *minishell, char **env)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
 	minishell->return_value = 0;
-	minishell->terminate = false;
 	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
@@ -34,9 +34,15 @@ void 	minishell_get_input(struct minishell *minishell)
 {
 	//Signal to be implemented
 	if (isatty(STDIN_FILENO))
+	{
 		minishell->input_str = readline("\033[31mesh$\033[0m ");
+		minishell->type = SIMPLE;
+	}
 	else
+	{
 		minishell->input_str = get_input_terminal(STDIN_FILENO);
+		minishell->type = COMPLEXE;
+	}
 	if (!minishell->input_str)
 		return ;
 	if (isatty(STDIN_FILENO))
@@ -113,6 +119,24 @@ char	*get_input_terminal(int fd)
 	return (line);
 }
 
+int	termios_change(bool echo_ctl_chr)
+{
+	struct termios	terminos_p;
+	int				status;
+
+	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+	if (status == -1)
+		return (1);
+	if (echo_ctl_chr)
+		terminos_p.c_lflag |= ECHOCTL;
+	else
+		terminos_p.c_lflag &= ~(ECHOCTL);
+	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+	if (status == -1)
+		return (1);
+	return (0);
+}
+
 void    minishell_run(struct minishell *minishell)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -120,16 +144,22 @@ void    minishell_run(struct minishell *minishell)
 	{
 		// To do : Handle signals
 		signal(SIGINT, handler);
+		termios_change(false);
 		minishell_get_input(minishell);
 		if (minishell->input_str == NULL)
+		{
+			// if (isatty(STDERR_FILENO))
+			// 	ft_putendl_fd("exit", STDERR_FILENO);
+			termios_change(true);
 			break ;
+		}
 		else if(minishell->input_str[0] == 0)
 			continue;
-	  	if (my_strcmp(minishell->input_str, "exit") == 0)
-		{
-			ft_putendl_fd("exit", STDERR_FILENO);
-	  		exit(EXIT_SUCCESS);
-		}
+	  	// if (my_strcmp(minishell->input_str, "exit") == 0)
+		// {
+		// 	ft_putendl_fd("exit", STDERR_FILENO);
+	  	// 	exit(EXIT_SUCCESS);
+		// }
 		minishell_read_input(minishell);
 	}
 }
