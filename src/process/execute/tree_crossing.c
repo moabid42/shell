@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 16:54:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 19:10:16 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,8 +342,12 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		less_statement_execute(command_statement, ast->left, minishell, fd_out);
 	else if (ast->value.token_type == LESS)
 		less_statement_execute(command_statement, ast, minishell, fd_out);
-	else
-		ft_error("Something is wrong with the execution\n");
+	else if (ast->value.token_type == GREATER
+		|| ast->value.token_type == DOUBLE_GREATER)
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+	}
 	command_statement_destroy(command_statement);
 }
 
