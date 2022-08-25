@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/20 14:53:48 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/25 20:53:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,12 @@ static void print_out_str (char *str)
 	ft_putstr_fd(str, 1);
 }
 
-int	ft_echo(char **arg)
+int	ft_echo (char **arg,struct minishell *minishell)
 {
 	int		i;
 	bool	no_nl;
 
+	char **arg = minishell->
 	i = 1;
 	no_nl = set_no_nl(arg[1]);
 	while (arg[i] && (my_strcmp(arg[i], "-n") || check_multiple_n(arg[i])))

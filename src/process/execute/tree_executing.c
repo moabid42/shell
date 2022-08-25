@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:41:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 21:00:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,20 @@ bool	is_builtin(char *cmd)
 
 void	builtin_run(char **cmd_list, struct minishell *minishell)
 {
-	// if (!my_strcmp(cmd_list[0], "exit"))
-	// 	ft_exit(cmd_list, minishell);
-		
+	if (!my_strcmp(cmd_list[0], "exit"))
+	 	ft_exit(cmd_list, minishell);
+	if(my_strcmp(cmd_list[0], "echo"))
+		ft_echo(cmd_list, minishell);
+	// if(my_strcmp(cmd, "export"))
+	// 	ft_export(minishell);
+	// if(my_strcmp(cmd, "cd"))
+	// 	ft_cd(minishell);
+	// if(my_strcmp(cmd, "pwd"))
+	// 	ft_pwd(minishell);
+	// if(my_strcmp(cmd, "env"))
+	// 	ft_env(minishell);
+	// if(my_strcmp(cmd, "unset"))
+	// 	ft_unset(minishell);
 }
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
