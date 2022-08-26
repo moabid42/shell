@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 18:31:52 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/22 12:18:01 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/26 17:38:47 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@
 // 		return (true);
 // 	return (false);
 // }
+
+void ft_putstr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
 
 void newline()
 {

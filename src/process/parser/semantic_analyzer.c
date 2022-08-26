@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 19:10:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:10:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,21 @@ struct ast *find_prev(struct ast *node, char *token_name)
 	return (NULL);
 }
 
+struct ast *find_end_right(struct ast *node)
+{
+	if (!node->right)
+		return(node);
+	node = node->right;
+	while(node->left)
+		node = node->left;
+	return (node);
+}
+
 void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev)
 {
 	struct ast *iterator;
 
+	// printf("We are gonna add the chid [%s][%d]\n", node->value.token_name, node->value.token_type);
 	iterator = *ast;
 	if (iterator->left == NULL)
 		iterator->left = node;
@@ -137,7 +148,10 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		iterator->right = node;
 	else
 	{
-		iterator = find_prev(iterator, prev->token_name);
+		if (!ft_strncmp(prev->token_name, "-n", 2))
+			iterator = find_end_right(iterator);
+		else
+			iterator = find_prev(iterator, prev->token_name);
 		// printf("We foudn the prev token %s\n", iterator->value.token_name);
 		if (iterator->left == NULL)
 			iterator->left = node;
@@ -276,6 +290,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			ast_insert_parent(node_create_parent(tmp), &ast);
 		prev = tmp;	
 		tmp = tmp->next;
+		// structure(ast, 0);
 	}
 	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)

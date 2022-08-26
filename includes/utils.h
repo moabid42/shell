@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/18 03:28:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:06:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parser.h"
 #include "execute.h"
 #include "../src/utils/libft/libft.h"
+#include "../src/utils/libft/reader.h"
 
 #define SYNTAX_ERROR 	"[-] syntax error: format ./minishell"
 #define MINI_INIT_ERROR "[-] error: Envirement variable error"

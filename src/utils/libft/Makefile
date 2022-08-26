@@ -53,7 +53,11 @@ FILES 	= 	ft_isalpha \
 			ft_lstiter \
 			ft_lstmap \
 			get_next_line \
-			get_next_line_utils
+			get_next_line_utils \
+			reader.c \
+			reader_utils.c \
+			word_count.c\
+			word_count_utils.c
 
 all: $(NAME)
 
