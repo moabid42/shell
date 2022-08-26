@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 21:19:44 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/22 12:17:22 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/26 17:01:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ bool string_value_cmp(char *str1, char *str2)
 	return (true);
 }
 
-// bool my_strcmp(char *str1, char *str2)
-// {
-// 	int i;
+bool bool_strcmp(char *str1, char *str2)
+{
+	int i;
 
-// 	i = 0;
-// 	while((str1[i] && str2[i]) && (str1[i] == str2[i]))
-// 		i++;
-// 	if(str1[i]!=str2[i])
-// 		return (false);
-// 	return (true);
-// }
+	i = 0;
+	while((str1[i] && str2[i]) && (str1[i] == str2[i]))
+		i++;
+	if(str1[i]!=str2[i])
+		return (false);
+	return (true);
+}
 
 
 bool check_string(char c, char *str)

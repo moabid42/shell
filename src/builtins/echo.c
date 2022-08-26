@@ -6,46 +6,46 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 15:53:52 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:05:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static bool check_dollar_sign(char* str)
-{
-	int i;
+// static bool check_dollar_sign(char* str)
+// {
+// 	int i;
 
-	i = 0;
-	while(str[i])
-	{
-		if(str[i] == '$')
-			return true;
-		i++;
-	}
-	return (false);
-}
+// 	i = 0;
+// 	while(str[i])
+// 	{
+// 		if(str[i] == '$')
+// 			return true;
+// 		i++;
+// 	}
+// 	return (false);
+// }
 
-static char *string_dollar_sign(char *str)
-{
-	int		i;
-	char	*new_string;
+// static char *string_dollar_sign(char *str)
+// {
+// 	int		i;
+// 	char	*new_string;
 
-	i = 0;
-	while (str[i] != '$')
-		i++;
-	new_string = malloc(i + 1);
-		if (!new_string)
-			return (NULL);
-	i = 0;
-	while (str[i] != '$')
-	{
-		new_string[i] = str[i];
-		i++;
-	}
-	new_string[i] = '\0';
-	return (new_string);
-}
+// 	i = 0;
+// 	while (str[i] != '$')
+// 		i++;
+// 	new_string = malloc(i + 1);
+// 		if (!new_string)
+// 			return (NULL);
+// 	i = 0;
+// 	while (str[i] != '$')
+// 	{
+// 		new_string[i] = str[i];
+// 		i++;
+// 	}
+// 	new_string[i] = '\0';
+// 	return (new_string);
+// }
 
 static bool check_multiple_n(char *string)
 {
@@ -64,15 +64,15 @@ static bool check_multiple_n(char *string)
 
 static bool set_no_nl (char *str)
 {
-	if (my_strcmp(str, "-n"))
+	if (bool_strcmp(str, "-n"))
 		return (true);
 	return (false);
 }
 
 static void print_out_str (char *str)
 {
-	if (check_dollar_sign(str))
-		str = string_dollar_sign(str);
+	// if (check_dollar_sign(str))
+	// 	str = string_dollar_sign(str);
 	ft_putstr_fd(str, 1);
 }
 
@@ -83,8 +83,14 @@ int	ft_echo (char **arg, struct minishell *minishell)
 	bool	no_nl;
 
 	i = 1;
+	
+	if(!arg[1])
+	{
+		write(1, "\n", 1);
+		exit(0);
+	}
 	no_nl = set_no_nl(arg[1]);
-	while (arg[i] && (my_strcmp(arg[i], "-n") || check_multiple_n(arg[i])))
+	while (arg[i] && (bool_strcmp(arg[i], "-n") || check_multiple_n(arg[i])))
 		i++;
 	while(arg[i])
 	{
@@ -95,7 +101,7 @@ int	ft_echo (char **arg, struct minishell *minishell)
 	}
 	if (!no_nl)
 		newline();
-	return (0);
+	exit(0);
 }
 
 // int main (int argc, char **argv)

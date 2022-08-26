@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:18:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 14:31:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:00:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_putstr(char *str);
 bool	string_value_cmp(char *str1, char *str2);
 bool	check_string(char c, char *str);
 int		find_chr(char *str, char c);
-//bool	my_strcmp(char *str1, char *str2);
+bool	bool_strcmp(char *str1, char *str2);
 /*** LIST_UTILS ***/
 t_env	*new_node();
 t_env	*create_node(t_env *env, char *name, char *content);
