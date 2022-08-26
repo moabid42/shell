@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 21:00:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 15:48:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 {
 	if (!my_strcmp(cmd_list[0], "exit"))
 	 	ft_exit(cmd_list, minishell);
-	if(my_strcmp(cmd_list[0], "echo"))
+	else if(!my_strcmp(cmd_list[0], "echo"))
 		ft_echo(cmd_list, minishell);
-	// if(my_strcmp(cmd, "export"))
-	// 	ft_export(minishell);
+	else if(!my_strcmp(cmd_list[0], "export"))
+		ft_export(1, cmd_list, minishell);
 	// if(my_strcmp(cmd, "cd"))
 	// 	ft_cd(minishell);
 	// if(my_strcmp(cmd, "pwd"))
@@ -46,6 +46,7 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
 {
+	dprintf(2, "cmd_list %s",command_statement[0] );
 	if(is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
 	if (execve(command_path, command_statement, minishell->env) == -1)

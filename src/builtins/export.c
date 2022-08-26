@@ -18,35 +18,35 @@ static void print_the_enviroment(t_env *list)
 }
 /*  PAY ATTENTION IT ILL TELL YOU ONLY IF STR1 COME FIRST THEN str2 so if STR1 < STR2*/
 
-static bool	check_the_arg(char *str)
-{
-	int	i;
+// static bool	check_the_arg(char *str)
+// {
+// 	int	i;
 	
-	i = 0;
-	if(str[0] == '_')
-	{
-		if(ft_isdigit(str[1]))
-			return (false);
-		i++;
-	}
-	else
-	{
-		if(ft_isdigit(str[0]))
-			return (false);
-	}
-	/*ASK MOUAD*/
-	// if(str[0] == '$') 
-	// {
-	// 	if(check_the_arg(&variablestoredin(&str[1])))
-	// 		return (true);
-	// }
-	while(str[i])
-	{
-		if(check_string(str[i],"~#$&*(){}\\|[];'<>\"/?!"))
-			return(false);
-	}
-	return (true);
-}
+// 	i = 0;
+// 	if(str[0] == '_')
+// 	{
+// 		if(ft_isdigit(str[1]))
+// 			return (false);
+// 		i++;
+// 	}
+// 	else
+// 	{
+// 		if(ft_isdigit(str[0]))
+// 			return (false);
+// 	}
+// 	/*ASK MOUAD*/
+// 	// if(str[0] == '$') 
+// 	// {
+// 	// 	if(check_the_arg(&variablestoredin(&str[1])))
+// 	// 		return (true);
+// 	// }
+// 	while(str[i])
+// 	{
+// 		if(check_string(str[i],"~#$&*(){}\\|[];'<>\"/?!"))
+// 			return(false);
+// 	}
+// 	return (true);
+// }
 
 
 t_env *export_the_argv(char **argv, t_env *enviroment)
@@ -70,30 +70,30 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 	return (enviroment);
 }
 
-// int main (int argc, char **argv, char **env)
-// {
-// 	t_env	*enviroment;
-// 	t_env	*head;
+int ft_export (int argc, char **argv, struct minishell *minishell)
+{
+	t_env	*enviroment;
+	t_env	*head;
 	
-// 	enviroment = create_the_env(env);
-// 	enviroment = alphabetic_order(enviroment);
-// 	head = enviroment;
-// 	if(argc == 1)
-// 	{
-// 		print_the_enviroment(enviroment);
-// 		return (0);
-// 	}
-// 	if(argc > 1)
-// 	{
-// 		head = export_the_argv(argv, enviroment);
-// 		if(!head)
-// 			return (0);
-// 	}
-// 	enviroment = alphabetic_order(head);
-// 	//print_the_enviroment(enviroment);
-// 	return (0);
-// 	//check_the_input(argc,argv);
-// }
+	enviroment = create_the_env(minishell->env);
+	enviroment = alphabetic_order(enviroment);
+	head = enviroment;
+	if(argc == 1)
+	{
+		print_the_enviroment(enviroment);
+		return (0);
+	}
+	if(argc > 1)
+	{
+		head = export_the_argv(argv, enviroment);
+		if(!head)
+			return (0);
+	}
+	enviroment = alphabetic_order(head);
+	//print_the_enviroment(enviroment);
+	return (0);
+	//check_the_input(argc,argv);
+}
 
 /************** TO DO LIST *****************/
 
