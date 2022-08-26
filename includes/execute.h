@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 01:16:47 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 15:46:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	minishell_process_rediraction_open(struct ast *ast, struct minishell *minis
 void	command_statement_execute_complexe(struct ast *ast, struct minishell *minishell);
 
 bool	is_builtin(char *cmd);
+void	builtin_run(char **cmd_list, struct minishell *minishell);
 
 #endif
