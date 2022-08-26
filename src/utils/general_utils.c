@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:45:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:55:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ bool	ft_isword(char *str)
 	int i;
 
 	i = 0;
+	if(str[0] == '-')
+		i++;
 	while (str[i] != '\0')
 	{
 		if (!ft_isalnum(str[i]))

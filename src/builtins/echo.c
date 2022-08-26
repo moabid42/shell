@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 17:05:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 18:05:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void print_out_str (char *str)
 {
 	// if (check_dollar_sign(str))
 	// 	str = string_dollar_sign(str);
-	ft_putstr_fd(str, 1);
+	ft_putstr(str);
 }
 
 
@@ -83,7 +83,6 @@ int	ft_echo (char **arg, struct minishell *minishell)
 	bool	no_nl;
 
 	i = 1;
-	
 	if(!arg[1])
 	{
 		write(1, "\n", 1);

@@ -6,7 +6,7 @@
 #    By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 07:00:01 by moabid            #+#    #+#              #
-#    Updated: 2022/08/25 02:04:54 by moabid           ###   ########.fr        #
+#    Updated: 2022/08/26 18:27:33 by moabid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,8 +84,11 @@ printf "$BOLDBLUE ECHO $BOLDWHITE TESTS $RESET\n"
 exec_test 'echo test tout'
 exec_test 'echo test      tout'
 exec_test 'echo -n test tout'
-# exec_test 'echo -n -n -n test tout'
-
+exec_test 'echo -n -n -n test tout'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n hi'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -n hi'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -nnnnnnn hi'
+exec_test 'echo -n -n -naaaaaa -n -n hi -n -n -n'
 
 # # CD TESTS
 # exec_test 'cd .. ; pwd'
