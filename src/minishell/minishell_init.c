@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 18:59:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 19:15:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*get_input_terminal(int fd)
 	return (line);
 }
 
-int	termios_change(bool echo_ctl_chr)
+int	termios_echoback(bool echo_ctl_chr)
 {
 	struct termios	terminos_p;
 	int				status;
@@ -145,16 +145,14 @@ void    minishell_run(struct minishell *minishell)
 	{
 		// To do : Handle signals
 		signal(SIGINT, handler);
-		termios_change(false);
+		termios_echoback(false);
 		minishell_get_input(minishell);
 		if (minishell->input_str == NULL)
 		{
-			// if (isatty(STDERR_FILENO))
-			// 	ft_putendl_fd("exit", STDERR_FILENO);
-			termios_change(true);
+			termios_echoback(true);
 			break ;
 		}
-		else if(minishell->input_str[0] == 0)
+		if(minishell->input_str[0] == 0)
 			continue;
 		minishell_read_input(minishell);
 	}

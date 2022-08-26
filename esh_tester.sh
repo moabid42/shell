@@ -6,7 +6,7 @@
 #    By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 07:00:01 by moabid            #+#    #+#              #
-#    Updated: 2022/08/25 16:59:38 by moabid           ###   ########.fr        #
+#    Updated: 2022/08/25 23:25:44 by moabid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,8 @@ exec_test "echo hi | echoo hi"
 exec_test "echo hi | echoo hi | echo hi"
 exec_test '< test grep hi > test2 | wccc -l > test3 | wc -l > test4'
 exec_test '< test grep hi > test2 | wc -l > test3 | wccccc -l > test4'
-
+exec_test '< fuck grep file'
+exec_test '< fuck grep file | wc -l'
 # # ENV EXPANSIONS + ESCAPE
 # exec_test 'echo test     \    test'
 # exec_test 'echo \"test'

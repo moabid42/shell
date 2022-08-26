@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 19:10:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 23:24:29 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,10 @@ int	openfile(char *file, int re_or_wr)
 	{
 		ret = open(file, O_RDONLY, 0777);
 		if (access(file, F_OK | R_OK) != 0)
-			ft_error("File not found");
+		{
+			dprintf(2, "esh: no such file or directory: %s\n", file);
+			return (-1);
+		}
 	}
 	if (re_or_wr == 1)
 		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -186,6 +189,11 @@ void	less_statement_execute(char **command_statement, struct ast *ast, struct mi
 	int		fd_in;
 
 	fd_in = openfile(command_statement[1], 0);
+	if (fd_in == -1)
+	{
+		minishell->return_value = 1;
+		return ;
+	}
 	if (ast->right == NULL)
 		;
 	else
