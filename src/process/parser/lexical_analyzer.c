@@ -37,19 +37,11 @@ void	print_tokens(char **scripts_line, int count)
 bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
-	// t_args args;
-	
-	// args.split_char = " ";
-	// args.single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
-	// args.ignore = (char *)"\\";
-	// args.ign_char_inside = (char *)"\"'";
-	//init_reader_struct(&args);
-	// scripts_line = ft_reader(minishell->input_str, &args);
+
 	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
 	// print_tokens(scripts_line, words_count(minishell->input_str, ';', "\"'"));
 	// printf("The number of elem: %d\n", words_count(minishell->input_str, ';', "\"'") );
 	minishell->scripts_num = words_count(minishell->input_str,';', "\"'");
-	// }
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
