@@ -158,7 +158,10 @@ int	openfile(char *file, int re_or_wr)
 	{
 		ret = open(file, O_RDONLY, 0777);
 		if (access(file, F_OK | R_OK) != 0)
-			ft_error("File not found");
+		{
+			dprintf(2, "esh: no such file or directory: %s\n", file);
+			return (-1);
+		}
 	}
 	if (re_or_wr == 1)
 		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -188,6 +191,11 @@ void	less_statement_execute(char **command_statement, struct ast *ast, struct mi
 	int		fd_in;
 
 	fd_in = openfile(command_statement[1], 0);
+	if (fd_in == -1)
+	{
+		minishell->return_value = 1;
+		return ;
+	}
 	if (ast->right == NULL)
 		;
 	else
@@ -313,6 +321,12 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	char	*command_path;
 
 	jump = ast;
+	if (ast->value.token_type < DOUBLE_SMALLER && ast->value.token_type == WORD)
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+		return ;
+	}
 	// dprintf(2, "We are in the node %s\n", ast->value.token_name);
 	if (ast->value.token_type == GREATER)
 	{
@@ -338,8 +352,12 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		less_statement_execute(command_statement, ast->left, minishell, fd_out);
 	else if (ast->value.token_type == LESS)
 		less_statement_execute(command_statement, ast, minishell, fd_out);
-	else
-		ft_error("Something is wrong with the execution\n");
+	else if (ast->value.token_type == GREATER
+		|| ast->value.token_type == DOUBLE_GREATER)
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+	}
 	command_statement_destroy(command_statement);
 }
 
@@ -436,7 +454,7 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	tmp = ast;
 	if (!ast)
 		return ;
-	if (!my_strcmp("exit", ast->value.token_name))
+	else if (!my_strcmp("exit", ast->value.token_name))
 		prepare_exit(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
 		minishell_save_variable(ast->value.token_name, minishell);
@@ -449,5 +467,10 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		|| ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 		minishell_process_pipeline(tmp, minishell);
+	else
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+	}
 	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }

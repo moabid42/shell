@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 20:02:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 19:10:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,10 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 {
 	struct ast *node;
 
+	if (prev_type < DOUBLE_GREATER && tmp->token_type == WORD)
+	{
+		
+	}	
 	node = ft_malloc(sizeof(struct ast));
 	if (node_contain_special(tmp->token_name, '\"') == true)
 		node->value.token_name = ft_special_trim(tmp->token_name, '\"', ft_strlen(tmp->token_name) - 1);
@@ -277,7 +281,8 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+		dprintf(2, "esh: %s: command not found\n", token_stream->token_name);
+		return (NULL);
 	}
 	return (ast);
 }
