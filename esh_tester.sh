@@ -89,6 +89,7 @@ exec_test 'echo -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n hi'
 exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -n hi'
 exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -nnnnnnn hi'
 exec_test 'echo -n -n -naaaaaa -n -n hi -n -n -n'
+exec_test 'echo \ hi'
 
 # # CD TESTS
 # exec_test 'cd .. ; pwd'
@@ -146,7 +147,21 @@ exec_test "exit -9223372036854775810"
 exec_test "exit -4"
 exec_test "exit wrong"
 exec_test "exit wrong_command"
+exec_test "ls | exit"
+exec_test "exit | ls"
+exec_test "ls | exit | ls"
+exec_test "ls | exit | grep file"
 
+
+# ERROR 
+printf "$BOLDBLUE ERROR $BOLDWHITE TESTS $RESET\n"
+exec_test "echoo hi"
+exec_test "echo hi | echoo hi"
+exec_test "echo hi | echoo hi | echo hi"
+exec_test '< test grep hi > test2 | wccc -l > test3 | wc -l > test4'
+exec_test '< test grep hi > test2 | wc -l > test3 | wccccc -l > test4'
+exec_test '< fuck grep file'
+exec_test '< fuck grep file | wc -l'
 # # ENV EXPANSIONS + ESCAPE
 # exec_test 'echo test     \    test'
 # exec_test 'echo \"test'
