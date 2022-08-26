@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:23:20 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 18:39:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 21:51:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
-#include "libft.h"
 
 typedef struct s_args
 {
@@ -31,10 +30,10 @@ typedef struct s_args
 int		found_split_char(int i, bool *word);
 int		found_word(bool *word, int i, int *word_count);
 int		found_char_to_ignore(int *word_count, int i, char *string, bool *word);
-int		word_count(char *string, t_args *args);
+int		reader_word_count(char *string, t_args *args);
 int		jump_char_inside(char *string, char *special,
 			int *word_count, bool *word);
-int		single_word_strchr( char **single_word, char *string);
+int		single_word_strchr(char **single_word, char *string);
 char	*create_the_word(char *string, int n);
 int		check_for_word(char *string, t_args *args);
 

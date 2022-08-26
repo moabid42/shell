@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:41:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 21:55:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <termios.h>
-#include "../src/utils/libft/libft.h"
 #include <errno.h>
 #include <sys/types.h>
 #include <dirent.h>
@@ -27,7 +26,9 @@
 #include "parser.h"
 #include "execute.h"
 #include "builtins.h"
+#include "../src/utils/libft/libft.h"
 #include "../src/utils/libft/get_next_line.h"
+#include "../src/utils/libft/reader.h"
 
 struct ast;
 struct scripts;

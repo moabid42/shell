@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   word_count.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:24:11 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/25 17:24:15 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/26 22:09:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reader.h"
+#include "libft.h"
 
 int	found_split_char(int i, bool *word)
 {
@@ -42,7 +43,7 @@ int	found_word(bool *word, int i, int *word_count)
 	return (++i);
 }
 
-int	word_count(char *string, t_args *args)
+int	reader_word_count(char *string, t_args *args)
 {
 	int		i;
 	int		n;

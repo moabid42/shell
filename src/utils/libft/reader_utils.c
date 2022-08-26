@@ -6,11 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:22:52 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 18:39:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:08:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reader.h"
+#include "libft.h"
 
 // char	*ft_strchr(const char *s, int c)
 // {

@@ -6,13 +6,21 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 15:17:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:07:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include "utils.h"
+
+// static void init_reader_struct(t_args *args)
+// {
+// 	// args->split_char = " ";
+// 	// args->single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
+// 	// args->ignore = (char *)"\\";
+// 	// args->ign_char_inside = (char *)"\"'";
+// }
 
 void	print_tokens(char **scripts_line, int count)
 {
@@ -29,12 +37,18 @@ void	print_tokens(char **scripts_line, int count)
 bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
-
-
+	// t_args args;
+	
+	// args.split_char = " ";
+	// args.single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
+	// args.ignore = (char *)"\\";
+	// args.ign_char_inside = (char *)"\"'";
+	//init_reader_struct(&args);
+	// scripts_line = ft_reader(minishell->input_str, &args);
 	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
 	// print_tokens(scripts_line, words_count(minishell->input_str, ';', "\"'"));
 	// printf("The number of elem: %d\n", words_count(minishell->input_str, ';', "\"'") );
-	minishell->scripts_num = words_count(minishell->input_str, ';', "\"'");
+	minishell->scripts_num = words_count(minishell->input_str,';', "\"'");
 	// }
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
@@ -59,9 +73,17 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 {
 	char **tokens;
 	struct token_stream *token_stream;
-
-	tokens = ft_new_split(script->input_line, ' ', "\"'");
-	script->tokens_num = words_count(script->input_line, ' ', "\"'");
+	t_args args;
+	
+	args.split_char = " ";
+	args.single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
+	args.ignore = (char *)"\\";
+	args.ign_char_inside = (char *)"\"'";
+	//init_reader_struct(&args);
+	tokens = ft_reader(script->input_line, &args);
+	//tokens = ft_new_split(script->input_line, ' ', "\"'");
+	script->tokens_num = reader_word_count(script->input_line, &args);
+	//script->tokens_num = words_count(script->input_line, ' ', "\"'");
 	// printf("The number of tokens: %d\n", words_count(script->input_line, ';', "\"'") );
 	// printer_split(tokens);
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);

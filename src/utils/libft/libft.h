@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 20:06:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 00:45:03 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 21:58:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "get_next_line.h"
+# include "reader.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5000
@@ -81,5 +82,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 					void (*del)(void *));
+
+char				**ft_reader(char *string, t_args *args);
 
 #endif

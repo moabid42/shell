@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 16:11:34 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 18:38:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/26 21:50:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ char	**ft_reader(char *string, t_args *args)
 {
 	char	**split_string;
 
-	split_string = create_the_string(word_count(string, args));
+	split_string = create_the_string(reader_word_count(string, args));
 	if (split_string == NULL)
 		return (NULL);
 	split_string = fill_the_string(split_string,
-			string, args, word_count(string, args));
+			string, args, reader_word_count(string, args));
 	return (split_string);
 }
