@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:42:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/25 19:15:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		// minishell->return_value = 1;
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();//Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
 		rl_replace_line("", 0);//removes the content of the line with texts which is "" here
@@ -119,7 +120,7 @@ char	*get_input_terminal(int fd)
 	return (line);
 }
 
-int	termios_change(bool echo_ctl_chr)
+int	termios_echoback(bool echo_ctl_chr)
 {
 	struct termios	terminos_p;
 	int				status;
@@ -144,22 +145,15 @@ void    minishell_run(struct minishell *minishell)
 	{
 		// To do : Handle signals
 		signal(SIGINT, handler);
-		termios_change(false);
+		termios_echoback(false);
 		minishell_get_input(minishell);
 		if (minishell->input_str == NULL)
 		{
-			// if (isatty(STDERR_FILENO))
-			// 	ft_putendl_fd("exit", STDERR_FILENO);
-			termios_change(true);
+			termios_echoback(true);
 			break ;
 		}
-		else if(minishell->input_str[0] == 0)
+		if(minishell->input_str[0] == 0)
 			continue;
-	  	// if (my_strcmp(minishell->input_str, "exit") == 0)
-		// {
-		// 	ft_putendl_fd("exit", STDERR_FILENO);
-	  	// 	exit(EXIT_SUCCESS);
-		// }
 		minishell_read_input(minishell);
 	}
 }
