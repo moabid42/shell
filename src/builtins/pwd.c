@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 17:47:09 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/20 12:14:15 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/27 21:52:52 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,32 @@
 
 char *get_pwd()
 {
-	char	buf[256];
+	char	*buf;
 	char	*pwd;
 
-	pwd = getcwd(buf, sizeof(buf));
+	buf = malloc(sizeof(char) * 256);
+	pwd = getcwd(buf, 256);
 	if(pwd == NULL)
 		return (NULL);
 	return (pwd);
 }
 
-int ft_pwd ()
+int	ft_pwd (struct minishell *minishell)
 {
-	char	buf[256];
 	char	*pwd;
+	int i;
 
-	pwd = getcwd(buf, sizeof(buf));
+	write(1, "DOOM\n", 5);
+	pwd = get_pwd ();
 	if(pwd == NULL)
 		return (0);
-	while(pwd++)
-		write(1,pwd,1);
+	i = 0;
+	while(pwd[i])
+	{
+		write(1, &pwd[i], 1);
+		i++;
+	}
+	newline();
+	free(pwd);
 	return (0);
 }

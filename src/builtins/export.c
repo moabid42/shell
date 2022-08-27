@@ -75,7 +75,8 @@ int ft_export (int argc, char **argv, struct minishell *minishell)
 	t_env	*enviroment;
 	t_env	*head;
 	
-	enviroment = create_the_env(minishell->env);
+	//enviroment = create_the_env(minishell->env);
+	enviroment = minishell->env;
 	enviroment = alphabetic_order(enviroment);
 	head = enviroment;
 	if(argc == 1)

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/24 22:41:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 23:40:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,16 @@ struct s_variable {
 	struct s_variable *next;
 };
 
+typedef struct  s_env {
+    char *name;
+    char *content;
+    struct s_env *next;
+}                t_env;
+
+
 struct minishell {
-	char	**env;
+	//char	**env;
+	t_env	*env;
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
@@ -61,7 +69,18 @@ void    minishell_create(struct minishell *minishell, char **env);
 void	minishell_get_input(struct minishell *minishell);
 void    minishell_destroy(struct minishell *minishell);
 void    minishell_run(struct minishell *minishell);
-char	**minishell_env_init(char **env);
+//char	**minishell_env_init(char **env);
 char	**ft_split_strings(char *str);
+
+//
+t_env	*minishell_env_init(char **env);
+t_env	*new_node();
+t_env	*create_node(t_env *env, char *name, char *content);
+t_env	*fill_new_node(char *str, t_env *node);
+t_env	*append_new_node(t_env *enviroment, t_env *node);
+t_env	*create_the_env(char **env);
+t_env	*change_value(t_env *node);
+t_env	*alphabetic_order(t_env *head);
+
 
 #endif

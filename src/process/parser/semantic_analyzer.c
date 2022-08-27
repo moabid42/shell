@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 18:26:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 23:31:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,5 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	}
 	return (ast);
 }
-
 void semantic_analyzer_destroy(struct minishell *minishell) {
-
 }

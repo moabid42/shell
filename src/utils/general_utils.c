@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 17:55:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 23:10:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 
-char	*parser(char *cmd, char *paths)
+char	*	parser(char *cmd, char *paths)
 {
 	char	*with_slash;
 	char	*l_path;
@@ -51,16 +51,39 @@ void	freeme(char **paths)
 	free(paths);
 }
 
-char	*get_path(char *cmd, char **env)
+// char	*get_path(char *cmd, char **env)
+// {
+// 	char	**paths;
+// 	char	*path;
+// 	int		i;
+
+// 	i = 0;
+// 	while (ft_strnstr(env[i], "PATH=", 5) == 0)
+// 		i++;
+// 	paths = ft_split(env[i] + 5, ':');
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		path = parser(cmd, paths[i]);
+// 		if (path)
+// 			return (path);
+// 		i++;
+// 	}
+// 	freeme(paths);
+// 	return (NULL);
+// }
+
+char	*get_path(char *cmd, t_env *env)
 {
 	char	**paths;
 	char	*path;
-	int		i;
+	t_env	*head;
+	int i;
 
-	i = 0;
-	while (ft_strnstr(env[i], "PATH=", 5) == 0)
-		i++;
-	paths = ft_split(env[i] + 5, ':');
+	head = env;
+	while (ft_strnstr(head->name, "PATH=", 5) == 0)
+		head = head->next;
+	paths = ft_split(head->content, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -73,9 +96,10 @@ char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-bool	ft_iscommand(char *str, char **env)
+// bool	ft_iscommand(char *str, char **env)
+bool	ft_iscommand(char *str, struct minishell *minishell)
 {
-	if (get_path(str, env))
+	if (get_path(str, minishell->env))
 		return (true);
 	return (false);
 }
