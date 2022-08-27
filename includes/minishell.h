@@ -21,6 +21,7 @@
 #include <termios.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <dirent.h>
 #include "utils.h"
 #include "parser.h"

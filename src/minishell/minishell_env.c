@@ -14,10 +14,10 @@
 #include "parser.h"
 #include "utils.h"
 
-// char	**minishell_env_init(struct minishell *minishell, char **env)
-// {
-		
-// }
+char	**minishell_env_init(char **env)
+{
+    return (env);
+}
 
 // void	minishell_env_destroy(struct minishell *minishell)
 // {

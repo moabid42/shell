@@ -100,9 +100,7 @@ void	star_expend_dir(char **new_tokens, int *i)
 {
 	DIR				*dp;
 	struct dirent	*dirp;
-	int				j;
 
-	j = 0;
 	dp = opendir(".");
 	if (dp == NULL)
 		return ;

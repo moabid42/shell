@@ -34,9 +34,7 @@ char *copy_till_bit(char *str, int n_byte)
 char **split_name_content(char *str)
 {
 	char **split;
-	int i;
 
-	i = 0;
 	split = malloc(sizeof(char *) * 3);
 	if(split == NULL)
 		return(NULL);

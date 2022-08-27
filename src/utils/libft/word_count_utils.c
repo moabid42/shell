@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "reader.h"
+#include "libft.h"
 
 int	jump_char_inside(char *string, char *special, int *word_count, bool *word)
 {
