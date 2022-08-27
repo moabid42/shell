@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 02:05:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 06:12:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ void	ft_exit(char **argv, struct minishell *minishell)
 	int			status;
 	int			length;
 
+	if (!minishell)
+	{
+		dprintf(2, "exit\n");
+		exit(0);
+	}
 	length = argv_length(argv);
 	status = minishell->return_value;
 	minishell_destroy(minishell);

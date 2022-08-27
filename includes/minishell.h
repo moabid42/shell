@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 21:55:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 05:05:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void    minishell_destroy(struct minishell *minishell);
 void    minishell_run(struct minishell *minishell);
 char	**minishell_env_init(char **env);
 char	**ft_split_strings(char *str);
+
+void	signal_run(int sig);
 
 #endif
