@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 22:10:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 04:40:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,30 @@ void	print_tree(struct ast *node)
 	}
 }
 
-//create a function that looks for a char inside the binary tree
-struct ast *find_prev(struct ast *node, char *token_name)
+struct ast	*ast_lookup(struct ast *node, char *token_name)
 {
 	if (my_strcmp(node->value.token_name, token_name) == 0)
 		return (node);
+	if (node->left)
+		if (ast_lookup(node->left, token_name) != NULL)
+			return (ast_lookup(node->left, token_name));
+	return(NULL);
+}
+
+//create a function that looks for a char inside the binary tree
+struct ast *find_prev(struct ast *node, char *token_name)
+{
+	// printf("We are in the node : %s\n", node->value.token_name);
+	if (my_strcmp(node->value.token_name, token_name) == 0)
+	{
+		if (node->left)
+		{
+			if (ast_lookup(node->left, token_name) == NULL)
+				return (node);
+		}
+		else
+			return (node);
+	}
 	if (node->right)
 		if (find_prev(node->right, token_name) != NULL)
 			return (find_prev(node->right, token_name));
@@ -148,10 +167,7 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		iterator->right = node;
 	else
 	{
-		if (!ft_strncmp(prev->token_name, "-n", 2))
-			iterator = find_end_right(iterator);
-		else
-			iterator = find_prev(iterator, prev->token_name);
+		iterator = find_prev(iterator, prev->token_name);
 		// printf("We foudn the prev token %s\n", iterator->value.token_name);
 		if (iterator->left == NULL)
 			iterator->left = node;
@@ -198,10 +214,6 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 {
 	struct ast *node;
 
-	if (prev_type < DOUBLE_GREATER && tmp->token_type == WORD)
-	{
-		
-	}	
 	node = ft_malloc(sizeof(struct ast));
 	if (node_contain_special(tmp->token_name, '\"') == true)
 		node->value.token_name = ft_special_trim(tmp->token_name, '\"', ft_strlen(tmp->token_name) - 1);
@@ -254,21 +266,23 @@ void padding ( char ch, int n )
 {
   int i;
 
-  for ( i = 0; i < n; i++ )
-    putchar ( ch );
+  for (i = 0; i < n; i++)
+    putchar(ch);
 }
 
 void structure ( struct ast *root, int level )
 {
-  if ( root == NULL ) {
-    padding ( '\t', level );
-    puts ( "~" );
+  if (root == NULL)
+  {
+    padding('\t', level );
+    puts("~");
   }
-  else {
-    structure ( root->right, level + 1 );
-    padding ( '\t', level );
-    printf ( "%s\n", root->value.token_name );
-    structure ( root->left, level + 1 );
+  else
+  {
+    structure(root->right, level + 1 );
+    padding('\t', level);
+    printf("%s[%d]\n", root->value.token_name, root->value.token_type);
+    structure(root->left, level + 1);
   }
 }
 
@@ -288,9 +302,9 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev);
 		else
 			ast_insert_parent(node_create_parent(tmp), &ast);
-		prev = tmp;	
+		prev = tmp;
 		tmp = tmp->next;
-		// structure(ast, 0);
+		// structure(ast, 0);sleep(1);
 	}
 	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)

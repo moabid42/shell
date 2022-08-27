@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 15:32:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 04:03:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ enum token_type {
     VARIABLE,
     EQUAL,
     
+    STAR,
+    STAR_WORD,
     WORD,
 
 	STRING_DOUBLE,
@@ -55,11 +57,8 @@ enum token_type {
     CURLY_BRACKERTS_CL,
 
 
-    STAR,
     EXCAMATION,
     QUESTION,
-
-    OTHER
 };
 
 struct scripts {

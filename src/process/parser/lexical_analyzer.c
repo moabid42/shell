@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 22:07:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 04:35:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,114 @@ void	printer_split(char **tokens)
 	}
 }
 
+int	star_count_dirs(void)
+{
+	DIR				*dp;
+	struct dirent	*dirp;
+	int				count;
+
+	count = 0;
+	dp = opendir(".");
+	if (dp == NULL)
+		return (0);
+	while ((dirp = readdir(dp)) != NULL)
+	{
+		if (dirp->d_name[0] != '.')
+			count++;
+	}
+	closedir(dp);
+	return (count);
+}
+
+int	star_count(char **tokens)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i])
+	{
+		if (!my_strcmp(tokens[i], "*"))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+void	star_expend_dir(char **new_tokens, int *i)
+{
+	DIR				*dp;
+	struct dirent	*dirp;
+	int				j;
+
+	j = 0;
+	dp = opendir(".");
+	if (dp == NULL)
+		return ;
+	while ((dirp = readdir(dp)) != NULL)
+	{
+		if (dirp->d_name[0] != '.')
+		{
+			new_tokens[*i] = ft_strdup(dirp->d_name);
+			(*i)++;
+		}
+	}
+	closedir(dp);
+}
+
+char	**token_expend_star(char **tokens, int prev_size)
+{
+	char	**new_tokens;
+	int		star_num;
+	int		dirs;
+	int		i;
+
+	i = 0;
+	dirs = star_count_dirs();
+	star_num = star_count(tokens);
+	new_tokens = malloc(sizeof(char *) * (prev_size + dirs * star_num + 1));
+	while (*tokens)
+	{
+		if (!my_strcmp(*tokens, "*"))
+		{
+			star_expend_dir(new_tokens, &i);
+			tokens++;
+			continue;
+		}
+		new_tokens[i] = ft_strdup(*tokens);
+		tokens++;
+		i++;
+	}
+	new_tokens[i] = NULL;
+	return (new_tokens);
+}
+
+bool	star_exist(char **tokens)
+{
+	int i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		if (tokens[i][0] == '*')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+//create a function that is gonna count the number of tokens
+int	count_tokens(char **tokens)
+{
+	int i;
+
+	i = 0;
+	while (tokens[i])
+		i++;
+	return (i);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -71,11 +179,13 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	args.single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
-	//init_reader_struct(&args);
 	tokens = ft_reader(script->input_line, &args);
-	//tokens = ft_new_split(script->input_line, ' ', "\"'");
 	script->tokens_num = reader_word_count(script->input_line, &args);
-	//script->tokens_num = words_count(script->input_line, ' ', "\"'");
+	if (star_exist(tokens) == true)
+	{
+		tokens = token_expend_star(tokens, script->tokens_num - 1);
+		script->tokens_num = count_tokens(tokens);
+	}
 	// printf("The number of tokens: %d\n", words_count(script->input_line, ';', "\"'") );
 	// printer_split(tokens);
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);

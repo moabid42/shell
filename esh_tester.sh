@@ -6,7 +6,7 @@
 #    By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 07:00:01 by moabid            #+#    #+#              #
-#    Updated: 2022/08/26 22:12:40 by moabid           ###   ########.fr        #
+#    Updated: 2022/08/27 04:41:19 by moabid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,6 +168,14 @@ exec_test '< test grep hi > test2 | wccc -l > test3 | wc -l > test4'
 exec_test '< test grep hi > test2 | wc -l > test3 | wccccc -l > test4'
 exec_test '< fuck grep file'
 exec_test '< fuck grep file | wc -l'
+
+# STAR WILDCARD
+printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
+exec_test 'ls *'
+exec_test 'ls * | wc -l'
+exec_test 'ls * * *'
+exec_test 'echo * * * | wc -l'
+
 # # ENV EXPANSIONS + ESCAPE
 # exec_test 'echo test     \    test'
 # exec_test 'echo \"test'

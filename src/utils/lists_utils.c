@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/19 09:19:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/27 04:03:02 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,10 @@ enum token_type find_type(char *token)
 	// 	return (FLAG);
 	else if (!my_strcmp(token, "false") || !my_strcmp(token, "true"))
 		return (find_bool(token));
-	else if (ft_isword(token))
+	// else if (ft_isword(token))
+	// 	return (WORD);
+	// else
 		return (WORD);
-	else
-		return (OTHER);
 }
 
 struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count) {
