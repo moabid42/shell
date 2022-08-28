@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_setting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/22 12:12:01 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/08/28 19:42:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
 
 char *copy_till_bit(char *str, int n_byte)
 {
@@ -56,12 +55,12 @@ t_env *create_the_env(char **env)
 	i = 0;
 	head = malloc(sizeof(t_env));
 	list = head;
-	while(env[i])
+	while(env[i]!= NULL)
 	{
 		split = split_name_content(env[i]);
 		list->name = split[0];
 		list->content = split[1];
-		if(env[i+1])
+		if(env[i+1]!= NULL)
 		{
 			list->next = new_node();
 			list = list->next;
@@ -73,6 +72,56 @@ t_env *create_the_env(char **env)
 	return (head);
 }
 
+int list_len(t_env *env)
+{
+	t_env *tmp;
+	tmp = env;
+	int i;
+
+	i = 0;
+	while(tmp->next != NULL)
+	{
+		tmp= tmp->next;
+		i++;
+	}
+	return (i);
+}
+
+char *make_env_string(t_env *env)
+{
+	char *string;
+	int i;
+	string = malloc(sizeof(char) * ft_strlen(env->name) + ft_strlen(env->content) + 2);
+	if(!string)
+		return NULL;
+	string[ft_strlen(env->name) + ft_strlen(env->content) + 1] = '\0';
+
+	i = 0;
+	while(env->name[i])
+	{
+		string[i] = env->name[i];
+		
+	}
+}
+
+char **env_to_string(t_env *env)
+{
+	t_env *tmp;
+	tmp = env;
+	char **enviroment;
+	int i;
+
+	enviroment = malloc ( sizeof(char *) * (list_len(env) + 1);
+	if(!enviroment)
+		return NULL;
+	enviroment[list_len(env)] = NULL;
+	i = 0;
+	while(i < list_len(env))
+	{
+		enviroment[i] = make_env_string(env);
+	}
+
+}
 //int	export(**arg, **env);
 
 // int main (int argc, char **argv, char **env)

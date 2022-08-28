@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 23:10:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/28 19:00:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 
-char	*	parser(char *cmd, char *paths)
+char	*parser(char *cmd, char *paths)
 {
 	char	*with_slash;
 	char	*l_path;
@@ -81,7 +81,7 @@ char	*get_path(char *cmd, t_env *env)
 	int i;
 
 	head = env;
-	while (ft_strnstr(head->name, "PATH=", 5) == 0)
+	while (ft_strnstr(head->name, "PATH", 4) == 0)
 		head = head->next;
 	paths = ft_split(head->content, ':');
 	i = 0;
@@ -97,9 +97,9 @@ char	*get_path(char *cmd, t_env *env)
 }
 
 // bool	ft_iscommand(char *str, char **env)
-bool	ft_iscommand(char *str, struct minishell *minishell)
+bool	ft_iscommand(char *str, t_env *env)
 {
-	if (get_path(str, minishell->env))
+	if (get_path(str, env))
 		return (true);
 	return (false);
 }

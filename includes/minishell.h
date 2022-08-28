@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 23:40:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/28 15:09:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void    minishell_run(struct minishell *minishell);
 //char	**minishell_env_init(char **env);
 char	**ft_split_strings(char *str);
 
-//
+// t_env shit
 t_env	*minishell_env_init(char **env);
 t_env	*new_node();
 t_env	*create_node(t_env *env, char *name, char *content);

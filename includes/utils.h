@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 23:46:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/28 18:15:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@
 struct scripts;
 struct token_stream;
 struct s_variable;
-
 typedef struct s_env t_env;
 
-t_env			*get_path(char *cmd, char **env);    
+char			*get_path(char *cmd, t_env *env);    
 //char			*get_path(char *cmd, char **env);    
 
 
@@ -73,7 +72,9 @@ char	**ft_new_split(char *string, char split_char, char* special);
 void	printer_split(char **tokens);
 
 //bool	ft_iscommand(char *str, char **env);
+
 bool	ft_iscommand(char *str, t_env *env);
+
 bool	ft_isfile(char *str);
 bool	ft_isword(char *str);
 void	printer_variable(struct s_variable *variable);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 21:51:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/28 19:11:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 		ft_echo(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "export"))
 		ft_export(1, cmd_list, minishell);
+	else if(!my_strcmp(cmd_list[0], "pwd"))
+		ft_pwd(minishell);
+	else if(!my_strcmp(cmd_list[0], "env"))
+	{
+		//write(1, "DOOM", 4);
+		ft_env(minishell->env);
+	}
 	// if(my_strcmp(cmd, "cd"))
 	// 	ft_cd(minishell);
 	//printf("cmd_list: %s", cmd_list[0]);
-		write(1, "DOOM\n", 5);
-	if(!my_strcmp(cmd_list[0], "pwd"))
-	{
-		ft_pwd(minishell);
-	}
 	// if(my_strcmp(cmd, "env"))
 	// 	ft_env(minishell);
 	// if(my_strcmp(cmd, "unset"))
