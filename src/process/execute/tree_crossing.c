@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 17:49:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:17:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 		dup2(fd_out, 1);
 		if(is_builtin(command_statement[0]) == true)
 			builtin_run(command_statement, minishell);
-		else if (execve(path, command_statement, minishell->env) == -1)
+		else if (execve(path, command_statement, (env_to_string(minishell->env))) == -1)
 			ft_error("Command error");
 	}
 	else

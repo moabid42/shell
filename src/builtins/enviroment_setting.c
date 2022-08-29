@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/28 19:42:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:14:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int list_len(t_env *env)
 	int i;
 
 	i = 0;
-	while(tmp->next != NULL)
+	while(tmp != NULL)
 	{
 		tmp= tmp->next;
 		i++;
@@ -87,21 +87,33 @@ int list_len(t_env *env)
 	return (i);
 }
 
-char *make_env_string(t_env *env)
+static char *make_env_string(t_env *env)
 {
 	char *string;
 	int i;
+	int j;
+	
 	string = malloc(sizeof(char) * ft_strlen(env->name) + ft_strlen(env->content) + 2);
 	if(!string)
 		return NULL;
 	string[ft_strlen(env->name) + ft_strlen(env->content) + 1] = '\0';
 
 	i = 0;
-	while(env->name[i])
+	while((env->name)[i])
 	{
-		string[i] = env->name[i];
-		
+		string[i] = (env->name)[i];
+		i++;
 	}
+	string[i] = '=';
+	i++;
+	j = 0;
+	while((env->content)[j])
+	{
+		string[i] = (env->content)[j];
+		j++;
+		i++;
+	}
+	return(string);
 }
 
 char **env_to_string(t_env *env)
@@ -111,16 +123,24 @@ char **env_to_string(t_env *env)
 	char **enviroment;
 	int i;
 
-	enviroment = malloc ( sizeof(char *) * (list_len(env) + 1);
+	enviroment = malloc (sizeof(char *) * (list_len(env) + 1));
 	if(!enviroment)
 		return NULL;
 	enviroment[list_len(env)] = NULL;
 	i = 0;
 	while(i < list_len(env))
 	{
-		enviroment[i] = make_env_string(env);
+		enviroment[i] = make_env_string(tmp);
+		i++;
+		tmp=tmp->next;
 	}
-
+	i = 0;
+	// while(enviroment[i])
+	// {
+	// 	printf(" int i :%d, %s\n", i, enviroment[i]);
+	// 	i++;
+	// }
+	return (enviroment);
 }
 //int	export(**arg, **env);
 

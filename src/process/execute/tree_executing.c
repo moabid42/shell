@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/28 19:11:49 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:56:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 	else if(!my_strcmp(cmd_list[0], "pwd"))
 		ft_pwd(minishell);
 	else if(!my_strcmp(cmd_list[0], "env"))
-	{
-		//write(1, "DOOM", 4);
 		ft_env(minishell->env);
-	}
-	// if(my_strcmp(cmd, "cd"))
-	// 	ft_cd(minishell);
+	else if(!my_strcmp(cmd_list[0], "cd"))
+		ft_cd(cmd_list, minishell);
 	//printf("cmd_list: %s", cmd_list[0]);
 	// if(my_strcmp(cmd, "env"))
 	// 	ft_env(minishell);
@@ -55,7 +52,7 @@ void	command_statement_run(char **command_statement, char *command_path, struct 
 	dprintf(2, "cmd_list %s",command_statement[0] );
 	if(is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
-	if (execve(command_path, command_statement, minishell->env) == -1)
+	if (execve(command_path, command_statement, env_to_string(minishell->env)) == -1)
 			ft_error(command_statement[0]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 17:47:09 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/27 21:52:52 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:53:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ char *get_pwd()
 	return (pwd);
 }
 
-int	ft_pwd (struct minishell *minishell)
+void	ft_pwd (struct minishell *minishell)
 {
 	char	*pwd;
 	int i;
 
-	write(1, "DOOM\n", 5);
 	pwd = get_pwd ();
 	if(pwd == NULL)
-		return (0);
+		exit (0);
 	i = 0;
 	while(pwd[i])
 	{
@@ -41,5 +40,5 @@ int	ft_pwd (struct minishell *minishell)
 	}
 	newline();
 	free(pwd);
-	return (0);
+	exit (0);
 }

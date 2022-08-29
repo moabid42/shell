@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/28 15:09:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:50:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ t_env	*append_new_node(t_env *enviroment, t_env *node);
 t_env	*create_the_env(char **env);
 t_env	*change_value(t_env *node);
 t_env	*alphabetic_order(t_env *head);
-
+int		list_len(t_env *env);
 
 #endif

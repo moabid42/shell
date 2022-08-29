@@ -70,7 +70,7 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 	return (enviroment);
 }
 
-int ft_export (int argc, char **argv, struct minishell *minishell)
+void ft_export (int argc, char **argv, struct minishell *minishell)
 {
 	t_env	*enviroment;
 	t_env	*head;
@@ -82,17 +82,18 @@ int ft_export (int argc, char **argv, struct minishell *minishell)
 	if(argc == 1)
 	{
 		print_the_enviroment(enviroment);
-		return (0);
+		exit(0);
 	}
 	if(argc > 1)
 	{
 		head = export_the_argv(argv, enviroment);
 		if(!head)
-			return (0);
+			exit(0);
 	}
 	enviroment = alphabetic_order(head);
 	//print_the_enviroment(enviroment);
-	return (0);
+	exit(0);
+
 	//check_the_input(argc,argv);
 }
 
