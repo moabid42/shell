@@ -306,7 +306,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		tmp = tmp->next;
 		// structure(ast, 0);sleep(1);
 	}
-	structure(ast, 0);
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

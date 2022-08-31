@@ -89,14 +89,14 @@ bool minishell_scripts_parse(struct minishell *minishell)
 	t_args args;
 	
 	args.split_char = "&&";
-	args.single_word = (char *[]){"||", "|", "<<", ">>", "<", ">", NULL};
+	args.single_word = (char *[]){"||", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
 	scripts_line = ft_reader(minishell->input_str, &args);
 	minishell->scripts_num = reader_word_count(minishell->input_str, &args);
 	minishell_set_byte_code(minishell);
-	printf("The dx register contain :\n");
-	decToBinary(minishell->byte_code);
+	// printf("The dx register contain :\n");
+	// decToBinary(minishell->byte_code);
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
