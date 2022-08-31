@@ -64,6 +64,7 @@ enum token_type {
 struct scripts {
     char 				*input_line;
     unsigned int 		tokens_num;
+    int                 exit_status;
     int 				have_herdoc;
 	char				*delimiter;
     struct token_stream *token_stream;
@@ -91,15 +92,6 @@ struct ast {
     struct ast *left;
 };
 
-// struct commands {
-// 	char *command;
-// 	struct commands *next;
-// };
-
-// struct piped_cmds {
-// 	char *piped_cmd;
-// 	struct piped_cmds *next;
-// };
 
 // enums
 enum token_type find_type(char *token);

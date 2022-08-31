@@ -125,11 +125,11 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->left, minishell);
-		exit(minishell->return_value);
+		exit(minishell->scripts->exit_status);
 	}
 	else
 	{
-		// dprintf(2, "The status for left is : %d\n", minishell->return_value);
+		// dprintf(2, "The status for left is : %d\n", minishell->scripts->exit_status);
 		// waitpid(pid2, NULL, 0);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
@@ -152,11 +152,11 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->right, minishell);
-		exit(minishell->return_value);
+		exit(minishell->scripts->exit_status);
 	}
 	else
 	{
-		// dprintf(2, "The status for right is : %d\n", minishell->return_value);
+		// dprintf(2, "The status for right is : %d\n", minishell->scripts->exit_status);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
 		// waitpid(pid2, NULL, 0);
@@ -270,19 +270,19 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 			process_redirect_append(ast, minishell);
 		else
 			process_direct(ast, minishell);
-		// dprintf(2, "The return value is : %d\n", minishell->return_value);
-		exit(minishell->return_value);
+		// dprintf(2, "The return value is : %d\n", minishell->scripts->exit_status);
+		exit(minishell->scripts->exit_status);
 	}
 	else
 		waitpid(pid, &status, 0);
 	// dprintf(2, "The return value is : %d\n", status);
 	if (status == 32512)
-		minishell->return_value = 127;
+		minishell->scripts->exit_status = 127;
 	else if (status != 0)
-		minishell->return_value = 1;
+		minishell->scripts->exit_status = 1;
 	else
-		minishell->return_value = 0;
-	// dprintf(2, "The return status is : %d of that\n", minishell->return_value);
+		minishell->scripts->exit_status = 0;
+	// dprintf(2, "The return status is : %d of that\n", minishell->scripts->exit_status);
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)

@@ -52,7 +52,7 @@ char	*ft_cutter (char *string, int n_byte)
 	int i;
 
 	i = 0;
-	copy = malloc( n_byte + 1);
+	copy = malloc(n_byte + 1);
 	if(copy == NULL)
 		return NULL;
 	while(i < n_byte)

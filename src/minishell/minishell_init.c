@@ -28,6 +28,17 @@ void    minishell_create(struct minishell *minishell, char **env)
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
 	minishell->scripts = NULL;
+	minishell->byte_code = 0;
+}
+
+int	ft_strlen_newline(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] > 31 && str[i] < 127)
+		i++;
+	return(i);
 }
 
 void 	minishell_get_input(struct minishell *minishell)
@@ -36,6 +47,7 @@ void 	minishell_get_input(struct minishell *minishell)
 	if (isatty(STDIN_FILENO))
 	{
 		minishell->input_str = readline("\033[31mesh$\033[0m ");
+		minishell->input_len = ft_strlen_newline(minishell->input_str);
 		minishell->type = SIMPLE;
 	}
 	else

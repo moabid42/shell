@@ -51,8 +51,10 @@ struct minishell {
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
+	int		input_len;
 	enum    e_type type;
 	int		return_value;
+	long long		byte_code;
 	struct	s_variable *variables;
 	enum	e_redirection redirection;
 	unsigned int scripts_num;
