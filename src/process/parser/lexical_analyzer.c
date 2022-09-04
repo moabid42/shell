@@ -34,77 +34,29 @@ void	print_tokens(char **scripts_line, int count)
 	}
 }
 
-void	minishell_set_byte_code(struct minishell *minishell)
-{
-	long long	i;
-	int			j;
-	long long	edx;
-
-	i = 1;
-	i <<= 32;
-	j = 0;
-	edx = 0;
-	while(j < minishell->input_len)
-	{
-		if (ft_strnstr(minishell->input_str + j, "&&", 3))
-		{
-			edx = edx | i;
-			i *= 2;
-			j += 2;
-		}
-		else if (ft_strnstr(minishell->input_str + j, "||", 3))
-		{
-			i *= 2;
-			j += 2;
-		}
-		else
-			j++;
-	}
-	minishell->byte_code = edx;
-}
-
-void decToBinary(long long n)
-{
-    int binaryNum[64];
-	int	count = 0;
-    int i = 0;
-
-    while (n > 0)
-	{
-        binaryNum[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-    for (int j = i - 1; j >= 0; j--)
-	{
-		count++;
-        printf("%d", binaryNum[j]);
-	}
-	printf("\nThe count is : %d\n", count);
-}
-
 bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
-	t_args args;
+	// t_args args;
 	
-	args.split_char = "&&";
-	args.single_word = (char *[]){"||", NULL};
-	args.ignore = (char *)"\\";
-	args.ign_char_inside = (char *)"\"'";
-	scripts_line = ft_reader(minishell->input_str, &args);
-	minishell->scripts_num = reader_word_count(minishell->input_str, &args);
-	minishell_set_byte_code(minishell);
-	// printf("The dx register contain :\n");
-	// decToBinary(minishell->byte_code);
+	// args.split_char = "&&";
+	// args.single_word = (char *[]){"||", NULL};
+	// args.ignore = (char *)"\\";
+	// args.ign_char_inside = (char *)"\"'";
+	// scripts_line = ft_reader(minishell->input_str, &args);
+	// minishell->scripts_num = reader_word_count(minishell->input_str, &args);
+	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
+	// print_tokens(scripts_line, words_count(minishell->input_str, ';', "\"'"));
+	// printf("The number of elem: %d\n", words_count(minishell->input_str, ';', "\"'") );
+	minishell->scripts_num = words_count(minishell->input_str,';', "\"'");
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
 		minishell->scripts = ft_create_stack_scripts(scripts_line, minishell->scripts_num);
-	free_split(scripts_line);
+	// printer_split(scripts_line);
+	// free_split(scripts_line); // problem
 	if (minishell->scripts == NULL)
 		return (false);
-	minishell->scripts->exit_status = 0;
 	return (true);
 }
 
@@ -229,6 +181,56 @@ int	count_tokens(char **tokens)
 	return (i);
 }
 
+
+void	minishell_set_byte_code(struct minishell *minishell)
+{
+	long long	i;
+	int			j;
+	long long	edx;
+
+	i = 1;
+	i <<= 32;
+	j = 0;
+	edx = 0;
+	while(j < minishell->input_len)
+	{
+		if (ft_strnstr(minishell->input_str + j, "&&", 3))
+		{
+			edx = edx | i;
+			i *= 2;
+			j += 2;
+		}
+		else if (ft_strnstr(minishell->input_str + j, "||", 3))
+		{
+			i *= 2;
+			j += 2;
+		}
+		else
+			j++;
+	}
+	minishell->byte_code = edx;
+}
+
+void decToBinary(long long n)
+{
+    int binaryNum[64];
+	int	count = 0;
+    int i = 0;
+
+    while (n > 0)
+	{
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+    for (int j = i - 1; j >= 0; j--)
+	{
+		count++;
+        printf("%d", binaryNum[j]);
+	}
+	printf("\nThe count is : %d\n", count);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -236,7 +238,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	t_args args;
 	
 	args.split_char = " ";
-	args.single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
+	args.single_word = (char *[]){"||", "&&", "|", "&&", "<<", ">>", "<", ">", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
 	tokens = ft_reader(script->input_line, &args);
@@ -251,6 +253,9 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);
 	// printer_token(token_stream);
 	script->token_stream = token_stream;
+	minishell_set_byte_code(minishell);
+	// printf("The dx register contain :\n");
+	// decToBinary(minishell->byte_code);
 	return (token_stream);
 }
 

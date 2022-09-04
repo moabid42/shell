@@ -167,8 +167,8 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		iterator->right = node;
 	else
 	{
+		// printf("We foudn the prev token %s\n", prev->token_name);
 		iterator = find_prev(iterator, prev->token_name);
-		// printf("We foudn the prev token %s\n", iterator->value.token_name);
 		if (iterator->left == NULL)
 			iterator->left = node;
 		else if (iterator->right == NULL)
@@ -196,7 +196,9 @@ void	ast_insert_parent(struct ast *node, struct ast **root)
 	struct ast *tmp;
 
 	tmp = (*root)->right;
-	if (node->value.token_type <= (*root)->value.token_type)
+	if (node->value.token_type <= (*root)->value.token_type
+	|| ((node->value.token_type / 2 == 0)
+	&& (node->value.token_type / 2 == 0)))
 	{
 		node->isroot = true;
 		node->left = *root;
@@ -286,6 +288,35 @@ void structure ( struct ast *root, int level )
   }
 }
 
+struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream **prev, struct token_stream **stream)
+{
+	struct ast *ast;
+		
+	ast = ast_create_first_node(minishell, *stream);
+	*prev = *stream;
+	*stream = (*stream)->next;
+	while (*stream)
+	{
+		if ((*stream)->token_type == ANDAND || (*stream)->token_type == OROR)
+			return(ast);
+		if (is_child(ast->value.token_type, *stream) == true)
+			ast_insert_child(node_create_child(*stream, minishell, (*prev)->token_type), &ast, (*prev));
+		else
+			ast_insert_parent(node_create_parent((*stream)), &ast);
+		// printf("==============================\n");
+		// structure(ast, 0);
+		*prev = *stream;
+		(*stream) = (*stream)->next;
+	}
+	if (ast_not_right_type(ast) == false)
+	{
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found ...\n", ast->left->value.token_name);
+		return (NULL);
+	}
+	return (ast);
+}
+
 struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_stream *token_stream)
 {
 	struct ast *ast;
@@ -298,19 +329,27 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	tmp = tmp->next;
 	while (tmp)
 	{
+		if (prev->token_type == ANDAND || prev->token_type == OROR)
+		{
+			ast->right = ast_create_subtree(minishell, &prev, &tmp);
+			if (!tmp || !ast->right)
+				break;
+		}
 		if (is_child(ast->value.token_type, tmp) == true)
 			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev);
 		else
 			ast_insert_parent(node_create_parent(tmp), &ast);
 		prev = tmp;
-		tmp = tmp->next;
-		// structure(ast, 0);sleep(1);
+		if (tmp)
+			tmp = tmp->next;
+		else
+			break;
 	}
-	// structure(ast, 0);
+	// structure(ast  , 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		dprintf(2, "esh: %s: command not found\n", token_stream->token_name);
+		dprintf(2, "esh: %s: command not found ..\n", ast->left->value.token_name);
 		return (NULL);
 	}
 	return (ast);

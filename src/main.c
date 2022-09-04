@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env)
 		ft_error(SYNTAX_ERROR);
 	minishell_create(&minishell, env);
 	minishell_run(&minishell);
-	exit_status = minishell.scripts->exit_status;
+	exit_status = minishell.return_value;
 	minishell_destroy(&minishell);
 	return (exit_status);
 }

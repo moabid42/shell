@@ -46,7 +46,6 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
 {
-	dprintf(2, "cmd_list %s",command_statement[0] );
 	if(is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
 	if (execve(command_path, command_statement, minishell->env) == -1)
@@ -125,11 +124,11 @@ void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->left, minishell);
-		exit(minishell->scripts->exit_status);
+		exit(minishell->return_value);
 	}
 	else
 	{
-		// dprintf(2, "The status for left is : %d\n", minishell->scripts->exit_status);
+		// dprintf(2, "The status for left is : %d\n", minishell->return_value);
 		// waitpid(pid2, NULL, 0);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
@@ -152,11 +151,11 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 		close(pfd[0]);
 		dup2(pfd[1], 1);
 		minishell_ast_execute(ast->right, minishell);
-		exit(minishell->scripts->exit_status);
+		exit(minishell->return_value);
 	}
 	else
 	{
-		// dprintf(2, "The status for right is : %d\n", minishell->scripts->exit_status);
+		// dprintf(2, "The status for right is : %d\n", minishell->return_value);
 		close(pfd[1]);
 		dup2(pfd[0], 0);
 		// waitpid(pid2, NULL, 0);
@@ -270,19 +269,19 @@ void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell
 			process_redirect_append(ast, minishell);
 		else
 			process_direct(ast, minishell);
-		// dprintf(2, "The return value is : %d\n", minishell->scripts->exit_status);
-		exit(minishell->scripts->exit_status);
+		// dprintf(2, "The return value is : %d\n", minishell->return_value);
+		exit(minishell->return_value);
 	}
 	else
 		waitpid(pid, &status, 0);
 	// dprintf(2, "The return value is : %d\n", status);
 	if (status == 32512)
-		minishell->scripts->exit_status = 127;
+		minishell->return_value = 127;
 	else if (status != 0)
-		minishell->scripts->exit_status = 1;
+		minishell->return_value = 1;
 	else
-		minishell->scripts->exit_status = 0;
-	// dprintf(2, "The return status is : %d of that\n", minishell->scripts->exit_status);
+		minishell->return_value = 0;
+	// dprintf(2, "The return status is : %d of that\n", minishell->return_value);
 }
 
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)

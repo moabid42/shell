@@ -34,7 +34,7 @@ enum	e_redirection {
 	APPEND
 };
 
-void	minishell_ast_execute(struct ast *ast, struct minishell *minishell);
+int		minishell_ast_execute(struct ast *ast, struct minishell *minishell);
 char	**command_statement_create(struct ast *ast);
 void	command_statement_destroy(char **command_statement);
 void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell);

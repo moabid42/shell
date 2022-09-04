@@ -168,11 +168,13 @@ struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char 
 	return (curr);
 }
 
-void free_split(char **strs) {
+void free_split(char **strs)
+{
 	int i;
 
 	i = 0;
-	while (strs[i]) {
+	while (strs[i])
+	{
 		free(strs[i]);
 		i++;
 	}
@@ -208,10 +210,11 @@ void printer_token(struct token_stream *scripts) {
 	printf("\n");
 }
 
-struct scripts *ft_create_node_script(char *cmd) {
+struct scripts *ft_create_node_script(char *cmd)
+{
 	struct scripts *new_node;
 
-	new_node = (struct scripts *) ft_malloc(sizeof(struct scripts));
+	new_node = malloc(sizeof(struct scripts));
 	new_node->input_line = ft_strdup(cmd);
 	new_node->next = NULL;
 	return (new_node);

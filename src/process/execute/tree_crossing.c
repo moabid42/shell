@@ -144,10 +144,10 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 	else
 		waitpid(pid, &status, 0);
 	if (status != 0)
-		minishell->scripts->exit_status = 1;
+		minishell->return_value = 1;
 	else
-		minishell->scripts->exit_status = 0;
-	// printf("The return status is : %d of %s\n", minishell->scripts->exit_status, command_statement[0]);
+		minishell->return_value = 0;
+	// printf("The return status is : %d of %s\n", minishell->return_value, command_statement[0]);
 }
 
 int	openfile(char *file, int re_or_wr)
@@ -193,7 +193,7 @@ void	less_statement_execute(char **command_statement, struct ast *ast, struct mi
 	fd_in = openfile(command_statement[1], 0);
 	if (fd_in == -1)
 	{
-		minishell->scripts->exit_status = 1;
+		minishell->return_value = 1;
 		return ;
 	}
 	if (ast->right == NULL)
@@ -323,8 +323,8 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	jump = ast;
 	if (ast->value.token_type < DOUBLE_SMALLER && ast->value.token_type == WORD)
 	{
-		minishell->scripts->exit_status = 127;
-		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found .\n", ast->value.token_name);
 		return ;
 	}
 	// dprintf(2, "We are in the node %s\n", ast->value.token_name);
@@ -355,8 +355,8 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	else if (ast->value.token_type == GREATER
 		|| ast->value.token_type == DOUBLE_GREATER)
 	{
-		minishell->scripts->exit_status = 127;
-		dprintf(2, "esh: %s: command not found\n", ast->left->value.token_name);
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
 	}
 	command_statement_destroy(command_statement);
 }
@@ -364,7 +364,9 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 void	minishell_process_bool(struct ast *ast, struct minishell *minishell)
 {
 	if (ast->value.token_type == FALSE)
-		minishell->scripts->exit_status = 1;
+		minishell->return_value = 1;
+	else
+		minishell->return_value = 0;
 }
 
 bool	ast_is_simple(struct ast *ast)
@@ -447,13 +449,14 @@ void	prepare_exit(struct ast *ast, struct minishell *minishell)
 	ft_exit(argv, minishell);
 }
 
-void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
+int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
 
+	// printf("We are processing : %s\n", ast->left->value.token_name);
 	tmp = ast;
 	if (!ast)
-		return ;
+		return (minishell->return_value);
 	else if (!my_strcmp("exit", ast->value.token_name))
 		prepare_exit(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
@@ -469,8 +472,9 @@ void	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		minishell_process_pipeline(tmp, minishell);
 	else
 	{
-		minishell->scripts->exit_status = 127;
-		dprintf(2, "esh: %s: command not found\n", ast->value.token_name);
+		minishell->return_value = 127;
+		dprintf(2, "esh: %s: command not found .....\n", ast->value.token_name);
 	}
-	// printf("The return value is : %d for %s\n", minishell->scripts->exit_status, ast->value.token_name);
+	return (minishell->return_value);
+	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }

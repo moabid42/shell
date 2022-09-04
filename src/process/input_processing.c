@@ -40,7 +40,38 @@
 // 	return ;
 // }
 
-void minishell_process_input(struct scripts *script, struct minishell *minishell) {
+void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishell)
+{
+	// int	exit_status;
+
+	// exit_status = 0;
+	// while (ast->value.token_type < 2)
+	// {
+	// 	if (ast->value.token_type == 0)
+	// 		exit_status &= minishell_ast_execute(ast->right, minishell);
+	// 	else
+	// 		exit_status |= minishell_ast_execute(ast->right, minishell);
+	// 	ast = ast->left;
+	// }
+	// minishell->return_value = exit_status;
+	if (ast->left->value.token_type < 2)
+		minishell_ast_execute_subshells(ast->left, minishell);
+	// printf("We reached the buttom so: %s\n", ast->value.token_name);
+	if (ast->left->value.token_type > 1)
+		minishell->return_value = minishell_ast_execute(ast->left, minishell);
+	if (minishell->return_value == 0 && ast->value.token_type == 0)
+		minishell->return_value &= minishell_ast_execute(ast->right, minishell);
+	else if (minishell->return_value != 0 && ast->value.token_type == 1)
+	{
+		// printf("We are gonna xor is : %d\n", minishell->return_value);
+		minishell->return_value = minishell_ast_execute(ast->right, minishell);
+		// printf("We did it : %d\n", minishell->return_value);
+	}
+	//To do implement one line heredoc in case there is nothing after && and ||
+}
+
+void minishell_process_input(struct scripts *script, struct minishell *minishell)
+{
 	struct token_stream *token_stream;
 	struct ast *ast;
 
@@ -51,11 +82,15 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 	// printer_token(token_stream);
 	syntax_analyzer_create(token_stream, script);
 	ast = semantic_analyzer_create(minishell, script->token_stream);
-	minishell_ast_execute(ast, minishell);
+	if (ast && ast->value.token_type < 2)
+		minishell_ast_execute_subshells(ast, minishell);
+	else
+		minishell->return_value = minishell_ast_execute(ast, minishell);
 	minishell_process_input(script->next, minishell);
 }
 
-void minishell_destroy_input(struct scripts *script) {
+void minishell_destroy_input(struct scripts *script)
+{
 	if (!script)
 		return;
 	// semantic_analyzer_destroy(token_stream, script);
@@ -64,7 +99,8 @@ void minishell_destroy_input(struct scripts *script) {
 	minishell_destroy_input(script->next);
 }
 
-void minishell_read_input(struct minishell *minishell) {
+void minishell_read_input(struct minishell *minishell)
+{
 	struct scripts *tmp_cr;
 	struct scripts *tmp_ds;
 
