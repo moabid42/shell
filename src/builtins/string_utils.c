@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 21:19:44 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 17:01:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/28 19:21:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ bool string_value_cmp(char *str1, char *str2)
 			return (false);
 	}
 	return (true);
+}
+
+int find_chr(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while(str[i] && str[i] != c)
+		i++;
+	if(str[i] == c)
+		return (i);
+	else
+		return (-1);
 }
 
 bool bool_strcmp(char *str1, char *str2)
@@ -53,17 +66,4 @@ bool check_string(char c, char *str)
 		i++;
 	}
 	return (false);
-}
-
-int find_chr(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while(str[i] && str[i] != c)
-		i++;
-	if(str[i] == c)
-		return (i);
-	else
-		return (-1);
 }

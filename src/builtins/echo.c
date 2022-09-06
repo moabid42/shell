@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 18:05:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:47:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void print_out_str (char *str)
 }
 
 
-int	ft_echo (char **arg, struct minishell *minishell)
+void	ft_echo (char **arg, struct minishell *minishell)
 {
 	int		i;
 	bool	no_nl;

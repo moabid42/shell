@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 23:53:34 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/16 23:32:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/06 07:10:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "parser.h"
 #include "utils.h"
 
-char	**minishell_env_init(char **env)
-{
-	return (env);
-}
+// t_env	*minishell_env_init(char **env);
+// {
+// 	t_env	env;
+// 	return (env);
+// }
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 17:55:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/06 07:31:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,45 @@ void	freeme(char **paths)
 	free(paths);
 }
 
-char	*get_path(char *cmd, char **env)
+// char	*get_path(char *cmd, t_env *env)
+// {
+// 	char	**paths;
+// 	char	*path;
+// 	int		i;
+
+// 	i = 0;
+// 	while (ft_strnstr(env[i], "PATH=", 5) == 0)
+// 		i++;
+// 	paths = ft_split(env[i] + 5, ':');
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		path = parser(cmd, paths[i]);
+// 		if (path)
+// 			return (path);
+// 		i++;
+// 	}
+// 	freeme(paths);
+// 	return (NULL);
+// }
+char	*get_path(char *cmd, t_env *env)
 {
 	char	**paths;
 	char	*path;
-	int		i;
+	t_env	*head;
+	int i;
 
-	i = 0;
-	while (ft_strnstr(env[i], "PATH=", 5) == 0)
-		i++;
-	paths = ft_split(env[i] + 5, ':');
+	head = env;
+	while (ft_strnstr(head->name, "PATH", 4) == 0 && head)
+		head = head->next;
+	if(!head)
+		return (NULL);
+	paths = ft_split(head->content, ':');
 	i = 0;
 	while (paths[i])
 	{
 		path = parser(cmd, paths[i]);
+		//printf("paths: %s path: %s \n", paths[i], path);
 		if (path)
 			return (path);
 		i++;
@@ -73,7 +98,9 @@ char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-bool	ft_iscommand(char *str, char **env)
+
+// bool	ft_iscommand(char *str, char **env)
+bool	ft_iscommand(char *str, t_env *env)
 {
 	if (get_path(str, env))
 		return (true);
