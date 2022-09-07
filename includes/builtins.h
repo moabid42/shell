@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:18:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/26 17:00:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/06 07:36:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,18 @@ t_env	*append_new_node(t_env *enviroment, t_env *node);
 char	*copy_till_bit(char *str, int n_byte);
 char	**split_name_content(char *str);
 t_env	*create_the_env(char **env);
+char    **env_to_string(t_env *env);
 /*** BUILDinS ***/
 char	*get_pwd();
-int		ft_env(int argc, char **argv, char **env);
-int		ft_echo(char **arg, struct minishell *minishell);
-int     ft_export (int argc, char **argv, struct minishell *minishell);
+void    ft_env(t_env *enviroment);
+void	ft_cd(char **argv, struct minishell *minishell);
+void	ft_echo (char **arg, struct minishell *minishell);
+void    ft_export (int argc, char **argv, struct minishell *minishell);
 void    ft_exit(char **argv, struct minishell *minishell);
+void	ft_pwd (struct minishell *minishell);
 /*** SORTING ***/
 t_env	*change_value(t_env *node);
 t_env	*alphabetic_order(t_env *head);
+
 
 #endif

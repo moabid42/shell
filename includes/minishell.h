@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 05:05:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/06 07:08:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 struct ast;
 struct scripts;
 enum e_redirection;
+typedef struct s_env t_env;
 
 enum e_type {
     SIMPLE,
@@ -47,7 +48,7 @@ struct s_variable {
 };
 
 struct minishell {
-	char	**env;
+	t_env	*env;
 	char	**g_env;
 	char	*prompt; // can be changed when exporting PS1
 	char	*input_str;
@@ -65,7 +66,9 @@ void    minishell_create(struct minishell *minishell, char **env);
 void	minishell_get_input(struct minishell *minishell);
 void    minishell_destroy(struct minishell *minishell);
 void    minishell_run(struct minishell *minishell);
-char	**minishell_env_init(char **env);
+//char	**minishell_env_init(char **env);
+t_env	*minishell_env_init(char **env);
+
 char	**ft_split_strings(char *str);
 
 void	signal_run(int sig);
