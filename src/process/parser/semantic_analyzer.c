@@ -345,11 +345,14 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	// structure(ast  , 0);
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		dprintf(2, "esh: %s: command not found ..\n", ast->left->value.token_name);
+		if (!ast->left)
+			dprintf(2, "esh: %s: command not found ..\n", ast->value.token_name);
+		else
+			dprintf(2, "esh: %s: command not found ..\n", ast->left->value.token_name);
 		return (NULL);
 	}
 	return (ast);

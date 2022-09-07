@@ -78,4 +78,7 @@ bool	ft_isfile(char *str);
 bool	ft_isword(char *str);
 void	printer_variable(struct s_variable *variable);
 
+void print_the_env(t_env *enviroment);
+
+
 #endif

@@ -28,6 +28,7 @@ bool	is_builtin(char *cmd)
 
 void	builtin_run(char **cmd_list, struct minishell *minishell)
 {
+	// printf("We are looking for a builtin\n");
 	if (!my_strcmp(cmd_list[0], "exit"))
 	 	ft_exit(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "echo"))
