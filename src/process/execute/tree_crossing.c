@@ -346,7 +346,8 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	if (ast->value.token_type == DOUBLE_SMALLER)
 		heredoc_statement_execute(ast, minishell);
 	else if (ast->value.token_type == COMMAND
-		|| ast->left->value.token_type == COMMAND)
+		|| ast->left->value.token_type == COMMAND
+		|| ast->value.token_type == BUILTIN)
 		command_statement_execute(command_statement, command_path, minishell, fd_out);
 	else if (ast->left->value.token_type == LESS)
 		less_statement_execute(command_statement, ast->left, minishell, fd_out);
@@ -377,7 +378,8 @@ bool	ast_is_simple(struct ast *ast)
 		|| (ast->value.token_type == GREATER
 		&& ast->left->value.token_type != PIPE)
 		|| (ast->value.token_type == DOUBLE_GREATER
-		&& ast->left->value.token_type != PIPE))
+		&& ast->left->value.token_type != PIPE)
+		|| is_builtin(ast->value.token_name) == true)
 		return (true);
 	return (false);
 }
@@ -441,24 +443,48 @@ void	printer_variable(struct s_variable *variable)
 	}
 }
 
-void	prepare_exit(struct ast *ast, struct minishell *minishell)
-{
-	char		**argv;
+// void	prepare_exit(struct ast *ast, struct minishell *minishell)
+// {
+// 	char		**argv;
 
-	argv = command_statement_create(ast);
-	ft_exit(argv, minishell);
+// 	argv = command_statement_create(ast);
+// 	ft_exit(argv, minishell);
+// }
+
+void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
+{
+	char	**cmd_list;
+
+	cmd_list = command_statement_create(ast);
+	// printer_split(cmd_list);
+	if (!my_strcmp(cmd_list[0], "exit"))
+	 	ft_exit(cmd_list, minishell);
+	else if(!my_strcmp(cmd_list[0], "export"))
+		ft_export(1, cmd_list, minishell);
+	else if(!my_strcmp(cmd_list[0], "cd"))
+		ft_cd(cmd_list, minishell);
+}
+
+bool	is_builtin_ast(char *cmd)
+{
+	return (!my_strcmp(cmd, "export")
+		|| !my_strcmp(cmd, "cd")
+		|| !my_strcmp(cmd, "exit")
+		|| !my_strcmp(cmd, "unset"));
 }
 
 int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
 
-	// printf("We are processing : %s\n", ast->left->value.token_name);
+	// printf("We are processing : %s\n", ast->value.token_name);
 	tmp = ast;
 	if (!ast)
 		return (minishell->return_value);
-	else if (!my_strcmp("exit", ast->value.token_name))
-		prepare_exit(ast, minishell);
+	else if (is_builtin_ast(ast->value.token_name) == true)
+		builtin_run_ast(ast, minishell);
+	// else if (!my_strcmp("exit", ast->value.token_name))
+	// 	prepare_exit(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
 		minishell_save_variable(ast->value.token_name, minishell);
 	else if (ast_is_simple(ast) == true)

@@ -79,107 +79,108 @@ printf "|           I wrote a tester because I can         |\n"
 printf "|__________________________________________________|\n$RESET"
 echo
 
-# # ECHO TESTS
-# printf "$BOLDBLUE ECHO $BOLDWHITE TESTS $RESET\n"
-# exec_test 'echo test tout'
-# exec_test 'echo test      tout'
-# exec_test 'echo -n test tout'
-# exec_test 'echo -n -n -n test tout'
-# exec_test 'echo -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n hi'
-# exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -n hi'
-# exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -nnnnnnn hi'
-# exec_test 'echo -n -n -naaaaaa -n -n hi -n -n -n'
-# exec_test 'echo \ hi'
+# ECHO TESTS
+printf "$BOLDBLUE ECHO $BOLDWHITE TESTS $RESET\n"
+exec_test 'echo test tout'
+exec_test 'echo test      tout'
+exec_test 'echo -n test tout'
+exec_test 'echo -n -n -n test tout'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n -n hi'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -n hi'
+exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -nnnnnnn hi'
+exec_test 'echo -n -n -naaaaaa -n -n hi -n -n -n'
+exec_test 'echo \ hi'
 
-# # # CD TESTS
-# # exec_test 'cd .. ; pwd'
-# # exec_test 'cd /Users ; pwd'
-# # exec_test 'cd ; pwd'
-# # exec_test 'mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd'
+# # CD TESTS
+# exec_test 'cd .. ; pwd'
+# exec_test 'cd /Users ; pwd'
+# exec_test 'cd ; pwd'
+# exec_test 'mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd'
 
-# # SIMPLE TESTS
-# printf "$BOLDBLUE SIMPLE $BOLDWHITE TESTS $RESET\n"
-# exec_test "cat test"
-# exec_test "false"
-# exec_test "true"
+# SIMPLE TESTS
+printf "$BOLDBLUE SIMPLE $BOLDWHITE TESTS $RESET\n"
+exec_test "cat test"
+exec_test "false"
+exec_test "true"
 
-# # PIPE TESTS
-# printf "$BOLDBLUE PIPE $BOLDWHITE TESTS $RESET\n"
-# exec_test 'cat test | grep file | cat -e'
-# exec_test 'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e'
-# exec_test 'cat /dev/random | head -c 100 | wc -c'
-# exec_test 'ls | ls | ls | ls | ls | ls | ls | ls | ls | ls'
-# exec_test 'false | ls | grep file'
-# exec_test 'ls | true | grep file'
-# exec_test 'ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls'
-# exec_test 'ls| echo hi'
-# exec_test 'ls |echo hi'
-# # # REDIRECTION TESTS
-# printf "$BOLDBLUE REDIRECTION $BOLDWHITE TESTS $RESET\n"
+# PIPE TESTS
+printf "$BOLDBLUE PIPE $BOLDWHITE TESTS $RESET\n"
+exec_test 'cat test | grep file | cat -e'
+exec_test 'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e'
+exec_test 'cat /dev/random | head -c 100 | wc -c'
+exec_test 'ls | ls | ls | ls | ls | ls | ls | ls | ls | ls'
+exec_test 'false | ls | grep file'
+exec_test 'ls | true | grep file'
+exec_test 'ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls'
+exec_test 'ls| echo hi'
+exec_test 'ls |echo hi'
+# # REDIRECTION TESTS
+printf "$BOLDBLUE REDIRECTION $BOLDWHITE TESTS $RESET\n"
 
-# exec_test 'ls | grep file | wc -l'
-# exec_test 'ls | grep file > test2'
-# exec_test 'ls | grep file | wc -l > test2'
-# exec_test 'ls | grep file | grep file | grep file | grep file | wc -l > test2'
-# exec_test 'ls | grep file | wc -l >> test2'
-# exec_test 'ls | grep file | grep file | grep file | grep file | wc -l >> test2'
-# exec_test 'ls | grep file | wc -l > test3 | wc -l'
-# exec_test 'ls | grep file > test2 | wc -l > test3 | wc -l'
-# exec_test '< test'
-# exec_test '< test grep hi | wc -l'
-# exec_test '< test > test2'
-# exec_test '< test grep file > test2'
-# exec_test '< test grep hi | wc -l > test2'
-# exec_test '< test grep hi | grep hi | grep hi | grep hi | wc -l > test2'
-# exec_test '< test >> test2'
-# exec_test '< test grep hi | wc -l >> test2'
-# exec_test '< test grep hi | grep hi | grep hi | grep hi | wc -l >> test2'
-# exec_test '< test grep hi | wc -l > test3 | wc -l'
-# exec_test '< test grep hi > test2 | wc -l > test3 | wc -l'
-# exec_test '< test grep hi > test2 | wc -l > test3 | wc -l > test4'
-# exec_test '<test'
-# exec_test '<test grep hi|wc -l'
-# exec_test '<test>test2'
-# exec_test '<test grep file>test2'
-# exec_test '<test grep hi |grep hi| grep hi |grep hi| wc -l>test2'
-# exec_test '<test>>test2'
+exec_test 'ls | grep file | wc -l'
+exec_test 'ls | grep file > test2'
+exec_test 'ls | grep file | wc -l > test2'
+exec_test 'ls | grep file | grep file | grep file | grep file | wc -l > test2'
+exec_test 'ls | grep file | wc -l >> test2'
+exec_test 'ls | grep file | grep file | grep file | grep file | wc -l >> test2'
+exec_test 'ls | grep file | wc -l > test3 | wc -l'
+exec_test 'ls | grep file > test2 | wc -l > test3 | wc -l'
+exec_test '< test'
+exec_test '< test grep hi | wc -l'
+exec_test '< test > test2'
+exec_test '< test grep file > test2'
+exec_test '< test grep hi | wc -l > test2'
+exec_test '< test grep hi | grep hi | grep hi | grep hi | wc -l > test2'
+exec_test '< test >> test2'
+exec_test '< test grep hi | wc -l >> test2'
+exec_test '< test grep hi | grep hi | grep hi | grep hi | wc -l >> test2'
+exec_test '< test grep hi | wc -l > test3 | wc -l'
+exec_test '< test grep hi > test2 | wc -l > test3 | wc -l'
+exec_test '< test grep hi > test2 | wc -l > test3 | wc -l > test4'
+exec_test '<test'
+exec_test '<test grep hi|wc -l'
+exec_test '<test>test2'
+exec_test '<test grep file>test2'
+exec_test '<test grep hi |grep hi| grep hi |grep hi| wc -l>test2'
+exec_test '<test>>test2'
 
-# # EXIT
-# printf "$BOLDBLUE EXIT $BOLDWHITE TESTS $RESET\n"
-# exec_test "exit"
-# exec_test "exit 42"
-# exec_test "exit 0"
-# exec_test "exit 42 53 68"
-# exec_test "exit 259"
-# exec_test "exit 9223372036854775807"
-# exec_test "exit -9223372036854775808"
-# exec_test "exit 9223372036854775808"
-# exec_test "exit -9223372036854775810"
-# exec_test "exit -4"
-# exec_test "exit wrong"
-# exec_test "exit wrong_command"
-# exec_test "ls | exit"
-# exec_test "exit | ls"
-# exec_test "ls | exit | ls"
-# exec_test "ls | exit | grep file"
+# EXIT
+printf "$BOLDBLUE EXIT $BOLDWHITE TESTS $RESET\n"
+exec_test "exit"
+exec_test "exit 42"
+exec_test "exit 0"
+exec_test "exit 42 53 68"
+exec_test "exit 259"
+exec_test "exit 9223372036854775807"
+exec_test "exit -9223372036854775808"
+exec_test "exit 9223372036854775808"
+exec_test "exit -9223372036854775810"
+exec_test "exit -4"
+exec_test "exit wrong"
+exec_test "exit wrong_command"
+exec_test "ls | exit"
+exec_test "exit | ls"
+exec_test "ls | exit | ls"
+exec_test "ls | exit | grep file"
 
 
-# # ERROR 
-# printf "$BOLDBLUE ERROR $BOLDWHITE TESTS $RESET\n"
-# exec_test "echoo hi"
-# exec_test "echo hi | echoo hi"
-# exec_test "echo hi | echoo hi | echo hi"
-# exec_test '< test grep hi > test2 | wccc -l > test3 | wc -l > test4'
-# exec_test '< test grep hi > test2 | wc -l > test3 | wccccc -l > test4'
-# exec_test '< fuck grep file'
-# exec_test '< fuck grep file | wc -l'
+# ERROR 
+printf "$BOLDBLUE ERROR $BOLDWHITE TESTS $RESET\n"
+exec_test "blabla"
+exec_test "echoo hi"
+exec_test "echo hi | echoo hi"
+exec_test "echo hi | echoo hi | echo hi"
+exec_test '< test grep hi > test2 | wccc -l > test3 | wc -l > test4'
+exec_test '< test grep hi > test2 | wc -l > test3 | wccccc -l > test4'
+exec_test '< fuck grep file'
+exec_test '< fuck grep file | wc -l'
 
-# # STAR WILDCARD
-# printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
-# exec_test 'ls *'
-# exec_test 'ls * | wc -l'
-# exec_test 'ls * * *'
-# exec_test 'echo * * * | wc -l'
+# STAR WILDCARD
+printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
+exec_test 'ls *'
+exec_test 'ls * | wc -l'
+exec_test 'ls * * *'
+exec_test 'echo * * * | wc -l'
 
 # SUBSHELLS
 printf "$BOLDBLUE SUBSHELLS (&&, ||) $BOLDWHITE TESTS $RESET\n"

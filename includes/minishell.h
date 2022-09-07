@@ -73,4 +73,5 @@ char	**ft_split_strings(char *str);
 
 void	signal_run(int sig);
 
+
 #endif
