@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/06 12:53:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/07 18:47:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static bool		update_current_pwd(char *path, char *old_path, t_env **env)
 		*env = create_variable(*env, "PWD", path);
 	else
 	{
-		if (tmp->content)
+		if(tmp->content)
 			free(tmp->content);
 		tmp->content = path; 
 	}
 	tmp = *env;
-	while (tmp && !my_strcmp(tmp->name, "OLDPWD"))
+	while(tmp && !my_strcmp(tmp->name, "OLDPWD"))
 		tmp=tmp->next;
-	if (tmp == NULL)
+	if(tmp == NULL)
 		*env = create_variable(*env, "OLDPWD", old_path);
 	else
 	{
-		if (tmp->content)
+		if(tmp->content)
 			free(tmp->content);
 		tmp->content = old_path;
 	}
@@ -85,10 +85,7 @@ static char	*set_path( char **argv, t_env *env)
 	{
 		while(tmp && !my_strcmp(tmp->name, "HOME"))
 			tmp=tmp->next;
-		if(tmp != NULL)
-			return (tmp->content);
-		else
-			return (NULL);
+		return (tmp->content);
 	}
 	else
 		return(argv[1]);
@@ -108,7 +105,7 @@ void		ft_cd(char **argv, struct minishell *minishell)
 	{
 		printf("home not set");
 	}
-	if (argv[1] && (chdir(path) == -1))
+	if (path && (chdir(path) == -1))
 	{
 		write(1, "wrong directory",15);
 		exit(0);
