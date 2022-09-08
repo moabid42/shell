@@ -55,11 +55,9 @@ void ft_unset(char **argv, struct minishell *minishell)
                     {
                         printf("found %s", tmp->name);
                         minishell->env = remove_env_var(minishell->env, tmp);
-                        exit (1);
                     }
                 tmp = tmp->next;
             }
         }
     }
-    exit (0);
 }

@@ -59,7 +59,7 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 	t_env *new;
 	int i;
 
-	i = 0;
+	i = 1;
 	while(argv[i])
 	{
 		if(is_a_valid_identifier(argv[i]))
@@ -87,10 +87,7 @@ void ft_export (char **argv, struct minishell *minishell)
 	enviroment = alphabetic_order(enviroment);
 	head = enviroment;
 	if(!argv[1])
-	{
 		print_the_enviroment(enviroment);
-		exit(0);
-	}
 	else
 	{
 		head = export_the_argv(argv, enviroment);
@@ -98,7 +95,6 @@ void ft_export (char **argv, struct minishell *minishell)
 			exit(0);
 	}
 	enviroment = alphabetic_order(head);
-	exit(0);
 }
 
 /************** TO DO LIST *****************/

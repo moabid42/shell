@@ -28,16 +28,24 @@ char	*minishell_find_variable(struct minishell *minishell, char *variable)
 {
 	struct s_variable	*iterator;
 	char				*expend_var;
+	t_env				*tmp;
 	int					i;
 
 	iterator = minishell->variables;
 	expend_var = "!?_";
+	tmp = minishell->env;
 	i = 0;
 	while (iterator)
 	{
 		if (my_strcmp(iterator->var, variable + 1) == 0)
 			return (iterator->value);
 		iterator = iterator->next;
+	}
+	while (tmp)
+	{
+		if (!my_strcmp(tmp->name, variable + 1))
+			return (tmp->content);
+		tmp = tmp->next;
 	}
 	while(expend_var[i])
 	{
