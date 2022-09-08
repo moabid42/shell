@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 13:03:10 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 10:13:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 		ft_pwd(minishell);
 	else if(!my_strcmp(cmd_list[0], "env"))
 		ft_env(minishell->env);
-	// if(my_strcmp(cmd, "unset"))
-	// 	ft_unset(minishell);
+	else if(!my_strcmp(cmd_list[0], "unset"))
+		ft_unset(cmd_list, minishell);
 }
 
 void	command_statement_run(char **command_statement, char *command_path, struct minishell *minishell)
