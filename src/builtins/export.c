@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
+/*   Updated: 2022/09/08 12:05:51 by moabid           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 static void print_the_enviroment(t_env *list)
@@ -16,38 +28,31 @@ static void print_the_enviroment(t_env *list)
 		list = list->next;
 	}
 }
-/*  PAY ATTENTION IT ILL TELL YOU ONLY IF STR1 COME FIRST THEN str2 so if STR1 < STR2*/
 
-// static bool	check_the_arg(char *str)
-// {
-// 	int	i;
-	
-// 	i = 0;
-// 	if(str[0] == '_')
-// 	{
-// 		if(ft_isdigit(str[1]))
-// 			return (false);
-// 		i++;
-// 	}
-// 	else
-// 	{
-// 		if(ft_isdigit(str[0]))
-// 			return (false);
-// 	}
-// 	/*ASK MOUAD*/
-// 	// if(str[0] == '$') 
-// 	// {
-// 	// 	if(check_the_arg(&variablestoredin(&str[1])))
-// 	// 		return (true);
-// 	// }
-// 	while(str[i])
-// 	{
-// 		if(check_string(str[i],"~#$&*(){}\\|[];'<>\"/?!"))
-// 			return(false);
-// 	}
-// 	return (true);
-// }
+bool	is_a_valid_identifier(char *str)
+{
+	int i;
+	int j;
+	char *invalid_char;
 
+	invalid_char = (char *) "#@&*}{!?-+";
+	i = 0;
+	if (str[0] == '=')
+		return (false);
+	while(str[i])
+	{
+		j = 0;
+		while(invalid_char[j] && invalid_char[j] != str[i])
+			j++;
+		if (invalid_char[j])
+			return (false);
+		i++;
+	}
+	if (ft_isdigit(str[0]))
+		return (false);
+	else
+		return (true);
+}
 
 t_env *export_the_argv(char **argv, t_env *enviroment)
 {
@@ -57,44 +62,43 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 	i = 0;
 	while(argv[i])
 	{
-		// if(check_the_arg(argv[i]))
-		// {
+		if(is_a_valid_identifier(argv[i]))
+		{
 			new = new_node();
 			fill_new_node(argv[i], new);
 			enviroment = append_new_node(enviroment, new);
-		// }
-		// else
-		// 	return (NULL);
+		}
+		else
+		{
+			ft_putstr_fd(argv[i],1);
+			write(1," not a valid identifier\n", 24);
+		}
 		i++;
 	}
 	return (enviroment);
 }
 
-void ft_export (int argc, char **argv, struct minishell *minishell)
+void ft_export (char **argv, struct minishell *minishell)
 {
 	t_env	*enviroment;
 	t_env	*head;
 	
-	//enviroment = create_the_env(minishell->env);
 	enviroment = minishell->env;
 	enviroment = alphabetic_order(enviroment);
 	head = enviroment;
-	if(argc == 1)
+	if(!argv[1])
 	{
 		print_the_enviroment(enviroment);
 		exit(0);
 	}
-	if(argc > 1)
+	else
 	{
 		head = export_the_argv(argv, enviroment);
 		if(!head)
 			exit(0);
 	}
 	enviroment = alphabetic_order(head);
-	//print_the_enviroment(enviroment);
 	exit(0);
-
-	//check_the_input(argc,argv);
 }
 
 /************** TO DO LIST *****************/

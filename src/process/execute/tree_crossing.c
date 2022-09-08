@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:34:02 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 12:07:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -460,7 +460,9 @@ void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
 	if (!my_strcmp(cmd_list[0], "exit"))
 	 	ft_exit(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "export"))
-		ft_export(1, cmd_list, minishell);
+		ft_export(cmd_list, minishell);
+	else if(!my_strcmp(cmd_list[0], "unset"))
+		ft_unset(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "cd"))
 		ft_cd(cmd_list, minishell);
 }
