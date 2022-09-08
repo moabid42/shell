@@ -6,14 +6,15 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 10:12:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 18:44:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
 
-void		ft_cd(char **argv, struct minishell *minishell);
+void	ft_cd(char **argv, struct minishell *minishell);
+char	*get_home(t_env *env);
 
 static	t_env *create_variable(t_env *env, char *name, char *path)
 {
@@ -26,11 +27,12 @@ static	t_env *create_variable(t_env *env, char *name, char *path)
 	return (env);
 }
 
-static bool		update_current_pwd(char *path, char *old_path, t_env **env)
+static void		update_current_pwd(char *path, char *old_path, t_env **env)
 {
 	t_env	*tmp;
 
 	tmp = *env;
+	printf("path: %s \n old_Path: %s\n", path, old_path);
 	while(tmp && my_strcmp(tmp->name, "PWD"))
 		tmp = tmp->next;
 	if (tmp == NULL)
@@ -39,7 +41,7 @@ static bool		update_current_pwd(char *path, char *old_path, t_env **env)
 	{
 		if(tmp->content)
 			free(tmp->content);
-		tmp->content = path; 
+		tmp->content = path;
 	}
 	tmp = *env;
 	while (tmp && my_strcmp(tmp->name, "OLDPWD"))
@@ -52,51 +54,37 @@ static bool		update_current_pwd(char *path, char *old_path, t_env **env)
 			free(tmp->content);
 		tmp->content = old_path;
 	}
-	return (true);
 }
-
-// static DIR		*check_cd(char **argv, t_env *env)
-// {
-// 	t_env	*tmp;
-// 	DIR	*dir;
-
-// 	tmp = env;
-// 	if(!argv[1])
-// 	{
-// 		while(tmp && !my_strcmp(tmp->name, "HOME"))
-// 			tmp=tmp->next;
-// 		if (tmp == NULL)
-// 		{
-// 			write(1,"kaine zu hause :(",17);
-// 			return (false); 
-// 		}
-// 		dir = opendir(tmp->content);
-// 	}
-// 	dir = opendir(argv[1]);
-// 	return (dir);
-// }
 
 static char	*set_path(char	*old_path, char **argv, t_env *env)
 {
-	t_env *tmp;
-	
-	tmp = env;
+	char *path;
 	if(!argv[1])
-	{
-		while(tmp && my_strcmp(tmp->name, "HOME"))
-			tmp=tmp->next;
-		return (tmp->content);
-	}
+		path = get_home(env);
 	else
-		return(ft_strjoin(ft_strjoin(old_path, "/"), argv[1]));
+		path = (ft_strjoin(ft_strjoin(old_path, "/"), argv[1]));
+	return (path);
 }
 
 char	*get_home(t_env *env)
 {
+	t_env *tmp;
+	char *path;
+	tmp = env;
+	// while(env != NULL)
+ 	// {
+	// 	if(env->name[0] == 'H' )
+ 	// 		printf("name: |%s|    content: |%s| \n", env->name, env->content);
+ 	// 	env = env->next;
+ 	// }
+	env = tmp;
 	while(env)
 	{
 		if (!my_strcmp(env->name, "HOME"))
-			return (env->content);
+		{
+			path = ft_strdup(env->content);
+			return path;
+		}
 		env = env->next;
 	}
 	return (NULL);
@@ -104,43 +92,22 @@ char	*get_home(t_env *env)
 
 void		ft_cd(char **argv, struct minishell *minishell)
 {
-	// char	*dir;
 	char	*old_path;
 	t_env	*tmp;
 	char	*path;
-
-	//dir = check_cd(argv, minishell->env);
-	// dir = NULL;
-	// printf("We are calling cd\n");
+	
 	tmp = minishell->env;
 	old_path = get_pwd();
-	if (!argv[1])
-		path = get_home(minishell->env);
-	else
-		path = set_path(old_path, argv, minishell->env);
-	if(path == NULL && argv[1] == NULL)
+	path = set_path(old_path, argv, minishell->env);
+	if (path && chdir(path) == - 1)
+			return ;
+	else if (path == NULL && argv[1] == NULL)
 		printf("home not set");
-	if (argv[1] && (chdir(path) == -1))
+	else if (argv[1] && (chdir(path) == -1))
 	{
 		write(1, "wrong directory",15);
-		exit(0);
+		return;
 	}
-	if (update_current_pwd(path, old_path, &tmp) == false)
-		exit(0);
-	
-	// while(minishell->env != NULL)
- 	// {
- 	// 	printf("name: |%s|    content: |%s| \n", (minishell->env)->name, (minishell->env)->content);
- 	// 	(minishell->env) = (minishell->env)->next;
- 	// }
-	// print_the_env(minishell->env);
+	update_current_pwd(path, old_path, &tmp);
+	return;
 }
-
-// int		main(int argc,	char **argv, char **env)
-// {
-// 	int		error;
-// 	t_env	*enviroment;
-// 	enviroment = create_the_env(env);
-// 	error = ft_cd( argc, argv, enviroment);
-// 	return (error);
-// }
