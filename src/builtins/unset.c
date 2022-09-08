@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:21:03 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 10:32:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 12:00:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void ft_unset(char **argv, struct minishell *minishell)
 {
     t_env *tmp;
     int i;
-    
-    printf("i'm here");
+
+    i = 0;
     tmp = minishell->env;
     if(!argv[1])
         write(1, "not enough arguments \n", 22);

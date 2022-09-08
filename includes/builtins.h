@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:18:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/08 10:14:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 12:06:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct  s_env {
 /*** UTILS ***/
 void	newline();
 void	ft_putstr(char *str);
+
 /*** STRING_UTILS ***/
 bool	string_value_cmp(char *str1, char *str2);
 bool	check_string(char c, char *str);
@@ -43,12 +44,13 @@ char	*copy_till_bit(char *str, int n_byte);
 char	**split_name_content(char *str);
 t_env	*create_the_env(char **env);
 char    **env_to_string(t_env *env);
+bool	is_a_valid_identifier(char *str);
 /*** BUILDinS ***/
 char	*get_pwd();
 void    ft_env(t_env *enviroment);
 void	ft_cd(char **argv, struct minishell *minishell);
 void	ft_echo (char **arg, struct minishell *minishell);
-void    ft_export (int argc, char **argv, struct minishell *minishell);
+void    ft_export (char **argv, struct minishell *minishell);
 void    ft_exit(char **argv, struct minishell *minishell);
 void	ft_pwd (struct minishell *minishell);
 void    ft_unset(char **argv, struct minishell *minishell);

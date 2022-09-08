@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/08 10:13:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 12:05:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	builtin_run(char **cmd_list, struct minishell *minishell)
 	else if(!my_strcmp(cmd_list[0], "echo"))
 		ft_echo(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "export"))
-		ft_export(1, cmd_list, minishell);
+		ft_export(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "cd"))
 		ft_cd(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "pwd"))
