@@ -181,7 +181,7 @@ printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
 exec_test 'ls *'
 exec_test 'ls * | wc -l'
 exec_test 'ls * * *'
-exec_test 'echo * * * | wc -l'
+exec_test 'echo * * | wc -l'
 
 # SUBSHELLS
 printf "$BOLDBLUE SUBSHELLS (&&, ||) $BOLDWHITE TESTS $RESET\n"

@@ -120,10 +120,9 @@ void		ft_cd(char **argv, struct minishell *minishell)
 		path = set_path(old_path, argv, minishell->env);
 	if(path == NULL && argv[1] == NULL)
 		printf("home not set");
-	if (argv[1] && (chdir(path) == -1))
+	if (chdir(path) == -1)
 	{
-		write(1, "wrong directory",15);
-		exit(0);
+		dprintf(2, "bash: cd: %s: No such file or directory", argv[1]);
 	}
 	if (update_current_pwd(path, old_path, &tmp) == false)
 		exit(0);
