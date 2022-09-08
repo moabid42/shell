@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:18:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:36:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 10:14:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_echo (char **arg, struct minishell *minishell);
 void    ft_export (int argc, char **argv, struct minishell *minishell);
 void    ft_exit(char **argv, struct minishell *minishell);
 void	ft_pwd (struct minishell *minishell);
+void    ft_unset(char **argv, struct minishell *minishell);
 /*** SORTING ***/
 t_env	*change_value(t_env *node);
 t_env	*alphabetic_order(t_env *head);
