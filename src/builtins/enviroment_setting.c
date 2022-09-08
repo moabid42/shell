@@ -18,6 +18,7 @@ char *copy_till_bit(char *str, int n_byte)
 	char *str_cp;
 
 	str_cp = malloc(n_byte + 1);
+	// printf("We are gonna copy : %d\n", n_byte);
 	if(str_cp == NULL)
 		return NULL;
 	i = 0;

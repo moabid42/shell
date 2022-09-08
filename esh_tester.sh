@@ -91,11 +91,12 @@ exec_test 'echo -n -n -n -n -n -n -n -n -n -n -nnnnnnn -n -n -n -n -nnnnnnn hi'
 exec_test 'echo -n -n -naaaaaa -n -n hi -n -n -n'
 exec_test 'echo \ hi'
 
-# # CD TESTS
-# exec_test 'cd .. ; pwd'
-# exec_test 'cd /Users ; pwd'
-# exec_test 'cd ; pwd'
-# exec_test 'mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd'
+# CD 
+printf "$BOLDBLUE CD $BOLDWHITE TESTS $RESET\n"
+exec_test 'cd .. && pwd'
+exec_test 'cd includes/ && pwd'
+exec_test 'cd && pwd'
+exec_test 'mkdir test_dir && cd test_dir && pwd && cd .. && rm -rf test_dir'
 
 # SIMPLE TESTS
 printf "$BOLDBLUE SIMPLE $BOLDWHITE TESTS $RESET\n"
@@ -205,6 +206,14 @@ exec_test 'true && false'
 exec_test 'false && true'
 exec_test 'true && true &&true||false && true'
 exec_test 'true && echooo hi || false'
+
+# ENV EXPANSIONS
+printf "$BOLDBLUE ENV AND EXPORT $BOLDWHITE TESTS $RESET\n"
+exec_test 'echo $HOME $USER $PWD'
+exec_test 'env | sort | grep -v SHLVL | grep -v _='
+exec_test 'export lala=hi && echo $hi'
+exec_test 'export lala=echo && $echo hi'
+exec_test 'export lala=echo lolo=hi && $lala $lolo'
 
 
 # # ENV EXPANSIONS + ESCAPE

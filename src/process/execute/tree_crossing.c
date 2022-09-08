@@ -485,8 +485,6 @@ int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		return (minishell->return_value);
 	else if (is_builtin_ast(ast->value.token_name) == true)
 		builtin_run_ast(ast, minishell);
-	// else if (!my_strcmp("exit", ast->value.token_name))
-	// 	prepare_exit(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
 		minishell_save_variable(ast->value.token_name, minishell);
 	else if (ast_is_simple(ast) == true)

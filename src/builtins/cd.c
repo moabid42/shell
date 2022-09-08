@@ -91,6 +91,17 @@ static char	*set_path(char	*old_path, char **argv, t_env *env)
 		return(ft_strjoin(ft_strjoin(old_path, "/"), argv[1]));
 }
 
+char	*get_home(t_env *env)
+{
+	while(env)
+	{
+		if (!my_strcmp(env->name, "HOME"))
+			return (env->content);
+		env = env->next;
+	}
+	return (NULL);
+}
+
 void		ft_cd(char **argv, struct minishell *minishell)
 {
 	// char	*dir;
@@ -103,7 +114,10 @@ void		ft_cd(char **argv, struct minishell *minishell)
 	// printf("We are calling cd\n");
 	tmp = minishell->env;
 	old_path = get_pwd();
-	path = set_path(old_path, argv, minishell->env);
+	if (!argv[1])
+		path = get_home(minishell->env);
+	else
+		path = set_path(old_path, argv, minishell->env);
 	if(path == NULL && argv[1] == NULL)
 		printf("home not set");
 	if (argv[1] && (chdir(path) == -1))
@@ -113,6 +127,7 @@ void		ft_cd(char **argv, struct minishell *minishell)
 	}
 	if (update_current_pwd(path, old_path, &tmp) == false)
 		exit(0);
+	
 	// while(minishell->env != NULL)
  	// {
  	// 	printf("name: |%s|    content: |%s| \n", (minishell->env)->name, (minishell->env)->content);
