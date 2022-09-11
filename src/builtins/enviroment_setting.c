@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/06 07:11:25 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 18:24:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char *copy_till_bit(char *str, int n_byte)
 	char *str_cp;
 
 	str_cp = malloc(n_byte + 1);
-	// printf("We are gonna copy : %d\n", n_byte);
 	if(str_cp == NULL)
 		return NULL;
 	i = 0;
@@ -34,9 +33,6 @@ char *copy_till_bit(char *str, int n_byte)
 char **split_name_content(char *str)
 {
 	char **split;
-	// int i;
-
-	// i = 0;
 	split = malloc(sizeof(char *) * 3);
 	if(split == NULL)
 		return(NULL);
@@ -136,29 +132,5 @@ char **env_to_string(t_env *env)
 		tmp=tmp->next;
 	}
 	i = 0;
-	// while(enviroment[i])
-	// {
-	// 	printf(" int i :%d, %s\n", i, enviroment[i]);
-	// 	i++;
-	// }
 	return (enviroment);
 }
-//int	export(**arg, **env);
-
-// int main (int argc, char **argv, char **env)
-// {
-// // 	int i;
-// //  	t_env *enviroment;
-// // // 	i = 0;
-// // // 	// while(env[i])
-// // // 	// {	
-// // // 	// 	printf("%d : %s \n", i, env[i]);
-// // // 	// 	i++;
-// // // 	// }
-//   	enviroment = create_the_env(env);
-//  	while(enviroment != NULL)
-//  	{
-//  		printf("name: |%s|    content: |%s| \n", enviroment->name, enviroment->content);
-//  		enviroment = enviroment->next;
-//  	}
-// }

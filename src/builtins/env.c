@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:18:18 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/29 17:46:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/08 18:22:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,13 @@
 
 void ft_env(t_env *enviroment)
 {
-	//t_env	*enviroment;
-	
-  	//enviroment = create_the_env(env);
  	while(enviroment != NULL)
  	{
- 		printf("%s=%s\n", enviroment->name, enviroment->content);
+		ft_putstr_fd(enviroment->name, 1);
+		write(1, "=", 1);
+		ft_putstr_fd(enviroment->content, 1);
+		write(1, "\n", 1);
  		enviroment = enviroment->next;
  	}
 	exit(0);
-
 }
-
-// int main (int argc, char **argv, char **env)
-// {
-// 	return (ft_env(argc, argv, env));
-// }
