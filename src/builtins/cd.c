@@ -32,7 +32,7 @@ static void		update_current_pwd(char *path, char *old_path, t_env **env)
 	t_env	*tmp;
 
 	tmp = *env;
-	printf("path: %s \n old_Path: %s\n", path, old_path);
+	// printf("path: %s \n old_Path: %s\n", path, old_path);
 	while(tmp && my_strcmp(tmp->name, "PWD"))
 		tmp = tmp->next;
 	if (tmp == NULL)
@@ -103,17 +103,8 @@ void		ft_cd(char **argv, struct minishell *minishell)
 			return ;
 	else if (path == NULL && argv[1] == NULL)
 		printf("home not set");
-<<<<<<< HEAD
 	if (chdir(path) == -1)
-	{
 		dprintf(2, "bash: cd: %s: No such file or directory", argv[1]);
-=======
-	else if (argv[1] && (chdir(path) == -1))
-	{
-		write(1, "wrong directory",15);
-		return;
->>>>>>> 4c4a394cd5db716fc485e9e3baaa21f223eb1bd8
-	}
 	update_current_pwd(path, old_path, &tmp);
 	return;
 }

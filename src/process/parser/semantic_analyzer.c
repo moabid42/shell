@@ -66,7 +66,7 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 		tmp->value.token_name = minishell_find_variable(minishell, token_stream->token_name);
 		tmp->value.token_type = WORD;
 		if (tmp->value.token_name == NULL)
-			ft_error("Error: variable not found");
+			write(2, "Error: variable not found ,. ,", 26);
 	}	
 	else
 	{
@@ -163,12 +163,14 @@ struct ast *find_end_right(struct ast *node)
 	return (node);
 }
 
-void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev)
+void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev, struct minishell *minishell)
 {
-	struct ast *iterator;
+	struct ast	*iterator;
+	char		*prev_token;
 
 	// printf("We are gonna add the chid [%s][%d]\n", node->value.token_name, node->value.token_type);
 	iterator = *ast;
+	prev_token = prev->token_name;
 	if (iterator->left == NULL)
 		iterator->left = node;
 	else if (iterator->right == NULL)
@@ -176,7 +178,9 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 	else
 	{
 		// printf("We foudn the prev token %s\n", prev->token_name);
-		iterator = find_prev(iterator, prev->token_name);
+		if (prev->token_type == VARIABLE)
+			prev_token = minishell_find_variable(minishell, prev->token_name);
+		iterator = find_prev(iterator, prev_token);
 		if (iterator->left == NULL)
 			iterator->left = node;
 		else if (iterator->right == NULL)
@@ -233,9 +237,10 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 		node->value.token_name = ft_special_trim(tmp->token_name, '\\', ft_strlen(tmp->token_name));	
 	else if (tmp->token_type == VARIABLE)
 	{
+		// printf("We are looking for %s", tmp->token_name);
 		node->value.token_name = minishell_find_variable(minishell, tmp->token_name);
 		if (node->value.token_name == NULL)
-			ft_error("Error: variable not found");
+			write(2, "Error: variable not found . . .", 26);
 	}
 	else
 		node->value.token_name = tmp->token_name;
@@ -296,6 +301,12 @@ void structure ( struct ast *root, int level )
   }
 }
 
+bool	ast_is_assign(struct ast *ast)
+{
+	return (ast->value.token_type == EQUAL
+		|| !my_strcmp(ast->value.token_name, "export"));
+}
+
 struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream **prev, struct token_stream **stream)
 {
 	struct ast *ast;
@@ -308,20 +319,21 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 		if ((*stream)->token_type == ANDAND || (*stream)->token_type == OROR)
 			return(ast);
 		if (is_child(ast->value.token_type, *stream) == true)
-			ast_insert_child(node_create_child(*stream, minishell, (*prev)->token_type), &ast, (*prev));
+			ast_insert_child(node_create_child(*stream, minishell, (*prev)->token_type), &ast, (*prev), minishell);
 		else
 			ast_insert_parent(node_create_parent((*stream)), &ast);
-		// printf("==============================\n");
-		// structure(ast, 0);
 		*prev = *stream;
 		(*stream) = (*stream)->next;
 	}
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
 		dprintf(2, "esh: %s: command not found ...\n", ast->left->value.token_name);
 		return (NULL);
 	}
+	if (ast_is_assign(ast) == true)
+		minishell_ast_execute(ast, minishell);
 	return (ast);
 }
 
@@ -339,12 +351,14 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	{
 		if (prev->token_type == ANDAND || prev->token_type == OROR)
 		{
+			if (ast_is_assign(ast->left) == true)
+				minishell_ast_execute(ast->left, minishell);
 			ast->right = ast_create_subtree(minishell, &prev, &tmp);
 			if (!tmp || !ast->right)
 				break;
 		}
 		if (is_child(ast->value.token_type, tmp) == true)
-			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev);
+			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev, minishell);
 		else
 			ast_insert_parent(node_create_parent(tmp), &ast);
 		prev = tmp;
@@ -353,7 +367,6 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

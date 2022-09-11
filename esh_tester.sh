@@ -177,11 +177,11 @@ exec_test '< fuck grep file'
 exec_test '< fuck grep file | wc -l'
 
 # STAR WILDCARD
-printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
-exec_test 'ls *'
-exec_test 'ls * | wc -l'
-exec_test 'ls * * *'
-exec_test 'echo * * | wc -l'
+# printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
+# exec_test 'ls *'
+# exec_test 'ls * | wc -l'
+# exec_test 'ls * * *'
+# exec_test 'echo * * | wc -l'
 
 # SUBSHELLS
 printf "$BOLDBLUE SUBSHELLS (&&, ||) $BOLDWHITE TESTS $RESET\n"
@@ -211,9 +211,12 @@ exec_test 'true && echooo hi || false'
 printf "$BOLDBLUE ENV AND EXPORT $BOLDWHITE TESTS $RESET\n"
 exec_test 'echo $HOME $USER $PWD'
 exec_test 'env | sort | grep -v SHLVL | grep -v _='
-exec_test 'export lala=hi && echo $hi'
-exec_test 'export lala=echo && $echo hi'
+exec_test 'export lala=hi && echo $lala'
+exec_test 'export lala=echo && $lala hi'
 exec_test 'export lala=echo lolo=hi && $lala $lolo'
+exec_test 'la=hi && echo $la'
+exec_test 'la=echo && $la hi'
+exec_test 'la=echo lo=hi && $la $lo'
 
 
 # # ENV EXPANSIONS + ESCAPE
@@ -272,4 +275,4 @@ exec_test 'export lala=echo lolo=hi && $lala $lolo'
 # exec_test '<'
 
 
-rm "test" test2 test3 test4
+rm "test" test2 test3 test4 test_dir
