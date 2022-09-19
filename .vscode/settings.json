@@ -1,4 +1,7 @@
 {
     "42header.email": "moabid@student.42heilbronn.de",
-    "42header.username": "moabid"
+    "42header.username": "moabid",
+    "files.associations": {
+        "builtin_utils.h": "c"
+    }
 }

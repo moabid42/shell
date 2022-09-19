@@ -1,44 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 17:47:09 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/06 12:31:58 by moabid           ###   ########.fr       */
+/*   Created: 2022/08/15 18:31:52 by frmessin          #+#    #+#             */
+/*   Updated: 2022/09/19 19:03:48 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
 
-char *get_pwd()
+// bool ft_isdigit(char c)
+// {
+// 	if( '0'<= c && c <= '9')
+// 		return (true);
+// 	return (false);
+// }
+
+void ft_putstr(char *str)
 {
-	char	*buf;
-	char	*pwd;
+	int	i;
 
-	buf = malloc(sizeof(char) * 256);
-	pwd = getcwd(buf, 256);
-	if(pwd == NULL)
-		return (NULL);
-	return (pwd);
-}
-
-void	ft_pwd (struct minishell *minishell)
-{
-	char	*pwd;
-	int i;
-
-	pwd = get_pwd ();
-	if(pwd == NULL)
-		exit (0);
 	i = 0;
-	while(pwd[i])
+	while(str[i])
 	{
-		write(1, &pwd[i], 1);
+		write(1, &str[i], 1);
 		i++;
 	}
-	newline();
-	free(pwd);
-	exit (0);
+}
+
+
+void newline()
+{
+	write(1, "\n", 1);
 }

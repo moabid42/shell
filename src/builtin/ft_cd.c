@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 18:44:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:10:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
 
-void	ft_cd(char **argv, struct minishell *minishell);
+
 char	*get_home(t_env *env);
 
 static	t_env *create_variable(t_env *env, char *name, char *path)
@@ -70,14 +71,8 @@ char	*get_home(t_env *env)
 {
 	t_env *tmp;
 	char *path;
+
 	tmp = env;
-	// while(env != NULL)
- 	// {
-	// 	if(env->name[0] == 'H' )
- 	// 		printf("name: |%s|    content: |%s| \n", env->name, env->content);
- 	// 	env = env->next;
- 	// }
-	env = tmp;
 	while(env)
 	{
 		if (!my_strcmp(env->name, "HOME"))

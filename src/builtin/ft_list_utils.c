@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   ft_list_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 21:18:25 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 17:53:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:03:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
 
 t_env *append_new_node(t_env *enviroment, t_env *node)
 {

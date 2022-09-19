@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment_setting.c                               :+:      :+:    :+:   */
+/*   ft_enviroment_setting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 18:24:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:03:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
 
 char *copy_till_bit(char *str, int n_byte)
 {

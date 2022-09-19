@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/08 12:05:10 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 17:16:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "utils.h"
 #include "execute.h"
-#include "builtins.h"
+#include "builtin.h"
 
 bool	is_builtin(char *cmd)
 {

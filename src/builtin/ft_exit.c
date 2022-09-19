@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/25 02:05:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:03:28 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
 #include "minishell.h"
 #include "utils.h"
 #include "execute.h"
 #include "parser.h"
+#include "builtin_utils.h"
 
 bool	all_digits(char *str)
 {

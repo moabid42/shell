@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/29 17:47:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:03:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
+
 
 // static bool check_dollar_sign(char* str)
 // {

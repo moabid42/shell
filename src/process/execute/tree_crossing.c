@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/08 12:07:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:10:12 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser.h"
-#include "utils.h"
-#include "builtins.h"
+// #include "parser.h"
+// #include "utils.h"
+#include "builtin.h"
 
 // int	ast_child_num(struct ast *node)
 // {
@@ -459,12 +459,12 @@ void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
 	// printer_split(cmd_list);
 	if (!my_strcmp(cmd_list[0], "exit"))
 	 	ft_exit(cmd_list, minishell);
+	else if(!my_strcmp(cmd_list[0], "cd"))
+		ft_cd(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "export"))
 		ft_export(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "unset"))
 		ft_unset(cmd_list, minishell);
-	else if(!my_strcmp(cmd_list[0], "cd"))
-		ft_cd(cmd_list, minishell);
 }
 
 bool	is_builtin_ast(char *cmd)

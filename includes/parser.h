@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 04:03:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 18:09:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include "utils.h"
 #include "execute.h"
+#include "builtin.h"
 
 struct minishell;
 struct scripts;

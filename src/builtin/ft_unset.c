@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:21:03 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/08 12:00:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:03:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "builtin.h"
+#include "builtin_utils.h"
 
 static t_env    *remove_env_var(t_env *enviroment, t_env *node_to_erase)
 {

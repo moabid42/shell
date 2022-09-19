@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:08:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 18:27:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "utils.h"
 #include "parser.h"
 #include "execute.h"
-#include "builtins.h"
+#include "builtin.h"
 #include "../src/utils/libft/libft.h"
 #include "../src/utils/libft/get_next_line.h"
 #include "../src/utils/libft/reader.h"

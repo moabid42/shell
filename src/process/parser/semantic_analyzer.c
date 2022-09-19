@@ -6,12 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 04:40:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 17:16:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
+#include "builtin.h"
 #include "parser.h"
 #include "utils.h"
 

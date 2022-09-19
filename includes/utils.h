@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:32:30 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/19 18:09:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "execute.h"
+#include "builtin.h"
 #include "../src/utils/libft/libft.h"
 #include "../src/utils/libft/reader.h"
 
