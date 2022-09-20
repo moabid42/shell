@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 03:13:05 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 15:18:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 		tmp->value.token_name = minishell_find_variable(minishell, token_stream->token_name);
 		tmp->value.token_type = WORD;
 		if (tmp->value.token_name == NULL)
-			write(2, "Error: variable not found ,. ,", 26);
+			tmp->value.token_name = ft_strdup("");
 	}	
 	else
 	{
@@ -81,8 +81,8 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 			|| !my_strcmp(tmp->value.token_name, "exit"))
 			tmp->value.token_type = BUILTIN;
 	}
-	else if (tmp->value.token_type == EQUAL)
-		minishell_save_variable(tmp->value.token_name, minishell);
+	// else if (tmp->value.token_type == EQUAL)
+	// 	minishell_save_variable(tmp->value.token_name, minishell);
 	tmp->isroot = true;
 	tmp->left = NULL;
 	tmp->right = NULL;
@@ -137,7 +137,7 @@ struct ast	*ast_lookup(struct ast *node, char *token_name)
 //create a function that looks for a char inside the binary tree
 struct ast *find_prev(struct ast *node, char *token_name)
 {
-	// printf("We are in the node : %s\n", node->value.token_name);
+	// printf("We are in the node : %s\n", token_name);
 	if (my_strcmp(node->value.token_name, token_name) == 0)
 	{
 		if (node->left)
@@ -184,14 +184,16 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		// printf("We foudn the prev token %s\n", prev->token_name);
 		if (prev->token_type == VARIABLE)
 			prev_token = minishell_find_variable(minishell, prev->token_name);
+		if (prev_token == NULL)
+			prev_token = ft_strdup("");
 		iterator = find_prev(iterator, prev_token);
 		if (iterator->left == NULL)
 			iterator->left = node;
 		else if (iterator->right == NULL)
 			iterator->right = node;
 	}
-	if (iterator->value.token_type == EQUAL)
-		minishell_save_variable(iterator->value.token_name, minishell);
+	// if (iterator->value.token_type == EQUAL)
+	// 	minishell_save_variable(iterator->value.token_name, minishell);
 }
 
 //create a parent node
@@ -227,8 +229,8 @@ void	ast_insert_parent(struct ast *node, struct ast **root, struct minishell *mi
 		(*root)->right = node;
 		node->left = tmp;
 	}
-	if (node->value.token_type == EQUAL)
-		minishell_save_variable(node->value.token_name, minishell);
+	// if (node->value.token_type == EQUAL)
+	// 	minishell_save_variable(node->value.token_name, minishell);
 }
 
 //create a child node
@@ -248,7 +250,7 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 		// printf("We are looking for %s", tmp->token_name);
 		node->value.token_name = minishell_find_variable(minishell, tmp->token_name);
 		if (node->value.token_name == NULL)
-			write(2, "Error: variable not found . . .", 26);
+			node->value.token_name = ft_strdup("");
 	}
 	else
 		node->value.token_name = tmp->token_name;
@@ -350,17 +352,30 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	struct ast *ast;
 	struct token_stream *tmp;
 	struct token_stream *prev;
+	char       			export_fg;
 		
 	tmp = token_stream;
 	prev = tmp;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
+	export_fg = false;
 	while (tmp)
 	{
+		if (!my_strcmp(prev->token_name, "export"))
+			export_fg = true;
 		if (prev->token_type == ANDAND || prev->token_type == OROR)
 		{
 			if (ast_is_assign(ast->left) == true)
 				minishell_ast_execute(ast->left, minishell);
+			ast->right = ast_create_subtree(minishell, &prev, &tmp);
+			if (!tmp || !ast->right)
+				break;
+		}
+		if (export_fg == false && prev->token_type == EQUAL
+			&& tmp->token_type != ANDAND
+			&& tmp->token_type != OROR
+			&& tmp->token_type != EQUAL)
+		{
 			ast->right = ast_create_subtree(minishell, &prev, &tmp);
 			if (!tmp || !ast->right)
 				break;

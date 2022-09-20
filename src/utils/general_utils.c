@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:31:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 15:09:16 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void	minishell_error(struct minishell *minishell, char *str)
 
 int	my_strcmp(const char *strg1, char *strg2)
 {
+	// printf("strg1: %s strg2: %s\n", strg1, strg2);
+	if ((strg1 == NULL && strg2 == NULL))
+		return (0);
+	else if (!strg1 || !strg2)
+		return (1);
 	while ((*strg1 != '\0' && *strg2 != '\0') && *strg1 == *strg2)
 	{
 		strg1++;
