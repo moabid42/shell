@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 19:10:12 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 01:42:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,7 +400,7 @@ void	variable_insert_node(struct s_variable *variable, struct s_variable *list)
 {
 	while (list)
 	{
-		printf("We are checking %s and %s\n", list->var, variable->var);
+		// printf("We are checking %s and %s\n", list->var, variable->var);
 		if (!my_strcmp(list->var, variable->var))
 		{
 			list->value = variable->value;
@@ -414,13 +414,34 @@ void	variable_insert_node(struct s_variable *variable, struct s_variable *list)
 	list->next = variable;
 }
 
+bool	minishell_var_lookup(char *var_str, struct s_variable *variable)
+{
+	char **var_list;
+	
+	var_list = ft_split(var_str, '=');
+	while (variable)
+	{
+		if (!my_strcmp(variable->var, var_list[0])
+			&& !my_strcmp(variable->value, var_list[1]))
+		{
+			free_split(var_list);
+			return (true);
+		}
+		variable = variable->next;
+	}
+	free_split(var_list);
+	return (false);
+}
+
 void	minishell_save_variable(char *variable_assigned, struct minishell *minishell)
 {
 	char **variable_list;
 	struct s_variable *new;
 	
+	if (minishell_var_lookup(variable_assigned, minishell->variables) == true)
+		return ;
 	variable_list = ft_split(variable_assigned, '=');
-	printf("We are gonna save the variable with %s and %s\n", variable_list[0], variable_list[1]);
+	// printf("We are gonna save the variable with %s and %s\n", variable_list[0], variable_list[1]);
 	if (!minishell->variables)
 		minishell->variables = variable_create(variable_list);
 	else
@@ -428,7 +449,7 @@ void	minishell_save_variable(char *variable_assigned, struct minishell *minishel
 		new = variable_create(variable_list);
 		variable_insert_node(new, minishell->variables);
 	}
-	printer_variable(minishell->variables);
+	// printer_variable(minishell->variables);
 }
 
 void	printer_variable(struct s_variable *variable)
@@ -475,6 +496,15 @@ bool	is_builtin_ast(char *cmd)
 		|| !my_strcmp(cmd, "unset"));
 }
 
+void	minishell_run_equal(struct ast *ast, struct minishell *minishell)
+{
+	minishell_save_variable(ast->value.token_name, minishell);
+	if (ast->right)
+		minishell_ast_execute(ast->right, minishell);
+	else
+		minishell_ast_execute(ast->left, minishell);
+}
+
 int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 {
 	struct ast *tmp;
@@ -486,7 +516,7 @@ int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 	else if (is_builtin_ast(ast->value.token_name) == true)
 		builtin_run_ast(ast, minishell);
 	else if (ast->value.token_type == EQUAL)
-		minishell_save_variable(ast->value.token_name, minishell);
+		minishell_run_equal(ast, minishell);
 	else if (ast_is_simple(ast) == true)
 		minishell_process_command(ast, minishell);
 	else if (ast->value.token_type == FALSE

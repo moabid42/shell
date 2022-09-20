@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 18:09:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 03:03:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ enum token_type {
     DOUBLE_SMALLER,
 
 	COMMAND,
-	FILES,
     BUILTIN,
+	FILES,
 	FALSE,
 	TRUE,
+    EQUAL,
 
     VARIABLE,
-    EQUAL,
     
     STAR,
     STAR_WORD,

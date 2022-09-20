@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 17:16:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 03:13:05 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 			|| !my_strcmp(tmp->value.token_name, "exit"))
 			tmp->value.token_type = BUILTIN;
 	}
+	else if (tmp->value.token_type == EQUAL)
+		minishell_save_variable(tmp->value.token_name, minishell);
 	tmp->isroot = true;
 	tmp->left = NULL;
 	tmp->right = NULL;
@@ -94,6 +96,8 @@ bool	is_child(int root, struct token_stream *tmp)
 	// printf("This token type is : %d of %s and the prev is : %d\n", tmp->token_type, tmp->token_name, prev_type);
 	if (tmp->token_type < DOUBLE_SMALLER)
 		return (false);
+	if (tmp->token_type == PIPE && root == EQUAL)
+		return (true);
 	if (tmp->token_type > root)
 		return (true);
 	return (false);
@@ -186,6 +190,8 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		else if (iterator->right == NULL)
 			iterator->right = node;
 	}
+	if (iterator->value.token_type == EQUAL)
+		minishell_save_variable(iterator->value.token_name, minishell);
 }
 
 //create a parent node
@@ -203,7 +209,7 @@ struct ast	*node_create_parent(struct token_stream *tmp)
 	return (node);
 }
 
-void	ast_insert_parent(struct ast *node, struct ast **root)
+void	ast_insert_parent(struct ast *node, struct ast **root, struct minishell *minishell)
 {
 	struct ast *tmp;
 
@@ -221,6 +227,8 @@ void	ast_insert_parent(struct ast *node, struct ast **root)
 		(*root)->right = node;
 		node->left = tmp;
 	}
+	if (node->value.token_type == EQUAL)
+		minishell_save_variable(node->value.token_name, minishell);
 }
 
 //create a child node
@@ -249,7 +257,7 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 		|| node->value.token_type == VARIABLE)
 	{
 		if (ft_iscommand(node->value.token_name, minishell->env) == true
-			&& prev_type < GREATER)
+			&& (prev_type < GREATER || prev_type == EQUAL))
 			node->value.token_type = COMMAND;
 		else if (ft_isfile(node->value.token_name) == true)
 			node->value.token_type = FILES;
@@ -321,7 +329,7 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 		if (is_child(ast->value.token_type, *stream) == true)
 			ast_insert_child(node_create_child(*stream, minishell, (*prev)->token_type), &ast, (*prev), minishell);
 		else
-			ast_insert_parent(node_create_parent((*stream)), &ast);
+			ast_insert_parent(node_create_parent((*stream)), &ast, minishell);
 		*prev = *stream;
 		(*stream) = (*stream)->next;
 	}
@@ -360,13 +368,14 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		if (is_child(ast->value.token_type, tmp) == true)
 			ast_insert_child(node_create_child(tmp, minishell, prev->token_type), &ast, prev, minishell);
 		else
-			ast_insert_parent(node_create_parent(tmp), &ast);
+			ast_insert_parent(node_create_parent(tmp), &ast, minishell);
 		prev = tmp;
 		if (tmp)
 			tmp = tmp->next;
 		else
 			break;
 	}
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

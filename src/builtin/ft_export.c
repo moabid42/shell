@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 03:01:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void ft_export (char **argv, struct minishell *minishell)
 	enviroment = minishell->env;
 	enviroment = alphabetic_order(enviroment);
 	head = enviroment;
-	if(!argv[1])
+	if(argv[1] == NULL)
 		print_the_enviroment(enviroment);
 	else
 	{
