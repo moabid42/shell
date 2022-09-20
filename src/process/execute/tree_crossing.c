@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 01:42:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 18:58:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,11 @@ char	**command_statement_create(struct ast *ast)
 	tmp = ast;
 	command_statement = ft_malloc(sizeof(char *) * (ast_child_num_complexe(ast) + 2));
 	// dprintf(2, "The number of the childs not complexe is : %d for %s\n", ast_child_num_complexe(ast) + 1, tmp->value.token_name);
-	command_statement[i] = ft_strdup(tmp->value.token_name);
+	if (tmp->value.token_name[0] == '.'
+		&& tmp->value.token_name[1] == '/')
+		command_statement[i] = ft_strdup(tmp->value.token_name + 2);
+	else
+		command_statement[i] = ft_strdup(tmp->value.token_name);
 	if (tmp->left)
 		command_statement[++i] = ft_strdup(tmp->left->value.token_name);
 	if (tmp->right)
@@ -136,6 +140,8 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 	if (!pid)
 	{
 		dup2(fd_out, 1);
+		// printf("The path is %s\n", path);
+		// printer_split(command_statement);
 		if(is_builtin(command_statement[0]) == true)
 			builtin_run(command_statement, minishell);
 		else if (execve(path, command_statement, env_to_string(minishell->env)) == -1)
@@ -342,6 +348,8 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		fd_out = 1;
 	command_statement = command_statement_create(jump);
 	command_path = get_path(command_statement[0], minishell->env);
+	if (command_path == NULL)
+		command_path = jump->value.token_name;
 	// printer_split(command_statement);
 	if (ast->value.token_type == DOUBLE_SMALLER)
 		heredoc_statement_execute(ast, minishell);

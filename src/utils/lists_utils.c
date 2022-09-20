@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 04:03:02 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 15:35:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,8 @@ enum token_type find_type(char *token)
 		   || !my_strcmp(token, "[") || !my_strcmp(token, "]")
 		   || !my_strcmp(token, "{") || !my_strcmp(token, "}"))
 		return (find_parenth(token));
-	// else if (token[0] == '-')
-	// 	return (FLAG);
 	else if (!my_strcmp(token, "false") || !my_strcmp(token, "true"))
 		return (find_bool(token));
-	// else if (ft_isword(token))
-	// 	return (WORD);
-	// else
 		return (WORD);
 }
 

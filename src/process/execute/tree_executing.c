@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 17:16:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 15:39:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	command_statement_run(char **command_statement, char *command_path, struct 
 {
 	if (is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
-	
-	printf("am i segfaulting cause retard?\n");
 	if (execve(command_path, command_statement, env_to_string(minishell->env)) == -1)
 			ft_error(command_statement[0]);
 }

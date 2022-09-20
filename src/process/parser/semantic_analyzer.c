@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 15:18:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/20 18:37:16 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,32 @@ char	*minishell_find_variable(struct minishell *minishell, char *variable)
 	return (NULL);
 }
 
+// bool	ft_isexecutable(char *executable)
+// {
+// 	printf("executable: %s\n", executable);
+// 	if (access(executable, F_OK | X_OK) == 0)
+// 		return (true);
+// 	return (false);
+// }
+
+//create a function that checks if a file is executable
+bool	ft_isexecutable(char *executable)
+{
+	struct stat	*buf;
+
+	buf = malloc(sizeof(struct stat));
+	if (stat(executable, buf) == 0)
+	{
+		if (buf->st_mode & S_IXUSR)
+		{
+			free(buf);
+			return (true);
+		}
+	}
+	free(buf);
+	return (false);
+}
+
 struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stream *token_stream)
 {
 	struct ast	*tmp;
@@ -75,7 +101,8 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 	}
 	if (tmp->value.token_type == WORD || tmp->value.token_type == VARIABLE)
 	{		
-		if (ft_iscommand(tmp->value.token_name, minishell->env) == true)
+		if (ft_iscommand(tmp->value.token_name, minishell->env) == true
+			|| ft_isexecutable(tmp->value.token_name) == true)
 			tmp->value.token_type = COMMAND;
 		else if (is_builtin(tmp->value.token_name) == true
 			|| !my_strcmp(tmp->value.token_name, "exit"))
