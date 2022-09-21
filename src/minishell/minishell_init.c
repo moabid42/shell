@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 17:16:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/21 00:08:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void    minishell_create(struct minishell *minishell, char **env)
 	minishell->variables = NULL;
 	minishell->scripts = NULL;
 	minishell->byte_code = 0;
+	minishell->brakets_flag = 0;
+	minishell->index_flag = 1;
 }
 
 int	ft_strlen_newline(char *str)

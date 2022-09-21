@@ -6,21 +6,13 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 04:44:00 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/21 00:10:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include "utils.h"
-
-// static void init_reader_struct(t_args *args)
-// {
-// 	// args->split_char = " ";
-// 	// args->single_word = (char *[]){"||", "|", "&&", "<<", ">>", "<", ">", NULL};
-// 	// args->ignore = (char *)"\\";
-// 	// args->ign_char_inside = (char *)"\"'";
-// }
 
 void	print_tokens(char **scripts_line, int count)
 {
@@ -211,26 +203,6 @@ void	minishell_set_byte_code(struct minishell *minishell)
 	minishell->byte_code = edx;
 }
 
-void decToBinary(long long n)
-{
-    int binaryNum[64];
-	int	count = 0;
-    int i = 0;
-
-    while (n > 0)
-	{
-        binaryNum[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-    for (int j = i - 1; j >= 0; j--)
-	{
-		count++;
-        printf("%d", binaryNum[j]);
-	}
-	printf("\nThe count is : %d\n", count);
-}
-
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -238,7 +210,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	t_args args;
 	
 	args.split_char = " ";
-	args.single_word = (char *[]){"||", "&&", "|", "&&", "<<", ">>", "<", ">", NULL};
+	args.single_word = (char *[]){"(", ")", "||", "&&", "|", "&&", "<<", ">>", "<", ">", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
 	tokens = ft_reader(script->input_line, &args);
@@ -248,18 +220,14 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 		tokens = token_expend_star(tokens, script->tokens_num - 1);
 		script->tokens_num = count_tokens(tokens);
 	}
-	// printf("The number of tokens: %d\n", words_count(script->input_line, ';', "\"'") );
-	// printer_split(tokens);
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);
-	// printer_token(token_stream);
 	script->token_stream = token_stream;
-	minishell_set_byte_code(minishell);
-	// printf("The dx register contain :\n");
-	// decToBinary(minishell->byte_code);
+	// minishell_set_byte_code(minishell);
 	return (token_stream);
 }
 
-void minishell_scripts_destroy(struct minishell *minishell) {
+void minishell_scripts_destroy(struct minishell *minishell)
+{
 
 }
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 18:38:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/21 00:08:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ struct minishell {
 	enum    e_type type;
 	int		return_value;
 	long long		byte_code;
+	long long		brakets_flag;
+	int				index_flag;
 	struct	s_variable *variables;
 	enum	e_redirection redirection;
 	unsigned int scripts_num;

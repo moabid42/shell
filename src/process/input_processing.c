@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/27 05:36:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/21 00:16:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,6 @@
 
 void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishell)
 {
-	// int	exit_status;
-
-	// exit_status = 0;
-	// while (ast->value.token_type < 2)
-	// {
-	// 	if (ast->value.token_type == 0)
-	// 		exit_status &= minishell_ast_execute(ast->right, minishell);
-	// 	else
-	// 		exit_status |= minishell_ast_execute(ast->right, minishell);
-	// 	ast = ast->left;
-	// }
-	// minishell->return_value = exit_status;
 	if (ast->left->value.token_type < 2)
 		minishell_ast_execute_subshells(ast->left, minishell);
 	// printf("We reached the buttom so: %s\n", ast->value.token_name);
@@ -62,12 +50,27 @@ void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishel
 	if (minishell->return_value == 0 && ast->value.token_type == 0)
 		minishell->return_value &= minishell_ast_execute(ast->right, minishell);
 	else if (minishell->return_value != 0 && ast->value.token_type == 1)
-	{
-		// printf("We are gonna xor is : %d\n", minishell->return_value);
 		minishell->return_value = minishell_ast_execute(ast->right, minishell);
-		// printf("We did it : %d\n", minishell->return_value);
-	}
 	//To do implement one line heredoc in case there is nothing after && and ||
+}
+
+void decToBinary(long long n)
+{
+    int binaryNum[64];
+	int	count = 0;
+    int i = 0;
+
+    while (n > 0)
+	{
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+    for (int j = i - 1; j >= 0; j--)
+	{
+		count++;
+        printf("%d", binaryNum[j]);
+	}
 }
 
 void minishell_process_input(struct scripts *script, struct minishell *minishell)
@@ -82,6 +85,10 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 	// printer_token(token_stream);
 	syntax_analyzer_create(token_stream, script);
 	ast = semantic_analyzer_create(minishell, script->token_stream);
+	printf("The bracket flag is :\n");
+	decToBinary(minishell->brakets_flag);
+	printf("\n");
+	printf("And the index is now : %d\n", minishell->index_flag);
 	if (ast && ast->value.token_type < 2)
 		minishell_ast_execute_subshells(ast, minishell);
 	else
@@ -109,6 +116,8 @@ void minishell_read_input(struct minishell *minishell)
 		ft_error(UNEXPECTED_TOKEN);
 	tmp_cr = minishell->scripts;
 	minishell_process_input(tmp_cr, minishell);
+	minishell->brakets_flag = 0;
+	minishell->index_flag = 1;
 	tmp_ds = minishell->scripts;
 	minishell_destroy_input(tmp_ds);
 }

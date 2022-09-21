@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 18:37:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/21 14:30:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,12 +347,27 @@ bool	ast_is_assign(struct ast *ast)
 struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream **prev, struct token_stream **stream)
 {
 	struct ast *ast;
-		
+
+	if (!my_strcmp((*stream)->token_name, "(")
+		|| !my_strcmp((*stream)->token_name, ")"))
+	{
+		(*stream) = (*stream)->next;
+		minishell->index_flag *= 2;
+		minishell->brakets_flag |= minishell->index_flag;
+	}
 	ast = ast_create_first_node(minishell, *stream);
 	*prev = *stream;
 	*stream = (*stream)->next;
 	while (*stream)
 	{
+		if (!my_strcmp((*stream)->token_name, "(")
+			|| !my_strcmp((*stream)->token_name, ")"))
+		{
+			(*stream) = (*stream)->next;
+			minishell->index_flag *= 2;
+			minishell->brakets_flag |= minishell->index_flag;
+			continue ;
+		}
 		if ((*stream)->token_type == ANDAND || (*stream)->token_type == OROR)
 			return(ast);
 		if (is_child(ast->value.token_type, *stream) == true)
@@ -383,15 +398,31 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		
 	tmp = token_stream;
 	prev = tmp;
+	if (!my_strcmp(tmp->token_name, "(")
+		|| !my_strcmp(tmp->token_name, ")"))
+	{
+		tmp = tmp->next;
+		minishell->brakets_flag |= minishell->index_flag;
+	}
+	minishell->index_flag *= 2;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
 	export_fg = false;
 	while (tmp)
 	{
+		if (!my_strcmp(tmp->token_name, "(")
+			|| !my_strcmp(tmp->token_name, ")"))
+		{
+			tmp = tmp->next;
+			minishell->index_flag *= 2;
+			minishell->brakets_flag |= minishell->index_flag;
+			continue;
+		}
 		if (!my_strcmp(prev->token_name, "export"))
 			export_fg = true;
 		if (prev->token_type == ANDAND || prev->token_type == OROR)
 		{
+			minishell->index_flag *= 2;
 			if (ast_is_assign(ast->left) == true)
 				minishell_ast_execute(ast->left, minishell);
 			ast->right = ast_create_subtree(minishell, &prev, &tmp);
@@ -417,7 +448,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	// structure(ast, 0);
+	structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
