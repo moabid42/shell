@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 03:03:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/29 01:39:28 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ struct token_stream {
 };
 
 struct AST_value {
-    char *token_name;
+    char    *token_name;
+    int     exit_status;
     enum token_type token_type;
 };
 

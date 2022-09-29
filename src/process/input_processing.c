@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/21 00:16:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/29 01:41:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,15 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 	// printer_token(token_stream);
 	syntax_analyzer_create(token_stream, script);
 	ast = semantic_analyzer_create(minishell, script->token_stream);
-	printf("The bracket flag is :\n");
-	decToBinary(minishell->brakets_flag);
-	printf("\n");
-	printf("And the index is now : %d\n", minishell->index_flag);
+	// printf("The bracket flag is :\n");
+	// decToBinary(minishell->brakets_flag);
+	// printf("\n");
+	// printf("And the index is now : %d\n", minishell->index_flag);
 	if (ast && ast->value.token_type < 2)
 		minishell_ast_execute_subshells(ast, minishell);
 	else
 		minishell->return_value = minishell_ast_execute(ast, minishell);
+	structure(ast, 0);
 	minishell_process_input(script->next, minishell);
 }
 

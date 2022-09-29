@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 19:09:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/29 01:42:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -540,6 +540,7 @@ int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		minishell->return_value = 127;
 		dprintf(2, "esh: %s: command not found .....\n", ast->value.token_name);
 	}
+	ast->value.exit_status = minishell->return_value;	
 	return (minishell->return_value);
 	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }

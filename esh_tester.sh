@@ -220,7 +220,7 @@ exec_test 'la=echo lo=hi && $la $lo'
 exec_test 'girl=guy kid=adult ls'
 exec_test 'girl=file kid=adult ls | grep file'
 
-printf "$BOLDBLUE PLEASE MAKE SURE TO TEST THESE CASES MANUALY\n $RESET"
+printf "$BOLDBLUE PLEASE MAKE SURE TO TEST THESE CASES MANUALY\n$RESET"
 printf "$BOLDWHITE echo \$bullshit \$bullshit \$bullshit $RESET\n"
 printf "$BOLDWHITE girl=guy kid=adult echo \$girl \$kid $RESET\n"
 

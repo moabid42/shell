@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/21 14:30:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/09/29 01:45:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,7 @@ void structure ( struct ast *root, int level )
   {
     structure(root->right, level + 1 );
     padding('\t', level);
-    printf("%s[%d]\n", root->value.token_name, root->value.token_type);
+    printf("%s[%d][%d]\n", root->value.token_name, root->value.token_type, root->value.exit_status);
     structure(root->left, level + 1);
   }
 }
@@ -381,7 +381,10 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		dprintf(2, "esh: %s: command not found ...\n", ast->left->value.token_name);
+		if (ast->left)
+			dprintf(2, "esh: %s: command not found ...\n", ast->left->value.token_name);
+		else
+			dprintf(2, "esh: %s: command not found ...\n", ast->value.token_name);
 		return (NULL);
 	}
 	if (ast_is_assign(ast) == true)
@@ -448,7 +451,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	structure(ast, 0);
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
