@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/29 01:41:27 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:59:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,31 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 	if (!script)
 		return;
 	// printf("We are creating a token_stream for : %s\n", script->input_line);
-	token_stream = lexical_analyzer_create(script, minishell);
-	// printer_token(token_stream);
-	syntax_analyzer_create(token_stream, script);
-	ast = semantic_analyzer_create(minishell, script->token_stream);
-	// printf("The bracket flag is :\n");
-	// decToBinary(minishell->brakets_flag);
-	// printf("\n");
-	// printf("And the index is now : %d\n", minishell->index_flag);
-	if (ast && ast->value.token_type < 2)
-		minishell_ast_execute_subshells(ast, minishell);
+	minishell->handled = false;
+	if (!my_strcmp(script->input_line, "<<")
+		|| !my_strcmp(script->input_line, "<>")
+		|| !my_strcmp(script->input_line, "<")
+		|| !ft_strncmp(script->input_line, "<> &&", 5))
+	{
+		minishell->return_value = 258;
+		dprintf(2, "minishell: syntax error near unexpected token `newline'");
+	}
 	else
-		minishell->return_value = minishell_ast_execute(ast, minishell);
-	structure(ast, 0);
+	{
+		token_stream = lexical_analyzer_create(script, minishell);
+		ast = semantic_analyzer_create(minishell, script->token_stream);
+		// structure(ast, 0);
+		if (ast != NULL)
+		{
+			if (syntax_analyzer_create(token_stream, ast, minishell) == true)
+			{
+				if (ast && ast->value.token_type < 2)
+					minishell_ast_execute_subshells(ast, minishell);
+				else
+					minishell->return_value = minishell_ast_execute(ast, minishell);
+			}
+		}
+	}
 	minishell_process_input(script->next, minishell);
 }
 

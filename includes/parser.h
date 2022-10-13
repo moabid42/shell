@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/29 01:39:28 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/13 11:56:58 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 void lexical_analyzer_destroy(struct token_stream **token_stream);
 
 
-void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *script);
+bool syntax_analyzer_create(struct token_stream *token_stream, struct ast *ast, struct  minishell *minishell);
 
 void syntax_analyzer_destroy(struct minishell *minishell);
 

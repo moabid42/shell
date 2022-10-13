@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/29 01:42:39 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/11 22:40:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 // #include "parser.h"
 // #include "utils.h"
 #include "builtin.h"
-
-// int	ast_child_num(struct ast *node)
-// {
-// 	int num;
-
-// 	num = 0;
-// 	if (node->left)
-// 		num++;
-// 	if (node->right)
-// 		num++;
-// 	return (num);
-// }
-
-//create a function that counts the number of children of a node
 
 int	ast_child_num_complexe(struct ast *node)
 {
@@ -328,7 +314,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	char	*command_path;
 
 	jump = ast;
-	if (ast->value.token_type < DOUBLE_SMALLER && ast->value.token_type == WORD)
+	if (ast->value.token_type == WORD)
 	{
 		minishell->return_value = 127;
 		dprintf(2, "esh: %s: command not found .\n", ast->value.token_name);

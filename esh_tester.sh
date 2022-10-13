@@ -177,11 +177,11 @@ exec_test '< fuck grep file'
 exec_test '< fuck grep file | wc -l'
 
 # STAR WILDCARD
-# printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
-# exec_test 'ls *'
-# exec_test 'ls * | wc -l'
-# exec_test 'ls * * *'
-# exec_test 'echo * * | wc -l'
+printf "$BOLDBLUE STAR $BOLDWHITE TESTS $RESET\n"
+exec_test 'ls *'
+exec_test 'ls * | wc -l'
+exec_test 'ls * * *'
+exec_test 'echo * * | wc -l'
 
 # SUBSHELLS
 printf "$BOLDBLUE SUBSHELLS (&&, ||) $BOLDWHITE TESTS $RESET\n"
@@ -219,6 +219,21 @@ exec_test 'la=echo && $la hi'
 exec_test 'la=echo lo=hi && $la $lo'
 exec_test 'girl=guy kid=adult ls'
 exec_test 'girl=file kid=adult ls | grep file'
+
+printf "$BOLDBLUE ERROR $BOLDWHITE TESTS $RESET\n"
+exec_test 'echo < >'
+exec_test 'echo <>'
+exec_test '<>'
+exec_test '||'
+exec_test '&&'
+exec_test 'echo ||'
+exec_test 'echo &&'
+exec_test '<> && &'
+exec_test '<> && <>'
+exec_test '<'
+exec_test '>'
+exec_test '<>>'
+exec_test '<<'
 
 printf "$BOLDBLUE PLEASE MAKE SURE TO TEST THESE CASES MANUALY\n$RESET"
 printf "$BOLDWHITE echo \$bullshit \$bullshit \$bullshit $RESET\n"

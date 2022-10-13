@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/08/09 20:16:46 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:57:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,6 @@ bool iterator_create(struct token_stream **iterator, struct token_stream **tmp) 
 	else
 		return (false);
 }
-
-// bool iterator_quotes_closure_met(struct token_stream *tmp) {
-// 	if (tmp->token_type == SINGLE_QUOTES || tmp->token_type == DOUBLE_QUOTES)
-// 		return (true);
-// 	else
-// 		return (false);
-// }
-
-// bool iterator_check_heredoc(struct token_stream **iterator) {
-// 	printf("We are looking for closure!\n");
-// 	while (*iterator) {
-// 		if (iterator_quotes_closure_met(*iterator) == true) {
-// 			(*iterator)->closed = true;
-// 			printf("We found one (*iterator)->closed = %d!\n", (*iterator)->closed);
-// 			return (false);
-// 		}
-// 		*iterator = (*iterator)->next;
-// 	}
-// 	return (true);
-// }
 
 bool iterator_check_backslash(struct token_stream **iterator)
 {
@@ -119,33 +99,24 @@ bool	check_string_closed(struct token_stream **token_stream)
 	return (true);
 }
 
-void syntax_analyzer_create(struct token_stream *token_stream, struct scripts *script)
+bool syntax_analyzer_create(struct token_stream *token_stream, struct ast *ast, struct minishell *minishell)
 {
-	struct token_stream *tmp;
+	struct ast *tmp;
 	struct token_stream *iterator;
 
-	tmp = token_stream;
-	iterator = NULL;
-	while (tmp)
+	tmp = ast;
+	iterator = token_stream;
+	if (iterator->token_type < 3)
 	{
-		if (iterator_create(&iterator, &tmp) == true)
-		{
-			// printf("The value of the flag is : %d for the element %s\n", tmp->closed, tmp->token_name);
-			if (check_string_closed(&tmp) == false
-			    || iterator_check_backslash(&iterator) == true)
-				iterator_trigger_heredoc(&script);
-			else if (iterator_check_pth_br(&iterator) == false) {
-				iterator_trigger_error(tmp);
-				break;
-			}
-		}
-		else if (heredoc_rediraction(&tmp) == true)
-			iterator_trigger_heredoc(&script);
-		tmp = tmp->next;
+		minishell->return_value = 258;
+		dprintf(2, "esh: syntax error near unexpected token `%s'\n", iterator->token_name);
+		return (false);
 	}
+	if (ast->value.token_type < 5 && ast->right == NULL && minishell->handled == false)
+	{
+		minishell->return_value = 258;
+		dprintf(2, "esh: syntax error near unexpected token `%s'\n", tmp->value.token_name);
+		return (false);
+	}
+	return (true);
 }
-
-// void	syntax_analyzer_destroy(struct minishell *minishell)
-// {
-
-// }

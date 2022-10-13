@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/29 01:45:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:56:12 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,14 +377,18 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 		*prev = *stream;
 		(*stream) = (*stream)->next;
 	}
-	// structure(ast, 0);
+	// if (ast->value.token_type > 13 && ast->value.token_type > 1)
+	// 	return (NULL);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
-		if (ast->left)
+		if (!ft_isalnum(ast->value.token_name[0]))
+			;
+		else if (ast->left)
 			dprintf(2, "esh: %s: command not found ...\n", ast->left->value.token_name);
 		else
 			dprintf(2, "esh: %s: command not found ...\n", ast->value.token_name);
+		minishell->handled = true;
 		return (NULL);
 	}
 	if (ast_is_assign(ast) == true)
@@ -403,22 +407,15 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 	prev = tmp;
 	if (!my_strcmp(tmp->token_name, "(")
 		|| !my_strcmp(tmp->token_name, ")"))
-	{
 		tmp = tmp->next;
-		minishell->brakets_flag |= minishell->index_flag;
-	}
-	minishell->index_flag *= 2;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
-	export_fg = false;
 	while (tmp)
 	{
 		if (!my_strcmp(tmp->token_name, "(")
 			|| !my_strcmp(tmp->token_name, ")"))
 		{
 			tmp = tmp->next;
-			minishell->index_flag *= 2;
-			minishell->brakets_flag |= minishell->index_flag;
 			continue;
 		}
 		if (!my_strcmp(prev->token_name, "export"))
@@ -451,7 +448,6 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
