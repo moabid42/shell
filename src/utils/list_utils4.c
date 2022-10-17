@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   list_utils4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/17 13:28:49 by moabid           ###   ########.fr       */
+/*   Created: 2022/10/17 13:21:48 by moabid            #+#    #+#             */
+/*   Updated: 2022/10/17 14:09:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "utils.h"
+#include "../../includes/minishell.h"
+#include "../../includes/parser.h"
+#include "../../includes/utils.h"
 
-int	main(int argc, char **argv, char **env)
-{
-	struct s_minishell	minishell;
-	int					exit_status;
-
-	if (argc != 1)
-		ft_error(SYNTAX_ERROR);
-	minishell_create(&minishell, env);
-	minishell_run(&minishell);
-	exit_status = minishell.return_value;
-	minishell_destroy(&minishell);
-	return (exit_status);
+void garbage_collect_token(struct s_token_stream *lst) {
+	if (lst == NULL)
+		return;
+	free(lst->token_name);
+	free(lst);
 }

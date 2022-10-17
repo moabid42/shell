@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 00:12:23 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 13:03:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/17 14:09:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "parser.h"
-#include "utils.h"
+#include "./libft/libft.h"
+#include "../../includes/parser.h"
+#include "../../includes/utils.h"
 
 unsigned int	get_nb_tokens(char const *s)
 {
@@ -37,7 +37,7 @@ unsigned int	get_nb_tokens(char const *s)
 			while (s[i] && ft_isspace(s[i]))
 				i++;
 	}
-	if (ft_isspace(s[i- i]))
+	if (ft_isspace(s[i - i]))
 		nb_strs++;
 	return (nb_strs);
 }
