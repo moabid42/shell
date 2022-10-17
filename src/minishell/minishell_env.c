@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:09:37 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/06 07:26:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/16 15:59:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,11 @@ void print_the_env(t_env *enviroment)
  		enviroment = enviroment->next;
  	}
 }
-//char	**minishell_env_init(struct minishell *minishell, char **env)
+
 t_env	*minishell_env_init(char **env)
 {
 	t_env	*enviroment;
 
 	enviroment = create_the_env(env);
-	//print_the_env(enviroment);
-	// char **j;
-	// j = env_to_string(enviroment);
-	// j = NULL;
 	return (enviroment);
 }
-
-// void	minishell_env_destroy(struct minishell *minishell)
-// {
-	
-// }
