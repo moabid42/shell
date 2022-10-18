@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/13 16:56:12 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 21:57:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,8 +377,6 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 		*prev = *stream;
 		(*stream) = (*stream)->next;
 	}
-	// if (ast->value.token_type > 13 && ast->value.token_type > 1)
-	// 	return (NULL);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
