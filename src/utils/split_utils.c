@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 00:12:23 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/17 14:09:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 13:18:56 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ unsigned int	get_nb_tokens(char const *s)
 	return (nb_strs);
 }
 
+/* maybe after fixed the norminette it will create problems CHECK, i changed the i++ at the end in the i in declaration */
 void	get_next_str(char **next_str, unsigned int *next_str_len)
 {
 	unsigned int	i;
@@ -58,19 +59,15 @@ void	get_next_str(char **next_str, unsigned int *next_str_len)
 		}
 		return ;
 	}
-	else if (!ft_isspace((*next_str)[i]))
+	else if (!ft_isspace((*next_str)[i++]))
 	{
 		(*next_str_len)++;
-		i++;
 		return ;
 	}
 	else
 	{
-		while ((*next_str)[i] && ft_isspace((*next_str)[i]))
-		{
+		while ((*next_str)[i] && ft_isspace((*next_str)[i++]))
 			(*next_str_len)++;
-			i++;
-		}
 		return ;
 	}
 }

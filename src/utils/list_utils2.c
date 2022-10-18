@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:20:46 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/17 14:10:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 13:07:59 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 #include "../../includes/parser.h"
 #include "../../includes/utils.h"
 
-struct s_scripts	*ft_create_stack_scripts(char **scripts_line, unsigned int count) {
-	int i;
-	struct s_scripts *new_node;
-	struct s_scripts *curr;
+struct s_scripts	*ft_create_stack_scripts(char **scripts_line,
+						unsigned int count)
+{
+	int					i;
+	struct s_script		*new_node;
+	struct s_scripts	*curr;
 
 	i = 0;
 	new_node = (struct s_scripts *) ft_malloc(sizeof(struct s_scripts));
 	curr = new_node;
-	while (i < count) {
+	while (i < count)
+	{
 		if (i < count - 1)
-			new_node->next = (struct s_scripts *) ft_malloc(sizeof(struct s_scripts));
+			new_node->next = (struct s_scripts *)ft_malloc(
+					sizeof(struct s_scripts));
 		new_node->input_line = ft_strdup(scripts_line[i]);
 		new_node->have_herdoc = 0;
 		if (i == (count - 1))
@@ -36,7 +40,8 @@ struct s_scripts	*ft_create_stack_scripts(char **scripts_line, unsigned int coun
 	return (curr);
 }
 
-enum e_token_type	find_parenth(char *token) {
+enum e_token_type	find_parenth(char *token)
+{
 	if (!my_strcmp(token, "("))
 		return (PARENTHS_OP);
 	else if (!my_strcmp(token, ")"))
@@ -51,14 +56,16 @@ enum e_token_type	find_parenth(char *token) {
 		return (CURLY_BRACKERTS_CL);
 }
 
-enum e_token_type	find_quotes(char *token) {
+enum e_token_type	find_quotes(char *token)
+{
 	if (token[0] == '\"')
 		return (STRING_DOUBLE);
 	else
 		return (STRING_SINGLE);
 }
 
-enum e_token_type	find_wildcard(char *token) {
+enum e_token_type	find_wildcard(char *token)
+{
 	if (!my_strcmp(token, "*"))
 		return (STAR);
 	else if (!my_strcmp(token, "!"))

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:21:48 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/17 14:09:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 13:16:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "../../includes/parser.h"
 #include "../../includes/utils.h"
 
-void garbage_collect_token(struct s_token_stream *lst) {
+void	garbage_collect_token(struct s_token_stream *lst)
+{
 	if (lst == NULL)
-		return;
+		return ;
 	free(lst->token_name);
 	free(lst);
 }
