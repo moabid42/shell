@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/18 21:57:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/19 01:13:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,8 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 			prev_token = minishell_find_variable(minishell, prev->token_name);
 		if (prev_token == NULL)
 			prev_token = ft_strdup("");
+		if (prev_token[0] == '\"')
+			prev_token = ft_special_trim(prev_token, '\"', ft_strlen(prev_token));
 		iterator = find_prev(iterator, prev_token);
 		if (iterator->left == NULL)
 			iterator->left = node;
@@ -445,6 +447,7 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			tmp = tmp->next;
 		else
 			break;
+		structure(ast, 0);
 	}
 	if (ast_not_right_type(ast) == false)
 	{

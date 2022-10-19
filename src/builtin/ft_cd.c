@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:10:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/19 13:04:13 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void		ft_cd(char **argv, struct minishell *minishell)
 	tmp = minishell->env;
 	old_path = get_pwd();
 	path = set_path(old_path, argv, minishell->env);
-	if (path && chdir(path) == - 1)
-			return ;
+	if (path && chdir(path) == -1)
+		return ;
 	else if (path == NULL && argv[1] == NULL)
 		printf("home not set");
 	if (chdir(path) == -1)

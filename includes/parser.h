@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/13 11:56:58 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 22:12:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,6 @@ enum token_type {
     STAR,
     STAR_WORD,
     WORD,
-
-	STRING_DOUBLE,
-	STRING_SINGLE,
-    BACKSLASH,
-
-    PARENTHS_OP,
-    PARENTHS_CL,
-    SQUARE_BRACKETS_OP,
-    SQUARE_BRACKETS_CL,
-    CURLY_BRACKERTS_OP,
-    CURLY_BRACKERTS_CL,
-
-
-    EXCAMATION,
-    QUESTION,
 };
 
 struct scripts {

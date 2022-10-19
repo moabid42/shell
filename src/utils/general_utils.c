@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/18 21:59:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 22:16:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,6 @@ void	freeme(char **paths)
 	free(paths);
 }
 
-// char	*get_path(char *cmd, t_env *env)
-// {
-// 	char	**paths;
-// 	char	*path;
-// 	int		i;
-
-// 	i = 0;
-// 	while (ft_strnstr(env[i], "PATH=", 5) == 0)
-// 		i++;
-// 	paths = ft_split(env[i] + 5, ':');
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		path = parser(cmd, paths[i]);
-// 		if (path)
-// 			return (path);
-// 		i++;
-// 	}
-// 	freeme(paths);
-// 	return (NULL);
-// }
 char	*get_path(char *cmd, t_env *env)
 {
 	char	**paths;
@@ -89,7 +68,6 @@ char	*get_path(char *cmd, t_env *env)
 	while (paths[i])
 	{
 		path = parser(cmd, paths[i]);
-		//printf("paths: %s path: %s \n", paths[i], path);
 		if (path)
 			return (path);
 		i++;
@@ -143,7 +121,6 @@ void	minishell_error(struct minishell *minishell, char *str)
 
 int	my_strcmp(const char *strg1, char *strg2)
 {
-	// printf("strg1: %s strg2: %s\n", strg1, strg2);
 	if ((strg1 == NULL && strg2 == NULL))
 		return (0);
 	else if (!strg1 || !strg2)

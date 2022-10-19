@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 15:35:03 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/18 22:16:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,6 @@ struct scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count)
 	return (curr);
 }
 
-enum token_type find_parenth(char *token) {
-	if (!my_strcmp(token, "("))
-		return (PARENTHS_OP);
-	else if (!my_strcmp(token, ")"))
-		return (PARENTHS_CL);
-	else if (!my_strcmp(token, "["))
-		return (SQUARE_BRACKETS_OP);
-	else if (!my_strcmp(token, "]"))
-		return (SQUARE_BRACKETS_CL);
-	else if (!my_strcmp(token, "{"))
-		return (CURLY_BRACKERTS_OP);
-	else
-		return (CURLY_BRACKERTS_CL);
-}
-
-enum token_type find_quotes(char *token) {
-	if (token[0] == '\"')
-		return (STRING_DOUBLE);
-	else
-		return (STRING_SINGLE);
-}
-
-enum token_type find_wildcard(char *token) {
-	if (!my_strcmp(token, "*"))
-		return (STAR);
-	else if (!my_strcmp(token, "!"))
-		return (EXCAMATION);
-	else
-		return (QUESTION);
-}
-
 enum token_type find_redirection(char *token)
 {
 	if (!my_strcmp(token, ">"))
@@ -77,14 +46,6 @@ enum token_type find_redirection(char *token)
 		return (DOUBLE_GREATER);
 	else
 		return (DOUBLE_SMALLER);
-}
-
-enum token_type find_pipe_or_space(char *token)
-{
-	if (!my_strcmp(token, "|"))
-		return (PIPE);
-	else
-		return (BACKSLASH);
 }
 
 enum token_type find_var_shit(char *token) {
@@ -110,32 +71,20 @@ enum token_type find_bool(char *token) {
 
 enum token_type find_type(char *token)
 {
-	if (!my_strcmp(token, " ") || !my_strcmp(token, "\t")
-	    || !my_strcmp(token, "\v") || !my_strcmp(token, "\f")
-	    || !my_strcmp(token, "\r") || !my_strcmp(token, "\n")
-	    || !my_strcmp(token, "|") || !my_strcmp(token, "\\"))
-		return (find_pipe_or_space(token));
+	if (!my_strcmp(token, "|"))
+		return (PIPE);
 	else if (!my_strcmp(token, ">") || !my_strcmp(token, "<")
 		   || !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
 		return (find_redirection(token));
 	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
 		return (find_logicalop(token));
-	else if (token[0] == '\"' || token[0] == '\'')
-		return (find_quotes(token));
-	else if (!my_strcmp(token, "\\"))
-		return (BACKSLASH);
 	else if (token[0] == '$' || ft_strchr(token, '='))
 		return (find_var_shit(token));
-	else if (!my_strcmp(token, "*") || !my_strcmp(token, "!")
-		   || !my_strcmp(token, "?"))
-		return (find_wildcard(token));
-	else if (!my_strcmp(token, "(") || !my_strcmp(token, ")")
-		   || !my_strcmp(token, "[") || !my_strcmp(token, "]")
-		   || !my_strcmp(token, "{") || !my_strcmp(token, "}"))
-		return (find_parenth(token));
+	else if (!my_strcmp(token, "*"))
+		return (STAR);
 	else if (!my_strcmp(token, "false") || !my_strcmp(token, "true"))
 		return (find_bool(token));
-		return (WORD);
+	return (WORD);
 }
 
 struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count) {
