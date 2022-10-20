@@ -48,22 +48,22 @@ struct s_variable {
 	struct s_variable		*next;
 };
 
-/*  g_env can be changed when exporting PS1*/
-struct s_minishell {
-	t_env					*env;
-	char					**g_env;
-	char					*prompt;
-	char					*input_str;
-	int						input_len;
-	enum e_type				type;
-	int						return_value;
-	long long				byte_code;
-	long long				brakets_flag;
-	int						index_flag;
-	struct s_variable		*variables;
-	enum e_redirection		redirection;
-	unsigned int			scripts_num;
-	struct s_scripts		*scripts;
+struct minishell {
+	t_env	*env;
+	char	**g_env;
+	char	*prompt; // can be changed when exporting PS1
+	char	*input_str;
+	int		input_len;
+	enum    e_type type;
+	int		return_value;
+	bool	handled;
+	long long		byte_code;
+	long long		brakets_flag;
+	int				index_flag;
+	struct	s_variable *variables;
+	enum	e_redirection redirection;
+	unsigned int scripts_num;
+	struct	scripts *scripts;
 };
 
 void	minishell_create(struct s_minishell *minishell, char **env);

@@ -16,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@echo "Dependencies Compiled !"
-	@$(CC) $(CFLAGS) $(RLFLAGS) -I $(OBJECTS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(RLFLAGS) $(OBJECTS) -o $(NAME)
 	@echo "Compiled !"
 
 clean:

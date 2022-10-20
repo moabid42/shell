@@ -58,4 +58,6 @@ void	builtin_run_ast(struct s_ast *ast, struct s_minishell *minishell);
 void	minishell_save_variable(
 			char *variable_assigned, struct s_minishell *minishell);
 
+void structure ( struct ast *root, int level );
+
 #endif

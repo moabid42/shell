@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 19:09:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 02:06:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 // #include "parser.h"
 // #include "utils.h"
 #include "builtin.h"
-
-// int	ast_child_num(struct ast *node)
-// {
-// 	int num;
-
-// 	num = 0;
-// 	if (node->left)
-// 		num++;
-// 	if (node->right)
-// 		num++;
-// 	return (num);
-// }
-
-//create a function that counts the number of children of a node
 
 int	ast_child_num_complexe(struct ast *node)
 {
@@ -328,15 +314,16 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	char	*command_path;
 
 	jump = ast;
-	if (ast->value.token_type < DOUBLE_SMALLER && ast->value.token_type == WORD)
+	if (ast->value.token_type == WORD)
 	{
 		minishell->return_value = 127;
 		dprintf(2, "esh: %s: command not found .\n", ast->value.token_name);
 		return ;
 	}
-	// dprintf(2, "We are in the node %s\n", ast->value.token_name);
 	if (ast->value.token_type == GREATER)
 	{
+		if (ast->right == NULL)
+			return ;
 		fd_out = openfile(ast->right->value.token_name, 1);
 		jump = jump->left;
 	}
@@ -486,7 +473,6 @@ void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
 	char	**cmd_list;
 
 	cmd_list = command_statement_create(ast);
-	// printer_split(cmd_list);
 	if (!my_strcmp(cmd_list[0], "exit"))
 	 	ft_exit(cmd_list, minishell);
 	else if(!my_strcmp(cmd_list[0], "cd"))
@@ -540,6 +526,7 @@ int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
 		minishell->return_value = 127;
 		dprintf(2, "esh: %s: command not found .....\n", ast->value.token_name);
 	}
+	ast->value.exit_status = minishell->return_value;	
 	return (minishell->return_value);
 	// printf("The return value is : %d for %s\n", minishell->return_value, ast->value.token_name);
 }

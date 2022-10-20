@@ -73,6 +73,7 @@ struct s_token_stream {
 struct s_AST_value {
 	char					*token_name;
 	enum e_token_type		token_type;
+
 };
 
 struct s_ast {
@@ -81,6 +82,7 @@ struct s_ast {
 	struct s_ast			*right;
 	struct s_ast			*left;
 };
+
 /*  ENUMS   */
 enum e_token_type			find_type(char *token);
 enum e_token_type			find_logicalop(char *token);

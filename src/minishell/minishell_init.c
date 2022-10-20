@@ -31,6 +31,7 @@ void    minishell_create(struct minishell *minishell, char **env)
 	minishell->byte_code = 0;
 	minishell->brakets_flag = 0;
 	minishell->index_flag = 1;
+	minishell->handled = false;
 }
 
 int	ft_strlen_newline(char *str)
@@ -160,6 +161,35 @@ void	signal_run(int sig)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+bool	are_weird(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	handle_weird(struct minishell *minishell)
+{
+	if (!my_strcmp(minishell->input_str, "\"\""))
+	{
+		dprintf(2, "esh: : command not found\n");
+		minishell->return_value = 127;
+	}
+	else if (!my_strcmp(minishell->input_str, "\".\""))
+	{
+		dprintf(2, "esh: .: filename argument required\n");
+		dprintf(2, "esh: .: usage: . filename [arguments]\n");
+		minishell->return_value = 2;
+	}
+}
+
 void    minishell_run(struct minishell *minishell)
 {
 	while(1)
@@ -167,14 +197,19 @@ void    minishell_run(struct minishell *minishell)
 		signal_run(SIGINT);
 		termios_echoback(false);
 		minishell_get_input(minishell);
-		if (minishell->input_str == NULL)
+		if (is_weird(minishell->input_str))
+			handle_weird(minishell);
+		else
 		{
-			termios_echoback(true);
-			break ;
+			if (minishell->input_str == NULL)
+			{
+				termios_echoback(true);
+				break ;
+			}
+			if(minishell->input_str[0] == 0)
+				continue;
+			minishell_read_input(minishell);
 		}
-		if(minishell->input_str[0] == 0)
-			continue;
-		minishell_read_input(minishell);
 	}
 }
 

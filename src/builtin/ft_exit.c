@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:28 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/19 23:55:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,36 @@ int	ft_atoi_special(char *str)
 	}
 }
 
+bool	ft_isnumber(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	are_all_numbers(char **argv, int length)
+{
+	int i;
+
+	i = 0;
+	while (i < length)
+	{
+		if (ft_isnumber(argv[i]) == false)
+			return (false);
+		++i;
+	}
+	return (true);
+}
+
 void	ft_exit(char **argv, struct minishell *minishell)
 {
 	int			status;
@@ -101,13 +131,16 @@ void	ft_exit(char **argv, struct minishell *minishell)
 	length = argv_length(argv);
 	status = minishell->return_value;
 	minishell_destroy(minishell);
-	if (length > 2)
-		ft_error("esh: exit: too many arguments\n");
+	if (length > 2 && are_all_numbers(argv, length) == true)
+	{
+		write(2, "esh: exit: too many arguments\n", 31);
+		exit(1);
+	}
 	if (minishell->type == SIMPLE)
 		dprintf(2, "exit\n");
 	if (argv[1])
 	{
-		if (all_digits(argv[1]) == true)
+		if (all_digits(argv[1]) == true && argv[1][0] != '\0')		
 			exit(ft_atoi_special(argv[1]));
 		else
 		{

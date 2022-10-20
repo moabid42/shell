@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 03:01:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/19 14:11:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,21 @@ bool	is_a_valid_identifier(char *str)
 		return (true);
 }
 
-t_env *export_the_argv(char **argv, t_env *enviroment)
+bool	indentfier_exist(t_env *env, char *str)
+{
+	while(env)
+	{
+		if (my_strcmp(env->name, ft_split(str, '=')[0]) == 0)
+		{
+			env->content = ft_split(str, '=')[1];
+			return (true);
+		}
+		env = env->next;
+	}
+	return (false);
+}
+
+t_env *export_the_argv(struct minishell *minishell, char **argv, t_env *enviroment)
 {
 	t_env *new;
 	int i;
@@ -63,7 +77,10 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 	i = 1;
 	while(argv[i])
 	{
-		if(is_a_valid_identifier(argv[i]))
+		if (is_a_valid_identifier(argv[i])
+			&& indentfier_exist(enviroment, argv[i]) == true)
+			;
+		else if(is_a_valid_identifier(argv[i]))
 		{
 			new = new_node();
 			fill_new_node(argv[i], new);
@@ -71,8 +88,8 @@ t_env *export_the_argv(char **argv, t_env *enviroment)
 		}
 		else
 		{
-			ft_putstr_fd(argv[i],1);
-			write(1," not a valid identifier\n", 24);
+			dprintf(2, "esh: export: `%s': not a valid identifier\n", argv[i]);
+			minishell->return_value = 1;
 		}
 		i++;
 	}
@@ -91,31 +108,9 @@ void ft_export (char **argv, struct minishell *minishell)
 		print_the_enviroment(enviroment);
 	else
 	{
-		head = export_the_argv(argv, enviroment);
+		head = export_the_argv(minishell, argv, enviroment);
 		if(!head)
 			exit(0);
 	}
 	enviroment = alphabetic_order(head);
 }
-
-/************** TO DO LIST *****************/
-
-// Solution 1 !
-
-//int export(char **env, ...)
-
-// char **comand_statement = {"a", "0"};
-// char **comand_statement2 = {"z", "10"};
-
-// export(minishll->g_ev, command_statment1, cmmand_statement2);
-
-// Solutioon 2 !
-// in export(char **env, char **statements);
-
-// char **statement = { "a=0, z=10"};
-// int cd (char **env)
-
-// ------------>
-// 	|------->
-
-// terminate_process(pid);

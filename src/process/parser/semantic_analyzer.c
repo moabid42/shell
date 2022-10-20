@@ -29,6 +29,7 @@ void	structure(struct s_ast *root, int level)
 		printf("%s[%d]\n", root->value.token_name, root->value.token_type);
 		structure(root->left, level + 1);
 	}
+
 }
 
 bool	ast_is_assign(struct ast *ast)
@@ -97,14 +98,9 @@ struct s_ast	*semantic_analyzer_create( \
 	prev = tmp;
 	if (!my_strcmp(tmp->token_name, "(")
 		|| !my_strcmp(tmp->token_name, ")"))
-	{
 		tmp = tmp->next;
-		minishell->brakets_flag |= minishell->index_flag;
-	}
-	minishell->index_flag *= 2;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
-	export_fg = false;
 	while (tmp)
 	{
 		if (!my_strcmp(tmp->token_name, "(")
@@ -146,7 +142,7 @@ struct s_ast	*semantic_analyzer_create( \
 		else
 			break ;
 	}
-	structure(ast, 0);
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

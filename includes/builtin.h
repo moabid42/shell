@@ -28,5 +28,4 @@ void	ft_exit(char **argv, struct minishell *minishell);
 void	ft_pwd(struct minishell *minishell);
 void	ft_unset(char **argv, struct minishell *minishell);
 void	cd_func(void);
-
 #endif
