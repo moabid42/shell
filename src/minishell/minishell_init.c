@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/13 15:36:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 02:31:26 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,35 @@ void	signal_run(int sig)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+bool	are_weird(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	handle_weird(struct minishell *minishell)
+{
+	if (!my_strcmp(minishell->input_str, "\"\""))
+	{
+		dprintf(2, "esh: : command not found\n");
+		minishell->return_value = 127;
+	}
+	else if (!my_strcmp(minishell->input_str, "\".\""))
+	{
+		dprintf(2, "esh: .: filename argument required\n");
+		dprintf(2, "esh: .: usage: . filename [arguments]\n");
+		minishell->return_value = 2;
+	}
+}
+
 void    minishell_run(struct minishell *minishell)
 {
 	while(1)
@@ -168,14 +197,19 @@ void    minishell_run(struct minishell *minishell)
 		signal_run(SIGINT);
 		termios_echoback(false);
 		minishell_get_input(minishell);
-		if (minishell->input_str == NULL)
+		if (is_weird(minishell->input_str))
+			handle_weird(minishell);
+		else
 		{
-			termios_echoback(true);
-			break ;
+			if (minishell->input_str == NULL)
+			{
+				termios_echoback(true);
+				break ;
+			}
+			if(minishell->input_str[0] == 0)
+				continue;
+			minishell_read_input(minishell);
 		}
-		if(minishell->input_str[0] == 0)
-			continue;
-		minishell_read_input(minishell);
 	}
 }
 

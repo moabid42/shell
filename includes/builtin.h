@@ -29,6 +29,7 @@ void    ft_exit(char **argv, struct minishell *minishell);
 void	ft_pwd (struct minishell *minishell);
 void    ft_unset(char **argv, struct minishell *minishell);
 void    cd_func(void);
+bool	is_a_valid_identifier(char *str);
 
 
 #endif

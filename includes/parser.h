@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/18 22:12:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 01:48:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum token_type {
     
     STAR,
     STAR_WORD,
-    WORD,
+    WORD
 };
 
 struct scripts {

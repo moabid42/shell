@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/18 22:16:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 02:26:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,37 @@ enum token_type find_type(char *token)
 	return (WORD);
 }
 
+char	*quotes_remover(char *str, char *set)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	new_str = (char *) ft_malloc(sizeof(char) * (ft_strlen(str) + 1));
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			i++;
+			while (str[i] != '\'' && str[i] != '\"')
+				new_str[j++] = str[i++];
+		}
+		else if (str[i] == '\\')
+		{
+			i++;
+			if (str[i] == '\'' || str[i] == '\"' || str[i] == '\\')
+				new_str[j++] = str[i];
+		}
+		else
+			new_str[j++] = str[i];
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
 struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count) {
 	int i;
 	struct token_stream *new_node;
@@ -98,10 +129,8 @@ struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char 
 	while (i < count) {
 		if (i < count - 1)
 			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
-		new_node->token_name = tokens[i];
+		new_node->token_name = quotes_remover(tokens[i], "\"'");
 		new_node->token_type = find_type(tokens[i]);
-		// if (new_node->token_type == EQUAL)
-		// 	save_variable(minishell, new_node->token_name);
 		new_node->closed = false;
 		if (i == (count - 1))
 			new_node->next = NULL;

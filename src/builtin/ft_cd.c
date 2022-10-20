@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/19 13:04:13 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/19 13:46:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,23 @@ void		ft_cd(char **argv, struct minishell *minishell)
 	
 	tmp = minishell->env;
 	old_path = get_pwd();
-	path = set_path(old_path, argv, minishell->env);
+	if (argv[1] && argv[1][0] == '/')
+		path = ft_strdup(argv[1]);
+	else
+		path = set_path(old_path, argv, minishell->env);
 	if (path && chdir(path) == -1)
+	{
+		dprintf(2, "bash: cd: %s: No such file or directory\n", argv[1]);
 		return ;
+	}
 	else if (path == NULL && argv[1] == NULL)
 		printf("home not set");
 	if (chdir(path) == -1)
-		dprintf(2, "bash: cd: %s: No such file or directory", argv[1]);
+	{
+		dprintf(2, "bash: cd: %s: No such file or directory\n", argv[1]);
+		return ;
+	}
 	update_current_pwd(path, old_path, &tmp);
+	free(path);
 	return;
 }

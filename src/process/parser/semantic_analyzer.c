@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/19 01:13:30 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 02:18:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,16 +199,15 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 	struct ast	*iterator;
 	char		*prev_token;
 
-	// printf("We are gonna add the chid [%s][%d]\n", node->value.token_name, node->value.token_type);
 	iterator = *ast;
 	prev_token = prev->token_name;
+	// printf("The iterator is pointing to : %s\n", iterator->value.token_name);
 	if (iterator->left == NULL)
 		iterator->left = node;
 	else if (iterator->right == NULL)
 		iterator->right = node;
 	else
 	{
-		// printf("We foudn the prev token %s\n", prev->token_name);
 		if (prev->token_type == VARIABLE)
 			prev_token = minishell_find_variable(minishell, prev->token_name);
 		if (prev_token == NULL)
@@ -221,8 +220,6 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 		else if (iterator->right == NULL)
 			iterator->right = node;
 	}
-	// if (iterator->value.token_type == EQUAL)
-	// 	minishell_save_variable(iterator->value.token_name, minishell);
 }
 
 //create a parent node
@@ -236,7 +233,6 @@ struct ast	*node_create_parent(struct token_stream *tmp)
 	node->isroot = false;
 	node->left = NULL;
 	node->right = NULL;
-	// *child = node;
 	return (node);
 }
 
@@ -447,8 +443,8 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			tmp = tmp->next;
 		else
 			break;
-		structure(ast, 0);
 	}
+	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;
