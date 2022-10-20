@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/19 13:46:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 15:36:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ void		ft_cd(char **argv, struct minishell *minishell)
 		return ;
 	}
 	update_current_pwd(path, old_path, &tmp);
-	free(path);
+	// free(path);
 	return;
 }

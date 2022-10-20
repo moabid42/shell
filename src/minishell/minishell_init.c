@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 02:31:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 15:57:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,25 @@ void	handle_weird(struct minishell *minishell)
 	else if (!my_strcmp(minishell->input_str, "\".\""))
 	{
 		dprintf(2, "esh: .: filename argument required\n");
-		dprintf(2, "esh: .: usage: . filename [arguments]\n");
+		dprintf(2, ".: usage: . filename [arguments]\n");
 		minishell->return_value = 2;
 	}
+	else if (!my_strcmp(minishell->input_str, ";;")
+		|| !my_strcmp(minishell->input_str, "<")
+		|| !my_strcmp(minishell->input_str, ">"))
+	{
+		dprintf(2, "esh: syntax error near unexpected token `%s'\n", minishell->input_str);
+		minishell->return_value = 258;
+	}
+}
+
+bool	is_weird(char *str)
+{
+	if (!my_strcmp(str, "\"\""))
+		return (true);
+	else if (!my_strcmp(str, "\".\""))
+		return (true);
+	return (false);
 }
 
 void    minishell_run(struct minishell *minishell)

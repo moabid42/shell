@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 02:06:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 16:04:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,17 +126,24 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 	if (!pid)
 	{
 		dup2(fd_out, 1);
-		// printf("The path is %s\n", path);
-		// printer_split(command_statement);
+		// dprintf(2, "The path is : %s\n", path);
 		if(is_builtin(command_statement[0]) == true)
 			builtin_run(command_statement, minishell);
+		else if (access(path, X_OK) != 0)
+		{
+			perror("esh ");
+			exit(127);
+		}
 		else if (execve(path, command_statement, env_to_string(minishell->env)) == -1)
-			perror("Command error");
+			perror("esh ");
 		exit(1);
 	}
 	else
 		waitpid(pid, &status, 0);
-	if (status != 0)
+	// printf("The status is %d\n", status);
+	if (status == 32512)
+		minishell->return_value = 127;
+	else if (status != 0)
 		minishell->return_value = 1;
 	else
 		minishell->return_value = 0;
@@ -335,14 +342,19 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	else
 		fd_out = 1;
 	command_statement = command_statement_create(jump);
-	command_path = get_path(command_statement[0], minishell->env);
+	// printf("command_statement[0] = %s\n", command_statement[0]);
+	if (ft_strchr(jump->value.token_name, '/') != NULL)
+		command_path = ft_strdup(jump->value.token_name);
+	else
+		command_path = get_path(command_statement[0], minishell->env);
+	// printf("command_path = %s\n", command_path);
 	if (command_path == NULL)
 		command_path = jump->value.token_name;
 	// printer_split(command_statement);
 	if (ast->value.token_type == DOUBLE_SMALLER)
 		heredoc_statement_execute(ast, minishell);
 	else if (ast->value.token_type == COMMAND
-		|| ast->left->value.token_type == COMMAND
+		|| (ast->left && ast->left->value.token_type == COMMAND)
 		|| ast->value.token_type == BUILTIN)
 		command_statement_execute(command_statement, command_path, minishell, fd_out);
 	else if (ast->left->value.token_type == LESS)

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 02:18:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 15:30:44 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ bool	ft_isexecutable(char *executable)
 	return (false);
 }
 
+int isdir(const char* fileName)
+{
+    struct stat path;
+
+    stat(fileName, &path);
+    return S_ISREG(path.st_mode);
+}
+
 struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stream *token_stream)
 {
 	struct ast	*tmp;
@@ -100,7 +108,7 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 		tmp->value.token_type = token_stream->token_type;
 	}
 	if (tmp->value.token_type == WORD || tmp->value.token_type == VARIABLE)
-	{		
+	{
 		if (ft_iscommand(tmp->value.token_name, minishell->env) == true
 			|| ft_isexecutable(tmp->value.token_name) == true)
 			tmp->value.token_type = COMMAND;
@@ -272,7 +280,6 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell *minish
 		node->value.token_name = ft_special_trim(tmp->token_name, '\\', ft_strlen(tmp->token_name));	
 	else if (tmp->token_type == VARIABLE)
 	{
-		// printf("We are looking for %s", tmp->token_name);
 		node->value.token_name = minishell_find_variable(minishell, tmp->token_name);
 		if (node->value.token_name == NULL)
 			node->value.token_name = ft_strdup("");
@@ -418,7 +425,6 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			export_fg = true;
 		if (prev->token_type == ANDAND || prev->token_type == OROR)
 		{
-			minishell->index_flag *= 2;
 			if (ast_is_assign(ast->left) == true)
 				minishell_ast_execute(ast->left, minishell);
 			ast->right = ast_create_subtree(minishell, &prev, &tmp);

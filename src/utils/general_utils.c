@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/18 22:16:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 16:08:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ char	*get_path(char *cmd, t_env *env)
 	int i;
 
 	head = env;
-	while (ft_strnstr(head->name, "PATH", 4) == 0 && head)
+	while (head && ft_strnstr(head->name, "PATH", 4) == 0)
 		head = head->next;
 	if(!head)
 		return (NULL);
 	paths = ft_split(head->content, ':');
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/19 23:55:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/20 15:52:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	ft_exit(char **argv, struct minishell *minishell)
 		dprintf(2, "exit\n");
 	if (argv[1])
 	{
-		if (all_digits(argv[1]) == true && argv[1][0] != '\0')		
+		if (all_digits(argv[1]) == true && argv[1][0] != '\0')
 			exit(ft_atoi_special(argv[1]));
 		else
 		{
