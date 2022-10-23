@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 18:51:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:27:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ struct AST_value {
     enum token_type token_type;
 };
 
-//
 struct ast {
 	bool	isroot;
     struct AST_value value;
@@ -125,6 +124,16 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 void semantic_analyzer_destroy(struct minishell *minishell);
 
 /////////////////////
+//    AST_CREATE   //
+/////////////////////
+
+struct ast  *node_create_child(struct token_stream *tmp, struct minishell *minishell, int prev_type);
+void        ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev, struct minishell *minishell);
+
+struct ast  *node_create_parent(struct token_stream *tmp);
+void        ast_insert_parent(struct ast *node, struct ast **root, struct minishell *minishell);
+
+/////////////////////
 //  LEXICAL_ANAL   //
 /////////////////////
 
@@ -146,7 +155,7 @@ bool                syntax_analyzer_create(struct token_stream *token_stream,
 
 
 /////////////////////
-//    EXPEND_TOK   //
+//    EXPEND_STAR  //
 /////////////////////
 
 int                 star_count_dirs(void);
@@ -154,5 +163,15 @@ int                 star_count(char **tokens);
 void                star_expend_dir(char **new_tokens, int *i);
 char                **token_expend_star(char **tokens, int prev_size);
 bool                star_exist(char **tokens);
+
+/////////////////////
+//    EXPEND_VAR   //
+/////////////////////
+
+int                 isdir(const char* fileName);
+char                *find_return_expend(struct minishell *minishell, char return_var);
+char                *minishell_find_variable(struct minishell *minishell, char *variable);
+
+
 
 #endif
