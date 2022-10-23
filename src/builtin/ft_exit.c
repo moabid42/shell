@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 12:59:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:11:03 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ unsigned long long	ft_atoi_big(const char *str)
 
 	num = 0;
 	sign = 1;
-	// printf("The string is : %s\n", str);
 	while (ft_isspace(*str))
 		str++;
 	if (!my_strcmp(str, "9223372036854775808"))
@@ -67,7 +66,6 @@ unsigned long long	ft_atoi_big(const char *str)
 		return(42);
 	if (((num * sign) >= MAX_SIZE || (num * sign) <= MIN_SIZE))
 		return (0);
-	// printf("The number is : %lld\n", num * sign);
 	return (num * sign);
 }
 
@@ -76,7 +74,6 @@ int	ft_atoi_special(char *str)
 	long long	num;
 
 	num = ft_atoi_big(str);
-	// printf("num: %lld\n", num);
 	if (num < 0)
 	{
 		if (num == -42 && ft_strlen(str) > 3)
@@ -95,7 +92,7 @@ int	ft_atoi_special(char *str)
 
 bool	ft_isnumber(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
@@ -111,7 +108,7 @@ bool	ft_isnumber(char *str)
 
 bool	are_all_numbers(char **argv, int length)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < length)
@@ -136,13 +133,6 @@ void	ft_exit(char **argv, struct minishell *minishell)
 		write(2, "esh: exit: too many arguments\n", 31);
 		exit(1);
 	}
-	// else if (length > 2)
-	// {
-	// 	write(2, "exit\n", 6);
-	// 	write(2, "esh: exit: too many arguments\n", 31);
-	// 	minishell->return_value = 1;
-	// 	return ;
-	// }
 	if (minishell->type == SIMPLE)
 		dprintf(2, "exit\n");
 	if (argv[1])
