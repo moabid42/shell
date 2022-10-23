@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:54:45 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 18:47:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:37:17 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,15 @@ void	printer_split(char **tokens)
 	}
 }
 
+char *string_dollar_sign(char *string)
+{
+	int		i;
+	bool	open;
+	char	quotes_type;
+
+	i = 0;
+	open = false;
+	while(string[i]){
+		if(string[i] = '\'' || string[i] = '\"')
+	}
+}
