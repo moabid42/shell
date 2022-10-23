@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/19 01:10:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 14:39:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,46 @@ void	minishell_set_byte_code(struct minishell *minishell)
 	minishell->byte_code = edx;
 }
 
+bool	token_checker(struct token_stream *stream, struct minishell *minishell)
+{
+	struct token_stream *tmp;
+	bool				bracket;
+
+	tmp = stream;
+	bracket = false;
+	while (stream)
+	{
+		
+		if (stream->token_name[0] == '<'
+			&& tmp->token_name[0] == '>')
+		{
+			dprintf(2, "esh: syntax error near unexpected token `<'\n");
+			minishell->return_value = 258;
+			return (true);
+		}
+		if (stream->token_name[0] == '(')
+			bracket = true;
+		else if (stream->token_name[0] == ')')
+			bracket = false;
+		tmp = stream;
+		stream = stream->next;
+	}
+	if (tmp->token_name[0] == '<'
+		&& stream == NULL)
+	{
+		dprintf(2, "esh: syntax error near unexpected token `newline'\n");
+		minishell->return_value = 258;
+		return (true);
+	}
+	if (bracket == true)
+	{
+		dprintf(2, "esh: syntax error near unexpected token `)'\n");
+		minishell->return_value = 258;
+		return (true);
+	}
+	return (false);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -222,7 +262,8 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	}
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);
 	script->token_stream = token_stream;
-	// minishell_set_byte_code(minishell);
+	if (token_checker(token_stream, minishell) == true)
+		return (NULL);
 	return (token_stream);
 }
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:22:52 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 22:08:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/22 20:48:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_for_word(char *string, t_args *args)
 	}
 	return (i);
 }
-
+#include <stdio.h>
 char	*create_the_word(char *string, int n)
 {
 	int		i;
@@ -80,11 +80,12 @@ char	*create_the_word(char *string, int n)
 	new_string = malloc((sizeof(char)) * n);
 	if (new_string == NULL)
 		return (NULL);
-	new_string[n] = '\0';
 	while (i < n)
 	{
 		new_string[i] = string[i];
 		i++;
 	}
+	new_string[n] = '\0';
+	// dprintf(2, "The size is : %d", n);
 	return (new_string);
 }

@@ -6,13 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:18:18 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:08:25 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 16:29:50 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "builtin_utils.h"
-
 
 void ft_env(t_env *enviroment)
 {

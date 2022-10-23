@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 15:52:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 12:59:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,13 @@ void	ft_exit(char **argv, struct minishell *minishell)
 		write(2, "esh: exit: too many arguments\n", 31);
 		exit(1);
 	}
+	// else if (length > 2)
+	// {
+	// 	write(2, "exit\n", 6);
+	// 	write(2, "esh: exit: too many arguments\n", 31);
+	// 	minishell->return_value = 1;
+	// 	return ;
+	// }
 	if (minishell->type == SIMPLE)
 		dprintf(2, "exit\n");
 	if (argv[1])

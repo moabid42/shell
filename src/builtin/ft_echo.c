@@ -6,48 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 16:29:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "builtin_utils.h"
-
-
-// static bool check_dollar_sign(char* str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		if(str[i] == '$')
-// 			return true;
-// 		i++;
-// 	}
-// 	return (false);
-// }
-
-// static char *string_dollar_sign(char *str)
-// {
-// 	int		i;
-// 	char	*new_string;
-
-// 	i = 0;
-// 	while (str[i] != '$')
-// 		i++;
-// 	new_string = malloc(i + 1);
-// 		if (!new_string)
-// 			return (NULL);
-// 	i = 0;
-// 	while (str[i] != '$')
-// 	{
-// 		new_string[i] = str[i];
-// 		i++;
-// 	}
-// 	new_string[i] = '\0';
-// 	return (new_string);
-// }
 
 static bool check_multiple_n(char *string)
 {
@@ -71,13 +35,10 @@ static bool set_no_nl (char *str)
 	return (false);
 }
 
-static void print_out_str (char *str)
+static void print_out_str(char *str)
 {
-	// if (check_dollar_sign(str))
-	// 	str = string_dollar_sign(str);
 	ft_putstr(str);
 }
-
 
 void	ft_echo (char **arg, struct minishell *minishell)
 {
@@ -105,11 +66,3 @@ void	ft_echo (char **arg, struct minishell *minishell)
 	exit(0);
 }
 
-// int main (int argc, char **argv)
-// {
-// 	if(!argv[1])
-// 		return (0);
-// 	ft_echo(&argv[0]);
-// 	return(0);
-// 	system("leak echo");
-// }

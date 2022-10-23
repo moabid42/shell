@@ -6,14 +6,13 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/20 15:36:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 16:29:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
 #include "builtin_utils.h"
-
 
 char	*get_home(t_env *env);
 
@@ -110,6 +109,5 @@ void		ft_cd(char **argv, struct minishell *minishell)
 		return ;
 	}
 	update_current_pwd(path, old_path, &tmp);
-	// free(path);
 	return;
 }

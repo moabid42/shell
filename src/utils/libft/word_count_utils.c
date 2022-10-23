@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_count_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:23:45 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/25 17:23:46 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/22 20:47:55 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	jump_char_inside(char *string, char *special, int *word_count, bool *word)
 
 int	single_word_strchr( char **single_word, char *string)
 {
+	// printf("The string is :%s and the signle word is :%s\n", string, *single_word);
 	bool	word;
 	size_t	len;
 	int		i;
@@ -60,5 +61,7 @@ int	single_word_strchr( char **single_word, char *string)
 			return (len);
 		i++;
 	}
+	// printf("The i is %d\n", len);
+	// printf("The single word is %s\n", single_word[i]);
 	return (word);
 }

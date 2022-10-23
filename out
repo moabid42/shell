@@ -1,0 +1,11 @@
+<
+Makefile
+esh_tester.sh
+in
+includes
+minishell
+out
+src
+tmp
+tmp_out
+tmp_test_folder

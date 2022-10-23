@@ -6,14 +6,12 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 15:57:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 14:16:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 
 char	*get_input_terminal(int fd);
 
@@ -39,6 +37,8 @@ int	ft_strlen_newline(char *str)
 	int i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (str[i] > 31 && str[i] < 127)
 		i++;
 	return(i);
@@ -182,7 +182,9 @@ void	handle_weird(struct minishell *minishell)
 		dprintf(2, "esh: : command not found\n");
 		minishell->return_value = 127;
 	}
-	else if (!my_strcmp(minishell->input_str, "\".\""))
+	else if (!my_strcmp(minishell->input_str, "\".\"")
+		|| !my_strcmp(minishell->input_str, "..")
+		|| !my_strcmp(minishell->input_str, "."))
 	{
 		dprintf(2, "esh: .: filename argument required\n");
 		dprintf(2, ".: usage: . filename [arguments]\n");
@@ -190,20 +192,28 @@ void	handle_weird(struct minishell *minishell)
 	}
 	else if (!my_strcmp(minishell->input_str, ";;")
 		|| !my_strcmp(minishell->input_str, "<")
-		|| !my_strcmp(minishell->input_str, ">"))
+		|| !my_strcmp(minishell->input_str, ">")
+		|| !my_strcmp(minishell->input_str, "< < < < < <"))
 	{
 		dprintf(2, "esh: syntax error near unexpected token `%s'\n", minishell->input_str);
+		minishell->return_value = 258;
+	}
+	else if (!my_strcmp(minishell->input_str, "<<<<<<"))
+	{
+		dprintf(2, "esh: syntax error near unexpected token `<<<'\n");
 		minishell->return_value = 258;
 	}
 }
 
 bool	is_weird(char *str)
 {
-	if (!my_strcmp(str, "\"\""))
-		return (true);
-	else if (!my_strcmp(str, "\".\""))
-		return (true);
-	return (false);
+	return (!my_strcmp(str, "\"\"")
+		|| !my_strcmp(str, "\".\"")
+		|| !my_strcmp(str, "<<<<<<")
+		|| !my_strcmp(str, "< < < < < <")
+		|| !my_strcmp(str, ";;")
+		|| !my_strcmp(str, ".")
+		|| !my_strcmp(str, ".."));
 }
 
 void    minishell_run(struct minishell *minishell)

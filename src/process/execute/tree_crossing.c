@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 16:04:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 14:40:56 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 		// dprintf(2, "The path is : %s\n", path);
 		if(is_builtin(command_statement[0]) == true)
 			builtin_run(command_statement, minishell);
-		else if (access(path, X_OK) != 0)
-		{
-			perror("esh ");
-			exit(127);
-		}
+		// else if (access(path, X_OK) != 0)
+		// {
+		// 	perror("esh ");
+		// 	exit(127);
+		// }
 		else if (execve(path, command_statement, env_to_string(minishell->env)) == -1)
 			perror("esh ");
 		exit(1);
@@ -193,8 +193,8 @@ void	less_statement_execute(char **command_statement, struct ast *ast, struct mi
 	fd_in = openfile(command_statement[1], 0);
 	if (fd_in == -1)
 	{
-		minishell->return_value = 1;
-		return ;
+		dprintf(2, "esh: %s: No such file or directory\n", ast->left->value.token_name);
+		exit(1);
 	}
 	if (ast->right == NULL)
 		;
@@ -244,6 +244,8 @@ void	execute_heredoc(char *delimiter, int magic)
 	{
 		write(1, "heredoc> ", 10);
 		line = get_next_line(0);
+		if (line == NULL)
+			break;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 01:31:12 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 16:40:36 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,6 @@ void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishel
 		minishell->return_value = minishell_ast_execute(ast->right, minishell);
 }
 
-void decToBinary(long long n)
-{
-    int binaryNum[64];
-	int	count = 0;
-    int i = 0;
-
-    while (n > 0)
-	{
-        binaryNum[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-    for (int j = i - 1; j >= 0; j--)
-	{
-		count++;
-        printf("%d", binaryNum[j]);
-	}
-}
-
 void minishell_process_input(struct scripts *script, struct minishell *minishell)
 {
 	struct token_stream *token_stream;
@@ -52,21 +33,18 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 
 	if (!script)
 		return;
-	// printf("We are creating a token_stream for : %s\n", script->input_line);
 	minishell->handled = false;
 	if (!my_strcmp(script->input_line, "<<")
 		|| !my_strcmp(script->input_line, "<>")
 		|| !my_strcmp(script->input_line, "<")
 		|| !ft_strncmp(script->input_line, "<> &&", 5))
-	{
-		minishell->return_value = 258;
-		dprintf(2, "minishell: syntax error near unexpected token `newline'");
-	}
+		error_exit(minishell, "syntax error near unexpected token `newline'", NULL, 258);
 	else
 	{
 		token_stream = lexical_analyzer_create(script, minishell);
+		if (token_stream == NULL)
+			return;
 		ast = semantic_analyzer_create(minishell, script->token_stream);
-		// structure(ast, 0);
 		if (ast != NULL)
 		{
 			if (syntax_analyzer_create(token_stream, ast, minishell) == true)
@@ -85,8 +63,6 @@ void minishell_destroy_input(struct scripts *script)
 {
 	if (!script)
 		return;
-	// semantic_analyzer_destroy(token_stream, script);
-	// syntax_analyzer_destroy(minishell);
 	lexical_analyzer_destroy(&script->token_stream);
 	minishell_destroy_input(script->next);
 }

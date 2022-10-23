@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/20 15:39:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 14:26:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,10 @@ void	process_redirect_left(struct ast *ast)
 
 	fd_in = openfile(ast->left->value.token_name, 0);
 	if (fd_in == -1)
-		ft_error("File not found\n");
+	{
+		dprintf(2, "esh: %s: No such file or directory\n", ast->left->value.token_name);
+		exit(1);
+	}
 	dup2(fd_in, 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 16:28:33 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,6 @@ char **split_name_content(char *str)
 	split[1] = copy_till_bit(&str[find_chr(str, '=') + 1], ft_strlen(str) - find_chr(str, '='));
 	split[2] = NULL; 
 	return (split);
-}
-
-t_env *create_the_env(char **env)
-{
-	t_env	*head;
-	t_env	*list;
-	char **split;
-	int i;
-	
-	i = 0;
-	head = malloc(sizeof(t_env));
-	list = head;
-	while(env[i]!= NULL)
-	{
-		split = split_name_content(env[i]);
-		list->name = split[0];
-		list->content = split[1];
-		if(env[i+1]!= NULL)
-		{
-			list->next = new_node();
-			list = list->next;
-		}
-		else
-			list->next = NULL;
-		i++;
-	}
-	return (head);
 }
 
 int list_len(t_env *env)

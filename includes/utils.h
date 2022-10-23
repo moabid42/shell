@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 18:09:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 13:36:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #define MINI_INIT_ERROR "[-] error: Envirement variable error"
 #define PARSE_ERROR		"[-] error: User input error"
 #define UNEXPECTED_TOKEN "esh: syntax error near unexpected token `;;'"
+#define ENV_ERROR		"[-] error: Envirement variable not set"
 
 #define NAME			"./minishell"
 #define	PROMPT			"esh"

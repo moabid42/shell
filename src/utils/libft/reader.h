@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:23:20 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 21:51:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/22 20:42:50 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdio.h>
 
 typedef struct s_args
 {
