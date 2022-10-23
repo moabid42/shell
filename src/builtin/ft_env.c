@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:18:18 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 16:29:50 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 22:23:04 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "builtin_utils.h"
 
-void ft_env(t_env *enviroment)
+void	ft_env(t_env *enviroment)
 {
- 	while(enviroment != NULL)
+ 	while (enviroment != NULL)
  	{
 		ft_putstr_fd(enviroment->name, 1);
 		write(1, "=", 1);
@@ -23,5 +23,5 @@ void ft_env(t_env *enviroment)
 		write(1, "\n", 1);
  		enviroment = enviroment->next;
  	}
-	exit(0);
+	exit (0);
 }

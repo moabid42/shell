@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 19:25:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:04:50 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,31 @@ bool	token_checker(struct token_stream *stream, struct minishell *minishell)
 	return (false);
 }
 
+static bool	check_paired_quotes(char *string){
+	int	i;
+	bool open;
+	char quotes_type;
+
+	i = 0;
+	open = false;
+	while (string[i]){
+		if ((string[i] == '\'' || string[i] == '\"') && open == false)
+		{
+			open = true;
+			quotes_type = string[i];
+		}
+		else if ((string[i] == quotes_type) && open == true)
+		{
+			open = false;
+		}
+		i++;
+	}
+	if (open == true)
+		return (false);
+	else
+		return (true);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -68,7 +93,15 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	args.single_word = (char *[]){"(", ")", "||", "&&", "|", "&&", "<<", ">>", "<", ">", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
+	if(check_paired_quotes(script->input_line) == false)
+		return (NULL);
 	tokens = ft_reader(script->input_line, &args);
+	// int i;
+	// i = 0;
+	// while(tokens[i]){
+	// 	ft_putstr(tokens[i]);
+	// 	i++;
+	//	}
 	script->tokens_num = reader_word_count(script->input_line, &args);
 	if (star_exist(tokens) == true)
 	{
@@ -79,5 +112,10 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	script->token_stream = token_stream;
 	if (token_checker(token_stream, minishell) == true)
 		return (NULL);
+	// /*TOKEN PRINTER*/
+	// while(token_stream){
+	// 	ft_putstr(token_stream->token_name);
+	// 	token_stream = token_stream->next;
+	// }
 	return (token_stream);
 }
