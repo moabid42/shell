@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 19:43:30 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 00:15:00 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,6 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	if(check_paired_quotes(script->input_line) == false)
 		return (NULL);
 	tokens = ft_reader(script->input_line, &args);
-	// int i;
-	// i = 0;
-	// while(tokens[i]){
-	// 	ft_putstr(tokens[i]);
-	// 	i++;
-	//	}
 	script->tokens_num = reader_word_count(script->input_line, &args);
 	if (star_exist(tokens) == true)
 	{
@@ -112,10 +106,5 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	script->token_stream = token_stream;
 	if (token_checker(token_stream, minishell) == true)
 		return (NULL);
-	// /*TOKEN PRINTER*/
-	// while(token_stream){
-	// 	ft_putstr(token_stream->token_name);
-	// 	token_stream = token_stream->next;
-	// }
 	return (token_stream);
 }
