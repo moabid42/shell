@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:53:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 21:54:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:23:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void padding ( char ch, int n )
+static void padding ( char ch, int n )
 {
   int i;
 

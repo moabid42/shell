@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 21:57:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:30:23 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,79 +47,11 @@ struct ast	*ast_create_first_node(struct minishell *minishell, struct token_stre
 	return (tmp);
 }
 
-bool	is_child(int root, struct token_stream *tmp)
-{
-	if (tmp->token_type < DOUBLE_SMALLER)
-		return (false);
-	if (tmp->token_type == PIPE && root == EQUAL)
-		return (true);
-	if (tmp->token_type > root)
-		return (true);
-	return (false);
-}
-
-struct ast	*ast_lookup(struct ast *node, char *token_name)
-{
-	if (my_strcmp(node->value.token_name, token_name) == 0)
-		return (node);
-	if (node->left)
-		if (ast_lookup(node->left, token_name) != NULL)
-			return (ast_lookup(node->left, token_name));
-	return(NULL);
-}
-
-//create a function that looks for a char inside the binary tree
-struct ast *find_prev(struct ast *node, char *token_name)
-{
-	// printf("We are in the node : %s\n", token_name);
-	if (my_strcmp(node->value.token_name, token_name) == 0)
-	{
-		if (node->left)
-		{
-			if (ast_lookup(node->left, token_name) == NULL)
-				return (node);
-		}
-		else
-			return (node);
-	}
-	if (node->right)
-		if (find_prev(node->right, token_name) != NULL)
-			return (find_prev(node->right, token_name));
-	if (node->left)
-		if (find_prev(node->left, token_name) != NULL)
-			return (find_prev(node->left, token_name));
-	return (NULL);
-}
-
-bool	ast_not_right_type(struct ast *ast)
-{
-	return (ast->value.token_type == COMMAND 
-	|| ast->value.token_type == DOUBLE_SMALLER
-	|| ast->value.token_type == LESS
-	|| ast->value.token_type == PIPE
-	|| ast->value.token_type == ANDAND
-	|| ast->value.token_type == OROR
-	|| ast->value.token_type == TRUE
-	|| ast->value.token_type == FALSE
-	|| ast->value.token_type == GREATER
-	|| ast->value.token_type == DOUBLE_GREATER
-	|| ast->value.token_type == EQUAL
-	|| is_builtin(ast->value.token_name)
-	|| !my_strcmp(ast->value.token_name, "exit"));
-}
-
-bool	ast_is_assign(struct ast *ast)
-{
-	return (ast->value.token_type == EQUAL
-		|| !my_strcmp(ast->value.token_name, "export"));
-}
-
 struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream **prev, struct token_stream **stream)
 {
 	struct ast *ast;
 
-	if (!my_strcmp((*stream)->token_name, "(")
-		|| !my_strcmp((*stream)->token_name, ")"))
+	if (is_bracket((*stream)->token_name) == true)
 	{
 		(*stream) = (*stream)->next;
 		minishell->index_flag *= 2;
@@ -130,8 +62,7 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 	*stream = (*stream)->next;
 	while (*stream)
 	{
-		if (!my_strcmp((*stream)->token_name, "(")
-			|| !my_strcmp((*stream)->token_name, ")"))
+		if (is_bracket((*stream)->token_name) == true)
 		{
 			(*stream) = (*stream)->next;
 			minishell->index_flag *= 2;

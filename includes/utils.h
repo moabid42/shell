@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 19:21:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 23:36:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,42 @@ bool				node_contain_special_single(char *str, int c);
 //  MINISHELL_UTILS //
 //////////////////////
 
-char    *append_chr(char *str, char append);
-char	*ft_free(void *ptr);
-int     ft_strlen_newline(char *str);
+char                *append_chr(char *str, char append);
+char                *ft_free(void *ptr);
+int                 ft_strlen_newline(char *str);
 
 //////////////////////
 //  GENERAL_UTILS   //
 //////////////////////
 
-int     error_exit(struct minishell *minishell, char *str, char *var, int exit_code);
+int                 error_exit(struct minishell *minishell, char *str, char *var, int exit_code);
 
 //////////////////////
 //  PARSER_UTILS    //
 //////////////////////
 
 ///////////////////////////  LEXICAL_UTILS   ///////////////////////////
-int     count_tokens(char **tokens);
-void	print_tokens(char **scripts_line, int count);
-void	printer_split(char **tokens);
+int                 count_tokens(char **tokens);
+void	            print_tokens(char **scripts_line, int count);
+void	            printer_split(char **tokens);
+
+///////////////////////////  SEMANTIC_UTILS   ///////////////////////////
+bool                ft_isexecutable(char *executable);
+struct ast          *find_end_right(struct ast *node);
+
+///////////////////////////     AST_UTILS    ///////////////////////////
+bool                ast_is_assign(struct ast *ast);
+bool                ast_not_right_type(struct ast *ast);
+struct ast          *find_prev(struct ast *node, char *token_name);
+struct ast          *ast_lookup(struct ast *node, char *token_name);
+bool                is_child(int root, struct token_stream *tmp);
+
+
+///////////////////////////     TREE_UTILS   ///////////////////////////
+void                structure ( struct ast *root, int level );
+
+///////////////////////////     AST_HELP_FUNCS   ///////////////////////////
+bool				is_bracket(char *str);
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);
@@ -94,7 +112,6 @@ bool	quotes_string_check(char **scripts_line, int num);
 char	**ft_new_split(char *string, char split_char, char* special);
 void	printer_split(char **tokens);
 
-// bool	ft_iscommand(char *str, char **env);
 bool	ft_iscommand(char *str, t_env *env);
 bool	ft_isfile(char *str);
 bool	ft_isword(char *str);
