@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 14:35:48 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:01:00 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*find_return_expend(struct minishell *minishell, char return_var)
 {
 	if (return_var == '?')
 		return (ft_itoa(minishell->return_value));
-	// else if (return_var == '_')
-	// 	return ()
 	return (NULL);
 }
 
@@ -56,15 +54,6 @@ char	*minishell_find_variable(struct minishell *minishell, char *variable)
 	return (NULL);
 }
 
-// bool	ft_isexecutable(char *executable)
-// {
-// 	printf("executable: %s\n", executable);
-// 	if (access(executable, F_OK | X_OK) == 0)
-// 		return (true);
-// 	return (false);
-// }
-
-//create a function that checks if a file is executable
 bool	ft_isexecutable(char *executable)
 {
 	struct stat	*buf;
@@ -450,7 +439,6 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		else
 			break;
 	}
-	// structure(ast, 0);
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

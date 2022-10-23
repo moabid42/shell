@@ -6,13 +6,11 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 14:40:56 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 17:49:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "parser.h"
-// #include "utils.h"
 #include "builtin.h"
 
 int	ast_child_num_complexe(struct ast *node)
@@ -43,7 +41,6 @@ int	ast_child_num_complexe(struct ast *node)
 			tmp = tmp->left;
 		}
 	}
-	// dprintf(2, "The number of child is %d\n", nuum);
 	return (num);
 }
 

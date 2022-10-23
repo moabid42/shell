@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 16:40:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:04:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,47 @@ struct minishell {
 	struct	scripts *scripts;
 };
 
+////////////////////
+//   INPUT_PROC   //
+////////////////////
+
+void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishell);
+void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell, struct token_stream *token_stream);
+void	minishell_process_input(struct scripts *script, struct minishell *minishell);
+void	minishell_destroy_input(struct scripts *script);
+void	minishell_read_input(struct minishell *minishell);
+
+////////////////////
+// MINISHELL_INIT //
+////////////////////
+
 void    minishell_create(struct minishell *minishell, char **env);
-void	minishell_get_input(struct minishell *minishell);
+void 	minishell_get_input(struct minishell *minishell);
+char	*get_input_terminal(int fd);
 void    minishell_destroy(struct minishell *minishell);
+
+////////////////////
+//  MINISHELL_RUN //
+////////////////////
+
+void	handle_weird(struct minishell *minishell);
+bool	is_weird(char *str);
 void    minishell_run(struct minishell *minishell);
-t_env	*minishell_env_init(char **env);
 
-char	**ft_split_strings(char *str);
+////////////////////
+// MINISHELL_SEGN //
+////////////////////
 
+int		termios_echoback(bool echo_ctl_chr);
+void	handler(int sig);
 void	signal_run(int sig);
 
-void	error_exit(struct minishell *minishell, char *str, char *var, int exit_code);
+////////////////////
+//  MINISHELL_ENV //
+////////////////////
 
+void	print_the_env(t_env *enviroment);
+t_env	*create_the_env(char **env);
+t_env	*minishell_env_init(char **env);
 
 #endif

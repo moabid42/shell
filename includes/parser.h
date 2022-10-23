@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 15:03:13 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 18:51:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,35 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 
 void semantic_analyzer_destroy(struct minishell *minishell);
 
+/////////////////////
+//  LEXICAL_ANAL   //
+/////////////////////
+
+bool                minishell_scripts_parse(struct minishell *minishell);
+bool	            token_checker(struct token_stream *stream, struct minishell *minishell);
+struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell);
+
+/////////////////////
+//  SYNTAX_ANAL    //
+/////////////////////
+
+bool                syntax_analyzer_create(struct token_stream *token_stream,
+                            struct ast *ast, struct minishell *minishell);
+
+/////////////////////
+//  SEMANTIC_ANAL  //
+/////////////////////
+
+
+
+/////////////////////
+//    EXPEND_TOK   //
+/////////////////////
+
+int                 star_count_dirs(void);
+int                 star_count(char **tokens);
+void                star_expend_dir(char **new_tokens, int *i);
+char                **token_expend_star(char **tokens, int prev_size);
+bool                star_exist(char **tokens);
 
 #endif

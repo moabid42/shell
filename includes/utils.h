@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 13:36:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:05:58 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ struct token_stream;
 struct s_variable;
 typedef struct s_env t_env;
 
-// char			*get_path(char *cmd, char **env); 
-char	*get_path(char *cmd, t_env *env);
-
-
+char            *get_path(char *cmd, t_env *env);
 void			ft_error(char *str);
 int				my_strcmp(const char *strg1, char *strg2);
 void			*ft_malloc(size_t size);
@@ -63,6 +60,29 @@ char				*ft_special_trim(char *str, int c, int size);
 bool				node_contain_special(char *str, int c);
 bool				node_contain_special_single(char *str, int c);
 
+
+//////////////////////
+//  MINISHELL_UTILS //
+//////////////////////
+
+char    *append_chr(char *str, char append);
+char	*ft_free(void *ptr);
+int     ft_strlen_newline(char *str);
+
+
+//////////////////////
+//  GENERAL_UTILS   //
+//////////////////////
+
+int     error_exit(struct minishell *minishell, char *str, char *var, int exit_code);
+
+//////////////////////
+//  PARSER_UTILS    //
+//////////////////////
+
+int     count_tokens(char **tokens);
+void	print_tokens(char **scripts_line, int count);
+void	printer_split(char **tokens);
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);

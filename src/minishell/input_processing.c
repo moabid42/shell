@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 16:40:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:06:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishel
 		minishell->return_value = minishell_ast_execute(ast->right, minishell);
 }
 
+void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell, struct token_stream *token_stream)
+{
+	if (ast != NULL)
+	{
+		if (syntax_analyzer_create(token_stream, ast, minishell) == true)
+		{
+			if (ast && ast->value.token_type < 2)
+				minishell_ast_execute_subshells(ast, minishell);
+			else
+				minishell->return_value = minishell_ast_execute(ast, minishell);
+		}
+	}
+}
+
 void minishell_process_input(struct scripts *script, struct minishell *minishell)
 {
 	struct token_stream *token_stream;
@@ -38,23 +52,14 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 		|| !my_strcmp(script->input_line, "<>")
 		|| !my_strcmp(script->input_line, "<")
 		|| !ft_strncmp(script->input_line, "<> &&", 5))
-		error_exit(minishell, "syntax error near unexpected token `newline'", NULL, 258);
+		error_exit(minishell, "syntax error near unexpected token `newline'\n", NULL, 258);
 	else
 	{
 		token_stream = lexical_analyzer_create(script, minishell);
 		if (token_stream == NULL)
 			return;
 		ast = semantic_analyzer_create(minishell, script->token_stream);
-		if (ast != NULL)
-		{
-			if (syntax_analyzer_create(token_stream, ast, minishell) == true)
-			{
-				if (ast && ast->value.token_type < 2)
-					minishell_ast_execute_subshells(ast, minishell);
-				else
-					minishell->return_value = minishell_ast_execute(ast, minishell);
-			}
-		}
+		syntax_analyzer_run(ast, minishell, token_stream);
 	}
 	minishell_process_input(script->next, minishell);
 }
@@ -63,7 +68,7 @@ void minishell_destroy_input(struct scripts *script)
 {
 	if (!script)
 		return;
-	lexical_analyzer_destroy(&script->token_stream);
+	// lexical_analyzer_destroy(&script->token_stream);
 	minishell_destroy_input(script->next);
 }
 
