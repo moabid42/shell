@@ -35,10 +35,6 @@ run: all
 
 re: clean all
 
-execute:
-	./minishell | echo "bla		bla"
-
-
 .PHONY: re run fclean clean all
 
 -include $(DEPENDS)
