@@ -28,12 +28,11 @@ char *string_dollar_sign(char *tmp)
 	ret_string = malloc(100000);
 	ret_string[100000 - 1] = '\0';
 	j = 0;
-	printf("%s", string);
-	while(string[i] && ret_string[j]){
+	//printf("%s", string);
+	while(string[i]){
 		if((string[i] == '\'' || string[i] == '"') && open == false){
 			open = true;
 			quotes_type = string[i];
-			printf("qui: %s\n", ret_string);
 		}
 		else if(open == true && string[i] == '$'){
 			ret_string[j++] = quotes_type;
@@ -50,7 +49,6 @@ char *string_dollar_sign(char *tmp)
 		}
 		else if(open == false && string[i] == '$'){
 			ret_string[j++] = '"';
-			printf("o qua? %s\n", ret_string);
 			if(string[i + 1])
 				ret_string[j++] = string[i++];
 			while(string[i] && is_alphanumeric(string[i]) == true && string[i] != '$'){
@@ -60,9 +58,10 @@ char *string_dollar_sign(char *tmp)
 			}
 			ret_string[j++] = '"';
 		}
-		else if(string[i] == quotes_type && open == true)
+		else if (string[i] == quotes_type && open == true)
 			open = false;
-		if(string[i])
+		printf("diocane?: %s\n", ret_string);
+		if (string[i])
 			ret_string[j] = string[i];
 		i++;
 		j++;
@@ -71,7 +70,6 @@ char *string_dollar_sign(char *tmp)
 	return (ret_string);
 
 }
-
 
 int main (void){
 
