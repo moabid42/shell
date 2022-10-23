@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/19 14:11:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 00:12:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,17 @@ bool	is_a_valid_identifier(char *str)
 
 bool	indentfier_exist(t_env *env, char *str)
 {
+	char	**tokens;
+	
 	while(env)
 	{
 		if (my_strcmp(env->name, ft_split(str, '=')[0]) == 0)
 		{
-			env->content = ft_split(str, '=')[1];
+			tokens = ft_split(str, '=');
+			if (tokens[1] == NULL)
+				env->content = "";
+			else
+				env->content = tokens[1];
 			return (true);
 		}
 		env = env->next;
