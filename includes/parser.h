@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 18:51:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 21:52:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ struct AST_value {
     enum token_type token_type;
 };
 
-//
 struct ast {
 	bool	isroot;
     struct AST_value value;
@@ -154,5 +153,13 @@ int                 star_count(char **tokens);
 void                star_expend_dir(char **new_tokens, int *i);
 char                **token_expend_star(char **tokens, int prev_size);
 bool                star_exist(char **tokens);
+
+/////////////////////
+//    EXPEND_VAR   //
+/////////////////////
+
+int                 isdir(const char* fileName);
+char                *find_return_expend(struct minishell *minishell, char return_var);
+char                *minishell_find_variable(struct minishell *minishell, char *variable);
 
 #endif

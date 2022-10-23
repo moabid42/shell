@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 19:25:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:43:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	struct token_stream *token_stream;
 	t_args args;
 	
-	args.split_char = " ";
+	args.split_char = " \t\b\r\v\f";
 	args.single_word = (char *[]){"(", ")", "||", "&&", "|", "&&", "<<", ">>", "<", ">", NULL};
 	args.ignore = (char *)"\\";
 	args.ign_char_inside = (char *)"\"'";
