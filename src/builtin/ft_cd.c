@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 16:29:19 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 22:11:51 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 char	*get_home(t_env *env);
 
-static	t_env *create_variable(t_env *env, char *name, char *path)
+static t_env	*create_variable(t_env *env, char *name, char *path)
 {
-	t_env *new;
-	
+	t_env	*new;
+
 	new = new_node();
 	new->name = name;
 	new->content = path;
@@ -27,19 +27,18 @@ static	t_env *create_variable(t_env *env, char *name, char *path)
 	return (env);
 }
 
-static void		update_current_pwd(char *path, char *old_path, t_env **env)
+static void	update_current_pwd(char *path, char *old_path, t_env **env)
 {
 	t_env	*tmp;
 
 	tmp = *env;
-	// printf("path: %s \n old_Path: %s\n", path, old_path);
-	while(tmp && my_strcmp(tmp->name, "PWD"))
+	while (tmp && my_strcmp(tmp->name, "PWD"))
 		tmp = tmp->next;
 	if (tmp == NULL)
 		*env = create_variable(*env, "PWD", path);
 	else
 	{
-		if(tmp->content)
+		if (tmp->content)
 			free(tmp->content);
 		tmp->content = path;
 	}
@@ -50,7 +49,7 @@ static void		update_current_pwd(char *path, char *old_path, t_env **env)
 		*env = create_variable(*env, "OLDPWD", old_path);
 	else
 	{
-		if(tmp->content)
+		if (tmp->content)
 			free(tmp->content);
 		tmp->content = old_path;
 	}
@@ -58,8 +57,9 @@ static void		update_current_pwd(char *path, char *old_path, t_env **env)
 
 static char	*set_path(char	*old_path, char **argv, t_env *env)
 {
-	char *path;
-	if(!argv[1])
+	char	*path;
+
+	if (!argv[1])
 		path = get_home(env);
 	else
 		path = (ft_strjoin(ft_strjoin(old_path, "/"), argv[1]));
@@ -68,28 +68,28 @@ static char	*set_path(char	*old_path, char **argv, t_env *env)
 
 char	*get_home(t_env *env)
 {
-	t_env *tmp;
-	char *path;
+	t_env	*tmp;
+	char	*path;
 
 	tmp = env;
-	while(env)
+	while (env)
 	{
 		if (!my_strcmp(env->name, "HOME"))
 		{
 			path = ft_strdup(env->content);
-			return path;
+			return (path);
 		}
 		env = env->next;
 	}
 	return (NULL);
 }
 
-void		ft_cd(char **argv, struct minishell *minishell)
+void	ft_cd(char **argv, struct minishell *minishell)
 {
 	char	*old_path;
 	t_env	*tmp;
 	char	*path;
-	
+
 	tmp = minishell->env;
 	old_path = get_pwd();
 	if (argv[1] && argv[1][0] == '/')
@@ -109,5 +109,5 @@ void		ft_cd(char **argv, struct minishell *minishell)
 		return ;
 	}
 	update_current_pwd(path, old_path, &tmp);
-	return;
+	return ;
 }
