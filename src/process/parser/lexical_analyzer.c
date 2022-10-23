@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 18:47:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:25:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ bool minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
 
+	if (minishell->input_str[0] == ';')
+		return(!error_exit(minishell, "syntax error near unexpected token `;'\n", NULL, 258));
 	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
 	minishell->scripts_num = words_count(minishell->input_str,';', "\"'");
 	if (minishell->scripts_num == 1)

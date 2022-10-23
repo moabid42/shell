@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 19:22:16 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:27:00 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void minishell_read_input(struct minishell *minishell)
 
 	signal(SIGINT, SIG_IGN);
 	if (!minishell_scripts_parse(minishell))
-		ft_error(UNEXPECTED_TOKEN);
+		return;
 	tmp_cr = minishell->scripts;
 	minishell_process_input(tmp_cr, minishell);
 	minishell->brakets_flag = 0;
