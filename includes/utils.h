@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:19:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:21:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,20 @@ char    *append_chr(char *str, char append);
 char	*ft_free(void *ptr);
 int     ft_strlen_newline(char *str);
 
+//////////////////////
+//  GENERAL_UTILS   //
+//////////////////////
+
+int     error_exit(struct minishell *minishell, char *str, char *var, int exit_code);
+
+//////////////////////
+//  PARSER_UTILS    //
+//////////////////////
+
+///////////////////////////  LEXICAL_UTILS   ///////////////////////////
+int     count_tokens(char **tokens);
+void	print_tokens(char **scripts_line, int count);
+void	printer_split(char **tokens);
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);

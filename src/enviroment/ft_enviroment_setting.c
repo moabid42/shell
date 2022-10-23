@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_enviroment_setting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 16:28:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:19:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int list_len(t_env *env)
 	return (i);
 }
 
-static char *make_env_string(t_env *env)
+char *make_env_string(t_env *env)
 {
 	char *string;
 	int i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_processing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:10:13 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:22:16 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void minishell_destroy_input(struct scripts *script)
 {
 	if (!script)
 		return;
-	lexical_analyzer_destroy(&script->token_stream);
+	// lexical_analyzer_destroy(&script->token_stream);
 	minishell_destroy_input(script->next);
 }
 

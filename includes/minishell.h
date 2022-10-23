@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:48:39 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 19:19:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,19 @@ void    minishell_run(struct minishell *minishell);
 int		termios_echoback(bool echo_ctl_chr);
 void	handler(int sig);
 void	signal_run(int sig);
+
+////////////////////
+//   ENVIROMENT   //
+////////////////////
+
+t_env	*minishell_env_init(char **env);
+t_env	*create_the_env(char **env);
+void	print_the_env(t_env *enviroment);
+
+char	*copy_till_bit(char *str, int n_byte);
+char	**split_name_content(char *str);
+int		list_len(t_env *env);
+char	*make_env_string(t_env *env);
+char	**env_to_string(t_env *env);
 
 #endif
