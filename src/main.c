@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 16:20:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/23 22:02:20 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	struct minishell	minishell;
 	int					exit_status;
@@ -28,4 +28,3 @@ int main(int argc, char **argv, char **env)
 	minishell_destroy(&minishell);
 	return (exit_status);
 }
-
