@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 01:07:57 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 11:31:21 by moabid           ###   ########.fr       */
+/*   Created: 2022/10/24 10:13:29 by frame             #+#    #+#             */
+/*   Updated: 2022/10/24 11:15:56 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "minishell.h"
 
 static bool	is_alphanumeric(char c)
