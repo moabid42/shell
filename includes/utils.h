@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 11:31:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 14:29:06 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ bool                is_child(int root, struct token_stream *tmp);
 void                structure ( struct ast *root, int level );
 
 ///////////////////////////     AST_HELP_FUNCS   ///////////////////////////
-bool				is_bracket(char *str);
+bool				is_bracket(struct minishell *minishell, char *str);
 
 ///////////////////////////     DOLLAR_SIGN   ///////////////////////////
 char				*string_dollar_sign(char *str);

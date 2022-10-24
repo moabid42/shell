@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 00:41:45 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 14:33:28 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 {
 	struct ast *ast;
 
-	if (is_bracket((*stream)->token_name) == true)
+	if (is_bracket(minishell, (*stream)->token_name) == true)
 	{
 		(*stream) = (*stream)->next;
 		minishell->index_flag *= 2;
@@ -62,7 +62,7 @@ struct ast *ast_create_subtree(struct minishell *minishell, struct token_stream 
 	*stream = (*stream)->next;
 	while (*stream)
 	{
-		if (is_bracket((*stream)->token_name) == true)
+		if (is_bracket(minishell, (*stream)->token_name) == true)
 		{
 			(*stream) = (*stream)->next;
 			minishell->index_flag *= 2;
@@ -104,13 +104,13 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		
 	tmp = token_stream;
 	prev = tmp;
-	if (is_bracket(tmp->token_name) == true)
+	while (is_bracket(minishell, tmp->token_name) == true)
 		tmp = tmp->next;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
 	while (tmp)
 	{
-		if (is_bracket(tmp->token_name) == true)
+		if (is_bracket(minishell, tmp->token_name) == true)
 		{
 			tmp = tmp->next;
 			continue;
@@ -145,6 +145,11 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			break;
 	}
 	// structure(ast, 0);
+	if (minishell->open != 0)
+	{
+		error_exit(minishell, "esh: syntax error near unexpected token ')'\n", NULL, 258);
+		return (NULL);
+	}
 	if (ast_not_right_type(ast) == false)
 	{
 		minishell->return_value = 127;

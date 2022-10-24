@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 13:56:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 14:40:15 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ bool	token_checker(struct token_stream *stream, struct minishell *minishell)
 	bracket = false;
 	while (stream)
 	{
-		if (stream->token_name[0] == '<'
+		if (stream->token_name[0] == '('
+			&& tmp->token_name[0] == ')')
+			return (error_exit(minishell, "esh: syntax error near unexpected token `('\n", NULL, 258));
+		else if (stream->token_name[0] == '<'
 			&& tmp->token_name[0] == '>')
 			return (error_exit(minishell, "esh: syntax error near unexpected token `<'\n", NULL, 258));
 		if (stream->token_name[0] == '(')
@@ -153,7 +156,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 		script->input_line = string_dollar_sign(script->input_line);
 	// printf("The input l`ine is : %s\n", script->input_line);
 	tokens = ft_reader(script->input_line, &args);
-	printer_split(tokens);
+	// printer_split(tokens);
 	script->tokens_num = reader_word_count(script->input_line, &args);
 	if (star_exist(tokens) == true)
 	{
@@ -162,9 +165,9 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	}
 	token_stream = ft_create_stack_tkstream(minishell, tokens, script->tokens_num);
 	script->token_stream = token_stream;
+	sanitize_token_stream(token_stream);
 	if (token_checker(token_stream, minishell) == true)
 		return (NULL);
-	sanitize_token_stream(token_stream);
 	// printer_token(token_stream);
 	return (token_stream);
 }
