@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:30:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 00:41:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,13 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		
 	tmp = token_stream;
 	prev = tmp;
-	if (!my_strcmp(tmp->token_name, "(")
-		|| !my_strcmp(tmp->token_name, ")"))
+	if (is_bracket(tmp->token_name) == true)
 		tmp = tmp->next;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
 	while (tmp)
 	{
-		if (!my_strcmp(tmp->token_name, "(")
-			|| !my_strcmp(tmp->token_name, ")"))
+		if (is_bracket(tmp->token_name) == true)
 		{
 			tmp = tmp->next;
 			continue;

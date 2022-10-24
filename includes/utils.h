@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:36:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 11:31:34 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void                structure ( struct ast *root, int level );
 
 ///////////////////////////     AST_HELP_FUNCS   ///////////////////////////
 bool				is_bracket(char *str);
+
+///////////////////////////     DOLLAR_SIGN   ///////////////////////////
+char				*string_dollar_sign(char *str);
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);
