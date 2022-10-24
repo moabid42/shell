@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/20 15:17:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 11:48:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,10 @@ struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char 
 	i = 0;
 	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 	curr = new_node;
-	while (i < count) {
+	while (i < count)
+	{
 		if (i < count - 1)
-			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
+			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));	
 		new_node->token_name = quotes_remover(tokens[i], "\"'");
 		new_node->token_type = find_type(tokens[i]);
 		new_node->closed = false;

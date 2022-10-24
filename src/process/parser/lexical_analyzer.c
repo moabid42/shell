@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 00:15:00 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 13:56:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,60 @@ static bool	check_paired_quotes(char *string){
 		return (true);
 }
 
+void	sanitize_token_stream(struct token_stream *token_stream)
+{
+	struct token_stream	*prev;
+
+	prev = token_stream;
+	while (token_stream)
+	{
+		// printf("The token is %s\n", token_stream->token_name);
+		if (!my_strcmp(token_stream->token_name, "")
+			&& token_stream->next && token_stream->next->token_name[0] == '$')
+		{
+			// printf("We found an empty token\n");
+			prev->next = token_stream->next;
+			free(token_stream);
+			token_stream = prev->next;
+		}
+		else if (!my_strcmp(token_stream->token_name, "")
+			&& prev->token_name[0] == '$')
+		{
+			prev->next = token_stream->next;
+			free(token_stream);
+			token_stream = prev->next;	
+		}
+		else
+		{
+			prev = token_stream;
+			token_stream = token_stream->next;
+		}
+	}
+}
+
+static bool	is_alphanumeric(char c)
+{
+	if (('0' <= c && c <= '9') || \
+		('a' <= c && c <= 'z') || \
+		('A' <= c && c <= 'Z'))
+		return (true);
+	return (false);
+}
+
+bool	have_dollar_var(char *string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i])
+	{
+		if (string[i] == '$' && is_alphanumeric(string[i + 1]))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -95,7 +149,11 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	args.ign_char_inside = (char *)"\"'";
 	if(check_paired_quotes(script->input_line) == false)
 		return (NULL);
+	if (have_dollar_var(script->input_line) == true)
+		script->input_line = string_dollar_sign(script->input_line);
+	// printf("The input l`ine is : %s\n", script->input_line);
 	tokens = ft_reader(script->input_line, &args);
+	printer_split(tokens);
 	script->tokens_num = reader_word_count(script->input_line, &args);
 	if (star_exist(tokens) == true)
 	{
@@ -106,5 +164,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	script->token_stream = token_stream;
 	if (token_checker(token_stream, minishell) == true)
 		return (NULL);
+	sanitize_token_stream(token_stream);
+	// printer_token(token_stream);
 	return (token_stream);
 }

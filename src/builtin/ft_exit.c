@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:11:03 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/24 00:51:13 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool	are_all_numbers(char **argv, int length)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < length)
 	{
 		if (ft_isnumber(argv[i]) == false)
@@ -130,8 +130,10 @@ void	ft_exit(char **argv, struct minishell *minishell)
 	minishell_destroy(minishell);
 	if (length > 2 && are_all_numbers(argv, length) == true)
 	{
+		write(2, "exit\n", 5);
 		write(2, "esh: exit: too many arguments\n", 31);
-		exit(1);
+		minishell->return_value = 1;
+		return ;
 	}
 	if (minishell->type == SIMPLE)
 		dprintf(2, "exit\n");

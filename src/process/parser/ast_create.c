@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:56:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 21:57:46 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 00:41:25 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *p
 			prev_token = ft_strdup("");
 		if (prev_token[0] == '\"')
 			prev_token = ft_special_trim(prev_token, '\"', ft_strlen(prev_token));
-		iterator = find_prev(iterator, prev_token);
+		iterator = find_prev(iterator->right, prev_token);
 		if (iterator->left == NULL)
 			iterator->left = node;
 		else if (iterator->right == NULL)
