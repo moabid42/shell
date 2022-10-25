@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 01:06:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 12:17:24 by frmessin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,27 @@ t_env *export_the_argv(struct minishell *minishell, char **argv, t_env *envirome
 	return (enviroment);
 }
 
+static bool check_empty_args(char **argv)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while(argv[i])
+	{
+		j = 0;
+		while(argv[i][j])
+		{
+			if((bool)ft_isspace(argv[i][j]) == false)
+				return(false);
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
+
 void ft_export (char **argv, struct minishell *minishell)
 {
 	t_env	*enviroment;
@@ -110,7 +131,7 @@ void ft_export (char **argv, struct minishell *minishell)
 	enviroment = minishell->env;
 	enviroment = alphabetic_order(enviroment);
 	head = enviroment;
-	if(argv[1] == NULL)
+	if(argv[1] == NULL || check_empty_args(argv) == false)
 		print_the_enviroment(enviroment);
 	else
 	{
