@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:48:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 19:31:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,14 @@ enum token_type find_redirection(char *token)
 		return (DOUBLE_SMALLER);
 }
 
-enum token_type find_var_shit(char *token) {
-	if (token[0] == '$')
+enum token_type	find_var_shit(char *token)
+{
+	if (token[0] == '$'
+		&& (token[1] == '\0'
+			|| token[1] == '\"'
+			|| token[1] == '\''))
+		return (WORD);
+	else if (token[0] == '$')
 		return (VARIABLE);
 	else
 		return (EQUAL);
@@ -74,7 +80,7 @@ enum token_type find_type(char *token)
 	if (!my_strcmp(token, "|"))
 		return (PIPE);
 	else if (!my_strcmp(token, ">") || !my_strcmp(token, "<")
-		   || !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
+		|| !my_strcmp(token, ">>") || !my_strcmp(token, "<<"))
 		return (find_redirection(token));
 	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
 		return (find_logicalop(token));
@@ -87,7 +93,13 @@ enum token_type find_type(char *token)
 	return (WORD);
 }
 
-char	*quotes_remover(char *str, char *set)
+bool	check_single(struct minishell *minishell, char c)
+{
+	minishell->single = true;
+	return (c == '\'');
+}
+
+char	*quotes_remover(char *str, char *set, struct minishell *minishell)
 {
 	char	*new_str;
 	int		i;
@@ -95,7 +107,9 @@ char	*quotes_remover(char *str, char *set)
 
 	i = 0;
 	j = 0;
-	new_str = (char *) ft_malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (str[0] == '$' && (str[1] == '\"' || check_single(minishell, str[1])))
+		i = 1;
+	new_str = (char *) ft_malloc(sizeof(char) * (ft_strlen(str) + 1 - i));
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -130,7 +144,7 @@ struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char 
 	{
 		if (i < count - 1)
 			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));	
-		new_node->token_name = quotes_remover(tokens[i], "\"'");
+		new_node->token_name = quotes_remover(tokens[i], "\"'", minishell);
 		new_node->token_type = find_type(tokens[i]);
 		new_node->closed = false;
 		if (i == (count - 1))
