@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 19:31:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:35:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ enum token_type find_redirection(char *token)
 		return (DOUBLE_SMALLER);
 }
 
-enum token_type	find_var_shit(char *token)
+enum token_type	find_var_shit(char *token, struct minishell *minishell)
 {
 	if (token[0] == '$'
 		&& (token[1] == '\0'
 			|| token[1] == '\"'
-			|| token[1] == '\''))
+			|| token[1] == '\''
+			|| minishell->single == true))
 		return (WORD);
 	else if (token[0] == '$')
 		return (VARIABLE);
@@ -75,7 +76,7 @@ enum token_type find_bool(char *token) {
 		return (FALSE);
 }
 
-enum token_type find_type(char *token)
+enum token_type find_type(char *token, struct minishell *minishell)
 {
 	if (!my_strcmp(token, "|"))
 		return (PIPE);
@@ -85,7 +86,7 @@ enum token_type find_type(char *token)
 	else if (!my_strcmp(token, "&&") || !my_strcmp(token, "||"))
 		return (find_logicalop(token));
 	else if (token[0] == '$' || ft_strchr(token, '='))
-		return (find_var_shit(token));
+		return (find_var_shit(token, minishell));
 	else if (!my_strcmp(token, "*"))
 		return (STAR);
 	else if (!my_strcmp(token, "false") || !my_strcmp(token, "true"))
@@ -95,7 +96,7 @@ enum token_type find_type(char *token)
 
 bool	check_single(struct minishell *minishell, char c)
 {
-	minishell->single = true;
+	// minishell->single = true;
 	return (c == '\'');
 }
 
@@ -140,12 +141,15 @@ struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char 
 	i = 0;
 	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
 	curr = new_node;
+	minishell->single = false;
 	while (i < count)
 	{
 		if (i < count - 1)
 			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));	
+		if (!my_strcmp("\'\'", tokens[i]))
+			minishell->single = true;
 		new_node->token_name = quotes_remover(tokens[i], "\"'", minishell);
-		new_node->token_type = find_type(tokens[i]);
+		new_node->token_type = find_type(tokens[i], minishell);
 		new_node->closed = false;
 		if (i == (count - 1))
 			new_node->next = NULL;

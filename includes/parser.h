@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 19:31:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:31:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ struct ast {
 
 
 // enums
-enum token_type find_type(char *token);
+enum token_type find_type(char *token, struct minishell *minishell);
 
 enum token_type find_logicalop(char *token);
 
-enum token_type find_var_shit(char *token);
+enum token_type find_var_shit(char *token, struct minishell *minishell);
 
 enum token_type find_pipe_or_space(char *token);
 
