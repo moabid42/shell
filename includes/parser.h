@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:21:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:48:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ struct 	scripts;
 
 enum token_type
 {
-	ANDAND,
-	OROR,
+	AND,
+	OR,
 	PIPE,
 	GREATER,
 	DOUBLE_GREATER,

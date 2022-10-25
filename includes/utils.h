@@ -6,34 +6,34 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:41:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:53:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-#include "minishell.h"
-#include "parser.h"
-#include "execute.h"
-#include "builtin.h"
-#include "../src/utils/libft/libft.h"
-#include "../src/utils/libft/reader.h"
+# include "minishell.h"
+# include "parser.h"
+# include "execute.h"
+# include "builtin.h"
+# include "../src/utils/libft/libft.h"
+# include "../src/utils/libft/reader.h"
 
-#define SYNTAX_ERROR 	"[-] syntax error: format ./minishell"
-#define MINI_INIT_ERROR "[-] error: Envirement variable error"
-#define PARSE_ERROR		"[-] error: User input error"
-#define UNEXPECTED_TOKEN "esh: syntax error near unexpected token `;;'"
-#define ENV_ERROR		"[-] error: Envirement variable not set"
+# define SYNTAX_ERROR 	"[-] syntax error: format ./minishell"
+# define MINI_INIT_ERROR "[-] error: Envirement variable error"
+# define PARSE_ERROR		"[-] error: User input error"
+# define UNEXPECTED_TOKEN "esh: syntax error near unexpected token `;;'"
+# define ENV_ERROR		"[-] error: Envirement variable not set"
 
-#define NAME			"./minishell"
-#define	PROMPT			"esh"
-#define PROMPT_TITLE	"PS1"
+# define NAME			"./minishell"
+# define PROMPT		    "esh"
+# define PROMPT_TITLE	"PS1"
 
-struct scripts;
-struct token_stream;
-struct s_variable;
-typedef struct s_env t_env;
+struct					scripts;
+struct					token_stream;
+struct					s_variable;
+typedef struct s_env	t_env;
 
 char            *get_path(char *cmd, t_env *env);
 void			ft_error(char *str);
