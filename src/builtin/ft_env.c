@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:18:18 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 22:23:04 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/26 01:30:33 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 void	ft_env(t_env *enviroment)
 {
- 	while (enviroment != NULL)
- 	{
+	while (enviroment != NULL)
+	{
 		ft_putstr_fd(enviroment->name, 1);
 		write(1, "=", 1);
 		ft_putstr_fd(enviroment->content, 1);
 		write(1, "\n", 1);
- 		enviroment = enviroment->next;
- 	}
+		enviroment = enviroment->next;
+	}
 	exit (0);
 }

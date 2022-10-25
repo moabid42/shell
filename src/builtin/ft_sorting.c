@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sorting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 21:24:34 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 01:41:13 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "builtin_utils.h"
 
-t_env *change_value(t_env *node)
+t_env	*change_value(t_env *node)
 {
-	char *pivot;
+	char	*pivot;
+
 	pivot = node->name;
 	node->name = (node->next)->name;
 	(node->next)->name = pivot;
@@ -25,18 +26,19 @@ t_env *change_value(t_env *node)
 	return (node);
 }
 
-t_env *alphabetic_order(t_env *head)
+t_env	*alphabetic_order(t_env *head)
 {
-	t_env *tmp;
-	bool changes;
+	t_env	*tmp;
+	bool	changes;
+
 	changes = true;
-	while(changes)
+	while (changes)
 	{
 		tmp = head;
 		changes = false;
-		while(tmp->next != NULL)
+		while (tmp->next != NULL)
 		{
-			if(!string_value_cmp(tmp->name,(tmp->next)->name))
+			if (!string_value_cmp(tmp->name, (tmp->next)->name))
 			{
 				tmp = change_value(tmp);
 				changes = true;
