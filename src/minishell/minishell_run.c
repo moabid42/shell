@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:08:02 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:12:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 16:00:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_weird(struct minishell *minishell)
 		|| !my_strcmp(minishell->input_str, "..")
 		|| !my_strcmp(minishell->input_str, "."))
         error_exit(minishell, "esh: .: filename argument required\n", 
-        ".: usage: . filename [arguments]\n", 2);
+        ".: usage: . filename [arguments]\n", 127);
 	else if (!my_strcmp(minishell->input_str, ";;")
 		|| !my_strcmp(minishell->input_str, "<")
 		|| !my_strcmp(minishell->input_str, ">")
