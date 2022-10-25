@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 15:22:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 17:25:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,12 +225,12 @@ bool	node_contain_special(char *str, int c)
 char	*ft_special_trim(char *str, int c, int size)
 {
 	char	*new;
-	int i;
-	int j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	new = ft_malloc(sizeof(char) * size);
+	new = ft_malloc(sizeof(char) * (size - i));
 	while (str[i])
 	{
 		if (str[i] != c)

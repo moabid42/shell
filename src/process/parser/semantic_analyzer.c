@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:57:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 17:27:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ struct ast	*check_bracket_and_assign(struct minishell *minishell,
 	return (ast_create_first_node(minishell, *stm));
 }
 
-void	insert_node(struct minishell *minishell, )
-{
+// void	insert_node(struct minishell *minishell, )
+// {
 	
-}
+// }
 
 struct ast	*ast_create_subtree(struct minishell *minishell,
 		struct token_stream **prev, struct token_stream **stm)
@@ -107,6 +107,7 @@ struct ast	*semantic_analyzer_create(struct minishell *minishell,
 	tmp = token_stream;
 	prev = tmp;
 	minishell->start_right = false;
+	// printer_token(tmp);
 	while (is_bracket(minishell, tmp->token_name) == true)
 		tmp = tmp->next;
 	ast = ast_create_first_node(minishell, tmp);
@@ -144,6 +145,7 @@ struct ast	*semantic_analyzer_create(struct minishell *minishell,
 		prev = tmp;
 		tmp = tmp->next;
 	}
+	// structure(ast, 0);
 	if (minishell->open != 0)
 	{
 		error_exit(minishell, "esh: syntax error near unexpected token \
