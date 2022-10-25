@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 17:16:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:09:02 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,22 @@ bool	have_dollar_var(char *string)
 	return (false);
 }
 
+void	check_flag_dollar(char *str, struct minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i + 1] == '$')
+		{
+			minishell->dollar_in = true;
+			return ;
+		}
+		i++;
+	}
+}
+
 struct token_stream	*lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char				**tokens;
@@ -156,6 +172,8 @@ struct token_stream	*lexical_analyzer_create(struct scripts *script, struct mini
 	args.ign_char_inside = (char *)"\"'";
 	if (check_paired_quotes(script->input_line) == false)
 		return (NULL);
+	minishell->dollar_in = false;
+	check_flag_dollar(script->input_line, minishell);
 	if (have_dollar_var(script->input_line) == true)
 		script->input_line = string_dollar_sign(script->input_line);
 	tokens = ft_reader(script->input_line, &args);

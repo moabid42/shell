@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:15:50 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:07:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,21 @@ void	command_statement_destroy(char **command_statement)
 	free(command_statement);
 }
 
+void	correct_args(char **cmds, struct minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	if (minishell->dollar_in == false)
+		return ;
+	cmds[1] = ft_strjoin(cmds[1], cmds[2]);
+	cmds[2] = NULL;
+}
+
 void	command_statement_execute(char **command_statement, char *path, struct minishell *minishell, int fd_out)
 {
 	pid_t	pid;
-	int 	status;
+	int		status;
 
 	status = 0;
 	pid = fork();
@@ -123,29 +134,21 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 	if (!pid)
 	{
 		dup2(fd_out, 1);
-		// dprintf(2, "The path is : %s\n", path);
-		if(is_builtin(command_statement[0]) == true)
+		correct_args(command_statement, minishell);
+		if (is_builtin(command_statement[0]) == true)
 			builtin_run(command_statement, minishell);
-		// else if (access(path, X_OK) != 0)
-		// {
-		// 	perror("esh ");
-		// 	exit(127);
-		// }
 		else if (execve(path, command_statement, env_to_string(minishell->env)) == -1)
 			perror("esh ");
-		// minishell->return_value = 127;
 		exit(127);
 	}
 	else
 		waitpid(pid, &status, 0);
-	// printf("The status is %d\n", status);
 	if (status == 32512)
 		minishell->return_value = 127;
 	else if (status != 0)
 		minishell->return_value = 1;
 	else
 		minishell->return_value = 0;
-	// printf("The return status is : %d of %s\n", minishell->return_value, command_statement[0]);
 }
 
 int	openfile(char *file, int re_or_wr)
