@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 16:11:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:15:50 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,9 +229,20 @@ void	print_file(char  *file)
 	}
 }
 
+void    new_line_remove(char *line)
+{
+    int i;
+	
+    i = 0;
+    while (line[i] != '\n')
+        i++;
+    line[i] = '\0';
+}
+
 void	execute_heredoc(char *delimiter, int magic)
 {
 	char	*line;
+	char	*tmp;
 	int     fd_out;
 
 	if (magic == 0)
@@ -240,11 +251,14 @@ void	execute_heredoc(char *delimiter, int magic)
 		fd_out = openfile("/tmp/bullshit", 2);
 	while (1)
 	{
-		write(1, "heredoc> ", 10);
+		write(magic, "heredoc> ", 10);
 		line = get_next_line(0);
+		tmp = ft_strdup(line);
+		new_line_remove(tmp); 
 		if (line == NULL)
 			break;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		if (!my_strcmp(tmp, delimiter)
+			&& ft_strlen(tmp) == ft_strlen(delimiter))
 		{
 			free(line);
 			break ;
@@ -296,7 +310,7 @@ struct ast *ast_seek_end(struct ast *ast)
 		return (ast_seek_end(ast->left));
 }
 
-void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell)
+void	heredoc_statement_execute(struct ast *ast, struct minishell *minishell, int out)
 {
 	struct ast	*tmp;
 	struct ast	*end;
@@ -352,7 +366,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 		command_path = jump->value.token_name;
 	// printer_split(command_statement);
 	if (ast->value.token_type == DOUBLE_SMALLER)
-		heredoc_statement_execute(ast, minishell);
+		heredoc_statement_execute(ast, minishell, fd_out);
 	else if (ast->value.token_type == COMMAND
 		|| (ast->left && ast->left->value.token_type == COMMAND)
 		|| ast->value.token_type == BUILTIN)
