@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 17:25:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 22:13:56 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,4 +256,18 @@ int	error_exit(struct minishell *minishell, char *str, char *var, int exit_code)
 	}
 	minishell->return_value = exit_code;
 	return (true);
+}
+
+struct ast	*error_exit_null(struct minishell *minishell, char *str, char *var, int exit_code)
+{
+	if (var == NULL)
+		write(2, str, ft_strlen(str));
+	else
+	{
+		write(2, str, ft_strlen(str));
+		write(2, var, ft_strlen(var));
+		write(2, "\'\n", 2);
+	}
+	minishell->return_value = exit_code;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 19:58:44 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 22:31:00 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ struct minishell {
 	bool			handled;
 	bool			single;
 	bool			dollar_in;
+	bool			export_fg;
 	long long		byte_code;
 	long long		brakets_flag;
 	int				index_flag;

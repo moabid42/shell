@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 21:36:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 00:09:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define PARSE_ERROR		"[-] error: User input error"
 # define UNEXPECTED_TOKEN "esh: syntax error near unexpected token `;;'"
 # define ENV_ERROR		"[-] error: Envirement variable not set"
+
+# define ERROR_B 		"esh: syntax error near unexpected token ')'\n"
 
 # define NAME			"./minishell"
 # define PROMPT		    "esh"
@@ -59,7 +61,7 @@ char				*ft_special_trim(char *str, int c, int size);
 
 bool				node_contain_special(char *str, int c);
 bool				node_contain_special_single(char *str, int c);
-
+struct ast	*error_exit_null(struct minishell *minishell, char *str, char *var, int exit_code);
 //////////////////////
 //  MINISHELL_UTILS //
 //////////////////////
@@ -109,6 +111,13 @@ bool				is_bracket(struct minishell *minishell, char *str);
 
 ///////////////////////////     DOLLAR_SIGN   ///////////////////////////
 char				*string_dollar_sign(char *str);
+
+///////////////////////////     TREE_BUILDER   ///////////////////////////
+bool	export(struct minishell *minishell, struct token_stream *prev);
+bool	a_right(struct ast *ast, struct minishell *minishell);
+void	advance(struct token_stream **prev, struct token_stream **tmp);
+struct ast	*check_bracket_and_assign(struct minishell *minishell,
+		struct token_stream **stm);
 
 //francisco shit
 int		ignore_inside_special(char *string, char special);
