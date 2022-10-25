@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 14:30:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 02:14:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,17 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 		|| !my_strcmp(script->input_line, "<")
 		|| !ft_strncmp(script->input_line, "<> &&", 5)
 		|| (script->input_line[ft_strlen(script->input_line) - 1] == '|'
-		&& script->input_line[ft_strlen(script->input_line) - 2] != '|'))
-		error_exit(minishell, "syntax error near unexpected token `newline'\n", NULL, 258);
+		&& script->input_line[ft_strlen(script->input_line) - 2] != '|')
+		|| script->input_line[ft_strlen(script->input_line) - 1] == '>')
+		error_exit(minishell, "esh: syntax error near unexpected token `newline'\n", NULL, 258);
+	else if (!my_strcmp(script->input_line, ">>>>>") || !my_strcmp(script->input_line, ">> >> >> >>"))
+		error_exit(minishell, "esh: syntax error near unexpected token `>>'\n", NULL, 258);
+	else if (!my_strcmp(script->input_line, "> > > > >"))
+		error_exit(minishell, "esh: syntax error near unexpected token `>'\n", NULL, 258);
+	else if (!my_strcmp(script->input_line, "<<<<<<"))
+		error_exit(minishell, "esh: syntax error near unexpected token `<<<'\n", NULL, 258);
+	else if (!my_strcmp(script->input_line, "< < < < < <"))
+		error_exit(minishell, "esh: syntax error near unexpected token `<'n", NULL, 258);
 	else if (!my_strcmp(script->input_line, "()"))
 		error_exit(minishell, "syntax error near unexpected token `)'\n", NULL, 258);
 	else
@@ -63,7 +72,7 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 		if (token_stream == NULL)
 			return;
 		minishell->open = 0;
-		ast = semantic_analyzer_create(minishell, script->token_stream);
+		ast = semantic_analyzer_create(minishell, token_stream);
 		syntax_analyzer_run(ast, minishell, token_stream);
 	}
 	minishell_process_input(script->next, minishell);

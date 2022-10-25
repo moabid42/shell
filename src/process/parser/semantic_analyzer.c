@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 14:33:28 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 02:14:37 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,16 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 		
 	tmp = token_stream;
 	prev = tmp;
+	minishell->start_right = false;
+	// printer_token(tmp);
 	while (is_bracket(minishell, tmp->token_name) == true)
 		tmp = tmp->next;
 	ast = ast_create_first_node(minishell, tmp);
 	tmp = tmp->next;
 	while (tmp)
 	{
+		if (ast->value.token_type == 5)
+			minishell->start_right = true;
 		if (is_bracket(minishell, tmp->token_name) == true)
 		{
 			tmp = tmp->next;
@@ -143,8 +147,11 @@ struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_s
 			tmp = tmp->next;
 		else
 			break;
+		// printf("-------------------------------\n");
+		// structure(ast, 0);
+		// printf("-------------------------------\n");
 	}
-	// structure(ast, 0);
+		// structure(ast, 0);
 	if (minishell->open != 0)
 	{
 		error_exit(minishell, "esh: syntax error near unexpected token ')'\n", NULL, 258);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 14:29:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 21:30:33 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ struct minishell {
 	enum    		e_type type;
 	int				return_value;
 	int				open;
+	bool		 	start_right;
 	bool			handled;
 	long long		byte_code;
 	long long		brakets_flag;

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 14:40:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 02:14:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,90 @@ bool	have_dollar_var(char *string)
 	return (false);
 }
 
+void	token_stream_rearrange(struct minishell *minishell, struct token_stream **token_stream)
+{
+	struct token_stream	*iter;
+	struct token_stream *next;
+	struct token_stream *head;
+	struct token_stream *prev;
+
+	head = *token_stream;
+	iter = head;
+	prev = iter;
+	next = iter->next;
+	while (iter)
+	{
+		// printf("The head is %s\n", head->token_name);
+		// printf("The iter is %s\n", iter->token_name);
+		// printf("The next is %s\n", next->token_name);
+		// printf("Th prev is %s\n", prev->token_name);
+		// printf("-----------------\n");
+		if (iter->token_name[0] == '<')
+		{
+			prev->next = next->next;
+			next->next = head;
+			*token_stream = iter;
+			// printf("The iter is %s\n", iter->token_name);
+			// printf("Th prev is %s\n", prev->token_name);
+			// printf("The prev next is : %p\n", prev->next);
+			return ;
+		}
+		prev = iter;
+		iter = iter->next;
+		if (iter)
+			next = iter->next;
+	}
+}
+
+// struct token_stream	*token_stream_rearrange(struct minishell *minishell, struct token_stream *token_stream)
+// {
+// 	struct token_stream	*iter;
+// 	struct token_stream *next;
+// 	struct token_stream *head;
+// 	struct token_stream *prev;
+
+// 	head = token_stream;
+// 	iter = head;
+// 	prev = iter;
+// 	next = iter->next;
+// 	while (iter)
+// 	{
+// 		// printf("The head is %s\n", head->token_name);
+// 		// printf("The iter is %s\n", iter->token_name);
+// 		// printf("The next is %s\n", next->token_name);
+// 		// printf("Th prev is %s\n", prev->token_name);
+// 		// printf("-----------------\n");
+// 		if (iter->token_name[0] == '<')
+// 		{
+// 			prev->next = next->next;
+// 			next->next = head;
+// 			token_stream = iter;
+// 			// printf("The iter is %s\n", iter->token_name);
+// 			// printf("Th prev is %s\n", prev->token_name);
+// 			// printf("The prev next is : %p\n", prev->next);
+// 			return (token_stream);
+// 		}
+// 		prev = iter;
+// 		iter = iter->next;
+// 		if (iter)
+// 			next = iter->next;
+// 	}
+// 	return (head);
+// }
+
+bool	can_be_arranged(struct token_stream *token_stream)
+{
+	if (token_stream->token_name[0] == '<')
+		return (false);
+	while (token_stream)
+	{
+		if (token_stream->token_name[0] == '<')
+			return (true);
+		token_stream = token_stream->next;
+	}
+	return (false);
+}
+
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)
 {
 	char **tokens;
@@ -154,7 +238,6 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 		return (NULL);
 	if (have_dollar_var(script->input_line) == true)
 		script->input_line = string_dollar_sign(script->input_line);
-	// printf("The input l`ine is : %s\n", script->input_line);
 	tokens = ft_reader(script->input_line, &args);
 	// printer_split(tokens);
 	script->tokens_num = reader_word_count(script->input_line, &args);
@@ -168,6 +251,9 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	sanitize_token_stream(token_stream);
 	if (token_checker(token_stream, minishell) == true)
 		return (NULL);
-	// printer_token(token_stream);
+	if (can_be_arranged(token_stream) == true)
+		token_stream_rearrange(minishell, &token_stream);
+	// printf("hi\n");
+	// exit(1);
 	return (token_stream);
 }

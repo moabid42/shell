@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:52:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 15:22:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ bool	node_contain_special_single(char *str, int c)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == c && str[i + 1] == ' ')
 			return (true);
 		i++;
 	}

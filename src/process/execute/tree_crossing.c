@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_crossing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:49:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/24 16:11:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,8 @@ void	command_statement_execute(char **command_statement, char *path, struct mini
 		// }
 		else if (execve(path, command_statement, env_to_string(minishell->env)) == -1)
 			perror("esh ");
-		exit(1);
+		// minishell->return_value = 127;
+		exit(127);
 	}
 	else
 		waitpid(pid, &status, 0);
@@ -340,7 +341,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *minishell)
 	}
 	else
 		fd_out = 1;
-	command_statement = command_statement_create(jump);
+	command_statement = command_statement_create(jump);	
 	// printf("command_statement[0] = %s\n", command_statement[0]);
 	if (ft_strchr(jump->value.token_name, '/') != NULL)
 		command_path = ft_strdup(jump->value.token_name);
