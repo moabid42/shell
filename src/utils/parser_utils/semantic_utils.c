@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:53:19 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 21:55:34 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 21:36:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,48 @@ bool	ft_isexecutable(char *executable)
 	return (false);
 }
 
-struct ast *find_end_right(struct ast *node)
+struct ast	*find_end_right(struct ast *node)
 {
 	if (!node->right)
-		return(node);
+		return (node);
 	node = node->right;
-	while(node->left)
+	while (node->left)
 		node = node->left;
 	return (node);
 }
 
+struct ast	*handle_not_right_2(struct minishell *minishell, struct ast *ast)
+{
+	minishell->return_value = 127;
+	if (!ast->left)
+		dprintf(2, "esh: %s: command not found ..\n", ast->value.token_name);
+	else
+		dprintf(2, "esh: %s: command not found ..\n",
+			ast->left->value.token_name);
+	return (NULL);
+}
+
+bool	is_sub_tree(int export_fg, struct token_stream *prev,
+			struct token_stream *tmp)
+{
+	return (export_fg == false
+		&& prev->token_type == EQUAL
+		&& tmp->token_type != AND
+		&& tmp->token_type != OR
+		&& tmp->token_type != EQUAL);
+}
+
+struct ast	*handle_not_right(struct minishell *minishell, struct ast *ast)
+{
+	minishell->return_value = 127;
+	if (!ft_isalnum(ast->value.token_name[0]))
+		;
+	else if (ast->left)
+		dprintf(2, "esh: %s: command not found ...\n",
+			ast->left->value.token_name);
+	else
+		dprintf(2, "esh: %s: command not found ...\n",
+			ast->value.token_name);
+	minishell->handled = true;
+	return (NULL);
+}

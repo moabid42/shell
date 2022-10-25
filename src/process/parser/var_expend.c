@@ -6,18 +6,18 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 19:37:08 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 21:50:44 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 21:34:26 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int isdir(const char* fileName)
+int	isdir(const char *fileName)
 {
-    struct stat path;
+	struct stat	path;
 
-    stat(fileName, &path);
-    return S_ISREG(path.st_mode);
+	stat(fileName, &path);
+	return (S_ISREG(path.st_mode));
 }
 
 char	*find_return_expend(struct minishell *minishell, char return_var)
@@ -52,4 +52,3 @@ char	*minishell_find_variable(struct minishell *minishell, char *variable)
 		return (find_return_expend(minishell, '?'));
 	return (NULL);
 }
-

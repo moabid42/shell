@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:53:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 21:36:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int				ft_isspace(int c);
 char				**ft_split_tokens(struct scripts *script);
 void				get_next_str(char **next_str, unsigned int *next_str_len);
 unsigned int		get_nb_tokens(char const *s);
-struct token_stream	*ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count);
+struct token_stream	*stack_create(struct minishell *minishell, char **tokens, unsigned int count);
 
 void				garbage_collect_token(struct token_stream *lst);
 bool				ft_isword(char *str);
@@ -83,10 +83,15 @@ int                 error_exit(struct minishell *minishell, char *str, char *var
 int                 count_tokens(char **tokens);
 void	            print_tokens(char **scripts_line, int count);
 void	            printer_split(char **tokens);
+bool	            is_alphanumeric(char c);
 
 ///////////////////////////  SEMANTIC_UTILS   ///////////////////////////
 bool                ft_isexecutable(char *executable);
 struct ast          *find_end_right(struct ast *node);
+struct ast      *handle_not_right(struct minishell *minishell, struct ast *ast);
+struct ast      *handle_not_right_2(struct minishell *minishell, struct ast *ast);
+bool	is_sub_tree(int export_fg, struct token_stream *prev,
+			struct token_stream *tmp);
 
 ///////////////////////////     AST_UTILS    ///////////////////////////
 bool                ast_is_assign(struct ast *ast);
