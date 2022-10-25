@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_expend.c                                     :+:      :+:    :+:   */
+/*   star_expend.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:46:30 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 18:47:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 22:11:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int	star_count_dirs(void)
 	dp = opendir(".");
 	if (dp == NULL)
 		return (0);
-	while ((dirp = readdir(dp)) != NULL)
+	dirp = readdir(dp);
+	while (dirp != NULL)
 	{
 		if (dirp->d_name[0] != '.')
 			count++;
+		dirp = readdir(dp);
 	}
 	closedir(dp);
 	return (count);
@@ -33,8 +35,8 @@ int	star_count_dirs(void)
 
 int	star_count(char **tokens)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -55,13 +57,15 @@ void	star_expend_dir(char **new_tokens, int *i)
 	dp = opendir(".");
 	if (dp == NULL)
 		return ;
-	while ((dirp = readdir(dp)) != NULL)
+	dirp = readdir(dp);
+	while (dirp != NULL)
 	{
 		if (dirp->d_name[0] != '.')
 		{
 			new_tokens[*i] = ft_strdup(dirp->d_name);
 			(*i)++;
 		}
+		dirp = readdir(dp);
 	}
 	closedir(dp);
 }
@@ -95,14 +99,14 @@ char	**token_expend_star(char **tokens, int prev_size)
 
 bool	star_exist(char **tokens)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = 0;
 	while (tokens[i])
 	{
 		j = 0;
-		while(tokens[i][j])
+		while (tokens[i][j])
 		{
 			if (tokens[i][j] == '*')
 				return (true);

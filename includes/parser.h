@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:31:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:55:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,14 @@ void	token_stream_rearrange(struct token_stream **token_stream);
 
 struct ast	*ast_create_first_node(struct minishell *minishell,
 					struct token_stream *token_stream);
+
+/////////////////////
+//    LEXICAL_CK   //
+/////////////////////
+
+void	check_flag_dollar(char *str, struct minishell *minishell);
+bool	have_dollar_var(char *string, struct minishell *minishell);
+bool	token_checker(struct token_stream *stream, struct minishell *minishell);
+bool	check_paired_quotes(char *string);
 
 #endif

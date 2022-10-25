@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:35:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 20:52:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	*quotes_remover(char *str, char *set, struct minishell *minishell)
 	return (new_str);
 }
 
-struct token_stream *ft_create_stack_tkstream(struct minishell *minishell, char **tokens, unsigned int count) {
+struct token_stream *stack_create(struct minishell *minishell, char **tokens, unsigned int count) {
 	int i;
 	struct token_stream *new_node;
 	struct token_stream *curr;

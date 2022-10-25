@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:13:29 by frame             #+#    #+#             */
-/*   Updated: 2022/10/24 11:15:56 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/25 20:49:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	is_alphanumeric(char c)
-{
-	if (('0' <= c && c <= '9') || \
-		('a' <= c && c <= 'z') || \
-		('A' <= c && c <= 'Z'))
-		return (true);
-	return (false);
-}
 
 struct s_data
 {

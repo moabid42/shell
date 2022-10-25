@@ -6,28 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:08:03 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 21:36:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
 #include "parser.h"
-
-struct ast	*handle_not_right(struct minishell *minishell, struct ast *ast)
-{
-	minishell->return_value = 127;
-	if (!ft_isalnum(ast->value.token_name[0]))
-		;
-	else if (ast->left)
-		dprintf(2, "esh: %s: command not found ...\n",
-			ast->left->value.token_name);
-	else
-		dprintf(2, "esh: %s: command not found ...\n",
-			ast->value.token_name);
-	minishell->handled = true;
-	return (NULL);
-}
 
 struct ast	*check_bracket_and_assign(struct minishell *minishell,
 		struct token_stream **stm)
@@ -36,11 +21,6 @@ struct ast	*check_bracket_and_assign(struct minishell *minishell,
 		(*stm) = (*stm)->next;
 	return (ast_create_first_node(minishell, *stm));
 }
-
-// void	insert_node(struct minishell *minishell, )
-// {
-	
-// }
 
 struct ast	*ast_create_subtree(struct minishell *minishell,
 		struct token_stream **prev, struct token_stream **stm)
@@ -75,27 +55,6 @@ struct ast	*ast_create_subtree(struct minishell *minishell,
 	return (ast);
 }
 
-struct ast	*handle_not_right_2(struct minishell *minishell, struct ast *ast)
-{
-	minishell->return_value = 127;
-	if (!ast->left)
-		dprintf(2, "esh: %s: command not found ..\n", ast->value.token_name);
-	else
-		dprintf(2, "esh: %s: command not found ..\n",
-			ast->left->value.token_name);
-	return (NULL);
-}
-
-bool	is_sub_tree(int export_fg, struct token_stream *prev,
-			struct token_stream *tmp)
-{
-	return (export_fg == false
-		&& prev->token_type == EQUAL
-		&& tmp->token_type != AND
-		&& tmp->token_type != OR
-		&& tmp->token_type != EQUAL);
-}
-
 struct ast	*semantic_analyzer_create(struct minishell *minishell,
 			struct token_stream *token_stream)
 {
@@ -107,7 +66,6 @@ struct ast	*semantic_analyzer_create(struct minishell *minishell,
 	tmp = token_stream;
 	prev = tmp;
 	minishell->start_right = false;
-	// printer_token(tmp);
 	while (is_bracket(minishell, tmp->token_name) == true)
 		tmp = tmp->next;
 	ast = ast_create_first_node(minishell, tmp);
@@ -145,7 +103,6 @@ struct ast	*semantic_analyzer_create(struct minishell *minishell,
 		prev = tmp;
 		tmp = tmp->next;
 	}
-	// structure(ast, 0);
 	if (minishell->open != 0)
 	{
 		error_exit(minishell, "esh: syntax error near unexpected token \
