@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:16:01 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:16:30 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:39:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,44 @@ char	*ft_free(void *ptr)
 
 int	ft_strlen_newline(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
 		return (0);
 	while (str[i] > 31 && str[i] < 127)
 		i++;
-	return(i);
+	return (i);
+}
+
+bool	is_weirdo(char *input_line, struct minishell *minishell)
+{
+	if (!my_strcmp(input_line, "<<")
+		|| !my_strcmp(input_line, "<>")
+		|| !my_strcmp(input_line, "<")
+		|| !ft_strncmp(input_line, "<> &&", 5)
+		|| (input_line[ft_strlen(input_line) - 1] == '|'
+			&& input_line[ft_strlen(input_line) - 2] != '|')
+		|| input_line[ft_strlen(input_line) - 1] == '>')
+		error_exit(minishell, "esh: syntax error near unexpected token \
+		`newline'\n", NULL, 258);
+	else if (!my_strcmp(input_line, ">>>>>")
+		|| !my_strcmp(input_line, ">> >> >> >>"))
+		error_exit(minishell, "esh: syntax error near unexpected token \
+		`>>'\n", NULL, 258);
+	else if (!my_strcmp(input_line, "> > > > >"))
+		error_exit(minishell, "esh: syntax error near unexpected token \
+		`>'\n", NULL, 258);
+	else if (!my_strcmp(input_line, "<<<<<<"))
+		error_exit(minishell, "esh: syntax error near unexpected token \
+		`<<<'\n", NULL, 258);
+	else if (!my_strcmp(input_line, "< < < < < <"))
+		error_exit(minishell, "esh: syntax error near unexpected token \
+		`<'n", NULL, 258);
+	else if (!my_strcmp(input_line, "()"))
+		error_exit(minishell, "syntax error near unexpected token \
+		`)'\n", NULL, 258);
+	else
+		return (false);
+	return (true);
 }

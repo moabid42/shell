@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 02:14:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:39:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "parser.h"
 #include "utils.h"
 
-void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishell)
+void	minishell_ast_execute_subshells(struct ast *ast,
+	struct minishell *minishell)
 {
 	if (ast->left->value.token_type < 2)
 		minishell_ast_execute_subshells(ast->left, minishell);
@@ -26,7 +27,8 @@ void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishel
 		minishell->return_value = minishell_ast_execute(ast->right, minishell);
 }
 
-void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell, struct token_stream *token_stream)
+void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell,
+	struct token_stream *token_stream)
 {
 	if (ast != NULL)
 	{
@@ -40,37 +42,22 @@ void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell, struct to
 	}
 }
 
-void minishell_process_input(struct scripts *script, struct minishell *minishell)
+void	minishell_process_input(struct scripts *script,
+	struct minishell *minishell)
 {
-	struct token_stream *token_stream;
-	struct ast *ast;
+	struct token_stream	*token_stream;
+	struct ast			*ast;
 
 	if (!script)
-		return;
+		return ;
 	minishell->handled = false;
-	if (!my_strcmp(script->input_line, "<<")
-		|| !my_strcmp(script->input_line, "<>")
-		|| !my_strcmp(script->input_line, "<")
-		|| !ft_strncmp(script->input_line, "<> &&", 5)
-		|| (script->input_line[ft_strlen(script->input_line) - 1] == '|'
-		&& script->input_line[ft_strlen(script->input_line) - 2] != '|')
-		|| script->input_line[ft_strlen(script->input_line) - 1] == '>')
-		error_exit(minishell, "esh: syntax error near unexpected token `newline'\n", NULL, 258);
-	else if (!my_strcmp(script->input_line, ">>>>>") || !my_strcmp(script->input_line, ">> >> >> >>"))
-		error_exit(minishell, "esh: syntax error near unexpected token `>>'\n", NULL, 258);
-	else if (!my_strcmp(script->input_line, "> > > > >"))
-		error_exit(minishell, "esh: syntax error near unexpected token `>'\n", NULL, 258);
-	else if (!my_strcmp(script->input_line, "<<<<<<"))
-		error_exit(minishell, "esh: syntax error near unexpected token `<<<'\n", NULL, 258);
-	else if (!my_strcmp(script->input_line, "< < < < < <"))
-		error_exit(minishell, "esh: syntax error near unexpected token `<'n", NULL, 258);
-	else if (!my_strcmp(script->input_line, "()"))
-		error_exit(minishell, "syntax error near unexpected token `)'\n", NULL, 258);
+	if (is_weirdo(script->input_line, minishell) == true)
+		return ;
 	else
 	{
 		token_stream = lexical_analyzer_create(script, minishell);
 		if (token_stream == NULL)
-			return;
+			return ;
 		minishell->open = 0;
 		ast = semantic_analyzer_create(minishell, token_stream);
 		syntax_analyzer_run(ast, minishell, token_stream);
@@ -78,22 +65,21 @@ void minishell_process_input(struct scripts *script, struct minishell *minishell
 	minishell_process_input(script->next, minishell);
 }
 
-void minishell_destroy_input(struct scripts *script)
+void	minishell_destroy_input(struct scripts *script)
 {
 	if (!script)
-		return;
-	// lexical_analyzer_destroy(&script->token_stream);
+		return ;
 	minishell_destroy_input(script->next);
 }
 
-void minishell_read_input(struct minishell *minishell)
+void	minishell_read_input(struct minishell *minishell)
 {
-	struct scripts *tmp_cr;
-	struct scripts *tmp_ds;
+	struct scripts	*tmp_cr;
+	struct scripts	*tmp_ds;
 
 	signal(SIGINT, SIG_IGN);
 	if (!minishell_scripts_parse(minishell))
-		return;
+		return ;
 	tmp_cr = minishell->scripts;
 	minishell_process_input(tmp_cr, minishell);
 	minishell->brakets_flag = 0;

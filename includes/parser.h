@@ -6,46 +6,41 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:27:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:59:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#define PARSER_H
+# define PARSER_H
 
-#include "minishell.h"
-#include "utils.h"
-#include "execute.h"
-#include "builtin.h"
+# include "minishell.h"
+# include "utils.h"
+# include "execute.h"
+# include "builtin.h"
 
-struct minishell;
-struct scripts;
+struct 	minishell;
+struct 	scripts;
 
-enum token_type {
-    ANDAND,
-    OROR,
-	
+enum e_token_type
+{
+	ANDAND,
+	OROR,
 	PIPE,
-
-    GREATER,
-    DOUBLE_GREATER,
-
-    LESS,
-    DOUBLE_SMALLER,
-
+	GREATER,
+	DOUBLE_GREATER,
+	LESS,
+	DOUBLE_SMALLER,
 	COMMAND,
-    BUILTIN,
+	BUILTIN,
 	FILES,
-    DIRECTORY,
+	DIRECTORY,
 	FALSE,
 	TRUE,
-    EQUAL,
-
-    VARIABLE,
-    
-    STAR,
-    STAR_WORD,
-    WORD
+	EQUAL,
+	VARIABLE,
+	STAR,
+	STAR_WORD,
+	WORD
 };
 
 struct scripts {
@@ -146,7 +141,7 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 /////////////////////
 
 bool                syntax_analyzer_create(struct token_stream *token_stream,
-                            struct ast *ast, struct minishell *minishell);
+									struct ast *ast, struct minishell *minishell);
 
 /////////////////////
 //  SEMANTIC_ANAL  //
@@ -171,6 +166,10 @@ bool                star_exist(char **tokens);
 int                 isdir(const char* fileName);
 char                *find_return_expend(struct minishell *minishell, char return_var);
 char                *minishell_find_variable(struct minishell *minishell, char *variable);
+
+/////////////////////
+//    REORDERING   //
+/////////////////////
 
 
 

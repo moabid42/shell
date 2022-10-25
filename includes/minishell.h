@@ -6,33 +6,33 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 21:30:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:40:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <signal.h>
-#include <termios.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <dirent.h>
-#include "utils.h"
-#include "parser.h"
-#include "execute.h"
-#include "builtin.h"
-#include "../src/utils/libft/libft.h"
-#include "../src/utils/libft/get_next_line.h"
-#include "../src/utils/libft/reader.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <termios.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <dirent.h>
+# include "utils.h"
+# include "parser.h"
+# include "execute.h"
+# include "builtin.h"
+# include "../src/utils/libft/libft.h"
+# include "../src/utils/libft/get_next_line.h"
+# include "../src/utils/libft/reader.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
 struct ast;
 struct scripts;

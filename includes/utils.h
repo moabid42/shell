@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 14:29:06 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:41:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char				*ft_special_trim(char *str, int c, int size);
 bool				node_contain_special(char *str, int c);
 bool				node_contain_special_single(char *str, int c);
 
-
 //////////////////////
 //  MINISHELL_UTILS //
 //////////////////////
 
-char                *append_chr(char *str, char append);
-char                *ft_free(void *ptr);
-int                 ft_strlen_newline(char *str);
+char			*append_chr(char *str, char append);
+char			*ft_free(void *ptr);
+int				ft_strlen_newline(char *str);
+bool			is_weirdo(char *input_line, struct minishell *minishell);
 
 //////////////////////
 //  GENERAL_UTILS   //
@@ -121,6 +121,5 @@ bool	ft_isword(char *str);
 void	printer_variable(struct s_variable *variable);
 
 void print_the_env(t_env *enviroment);
-
 
 #endif
