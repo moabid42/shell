@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:55:25 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 13:06:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,128 +142,6 @@ bool	have_dollar_var(char *string)
 		i++;
 	}
 	return (false);
-}
-
-void	token_stream_rearrange(struct token_stream **token_stream)
-{
-	struct token_stream	*iter;
-	struct token_stream *next;
-	struct token_stream *head;
-	struct token_stream *prev;
-	struct token_stream *tmp;
-
-	head = *token_stream;
-	iter = head;
-	prev = iter;
-	next = iter->next;
-	while (iter)
-	{
-		if (iter->token_name[0] == '<')
-		{
-			prev->next = next->next;
-			next->next = head;
-			*token_stream = iter;
-			return ;
-		}
-		else if (iter->token_name[0] == '>')
-		{
-			if (prev == iter)
-			{
-				*token_stream = next->next;
-				next->next = NULL;
-				tmp = *token_stream;
-				while(tmp->next)
-					tmp = tmp->next;
-				tmp->next = iter;
-			}
-			else
-			{
-				prev->next = next->next;
-				next->next = NULL;
-				tmp = *token_stream;
-				while(tmp->next)
-					tmp = tmp->next;
-				tmp->next = iter;
-			}
-			return ;
-		}
-		prev = iter;
-		iter = iter->next;
-		if (iter)
-			next = iter->next;
-	}
-}
-
-bool	can_be_arranged(struct token_stream *token_stream)
-{
-	if (token_stream->token_name[0] == '<')
-		return (false);
-	while (token_stream)
-	{
-		if (token_stream->token_name[0] == '<')
-			return (true);
-		token_stream = token_stream->next;
-	}
-	return (false);
-}
-
-bool	can_be_arranged_left(struct token_stream *token_stream)
-{
-	while (token_stream)
-	{
-		if (token_stream->token_name[0] == '>' && token_stream->next
-			&& token_stream->next->next && token_stream->next->next->token_type > 7)
-			return (true);
-		token_stream = token_stream->next;
-	}
-	return (false);
-}
-
-bool	have_multi_redi(struct token_stream *token_stream)
-{
-	while (token_stream)
-	{
-		// printf("The token is %s\n", token_stream->token_name);
-		if (token_stream->token_name[0] == '>' && token_stream->next
-			&& token_stream->next->next
-			&& token_stream->next->next->token_name[0] == '>')
-			return (true);
-		token_stream = token_stream->next;
-	}
-	return (false);
-}
-
-void	token_stream_remove(struct token_stream **token_stream)
-{
-	struct token_stream	*iter;
-	struct token_stream *next;
-	struct token_stream *head;
-	struct token_stream *prev;
-
-	head = *token_stream;
-	iter = head;
-	prev = iter;
-	next = iter->next;
-	while (iter)
-	{
-		if (iter->token_name[0] == '>' && iter->next
-			&& iter->next->next
-			&& iter->next->next->token_name[0] == '>')
-		{
-			prev->next = next->next;
-			openfile(next->token_name, 1);
-			free(next);
-			free(iter);
-			iter = prev->next;
-			if (iter)
-				next = iter->next;
-			continue;
-		}
-		prev = iter;
-		iter = iter->next;
-		if (iter)
-			next = iter->next;
-	}
 }
 
 struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell)

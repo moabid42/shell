@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:59:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:21:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 struct 	minishell;
 struct 	scripts;
 
-enum e_token_type
+enum token_type
 {
 	ANDAND,
 	OROR,
@@ -171,6 +171,17 @@ char                *minishell_find_variable(struct minishell *minishell, char *
 //    REORDERING   //
 /////////////////////
 
+void	token_stream_remove(struct token_stream **token_stream);
+bool	have_multi_redi(struct token_stream *token_stream);
+bool	can_be_arranged_left(struct token_stream *token_stream);
+bool	can_be_arranged(struct token_stream *token_stream);
+void	token_stream_rearrange(struct token_stream **token_stream);
 
+/////////////////////
+//    FIRST_NODE   //
+/////////////////////
+
+struct ast	*ast_create_first_node(struct minishell *minishell,
+					struct token_stream *token_stream);
 
 #endif
