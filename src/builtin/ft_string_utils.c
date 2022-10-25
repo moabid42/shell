@@ -3,67 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   ft_string_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 21:19:44 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 01:42:43 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "builtin_utils.h"
 
-bool string_value_cmp(char *str1, char *str2)
+bool	string_value_cmp(char *str1, char *str2)
 {
 	int	i;
 
 	i = 0;
-	while(str1[i] && str2[i])
+	while (str1[i] && str2[i])
 	{
-		if(str1[i] == str2[i])
+		if (str1[i] == str2[i])
 			i++;
-		if(str1[i] < str2[i])
+		if (str1[i] < str2[i])
 			return (true);
-		if(str1[i] > str2[i])
+		if (str1[i] > str2[i])
 			return (false);
 	}
 	return (true);
 }
 
-int find_chr(char *str, char c)
+int	find_chr(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i] && str[i] != c)
+	while (str[i] && str[i] != c)
 		i++;
-	if(str[i] == c)
+	if (str[i] == c)
 		return (i);
 	else
 		return (-1);
 }
 
-bool bool_strcmp(char *str1, char *str2)
+bool	bool_strcmp(char *str1, char *str2)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while((str1[i] && str2[i]) && (str1[i] == str2[i]))
+	while ((str1[i] && str2[i]) && (str1[i] == str2[i]))
 		i++;
-	if(str1[i]!=str2[i])
+	if (str1[i] != str2[i])
 		return (false);
 	return (true);
 }
 
-
-bool check_string(char c, char *str)
+bool	check_string(char c, char *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == c)
-			return(true);
+		if (str[i] == c)
+			return (true);
 		i++;
 	}
 	return (false);
