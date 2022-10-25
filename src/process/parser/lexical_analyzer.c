@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 03:31:05 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:55:25 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 #include "parser.h"
 #include "utils.h"
 
-bool minishell_scripts_parse(struct minishell *minishell)
+bool	minishell_scripts_parse(struct minishell *minishell)
 {
 	char	**scripts_line;
 
 	if (minishell->input_str[0] == ';')
-		return(!error_exit(minishell, "syntax error near unexpected token `;'\n", NULL, 258));
+		return (!error_exit(minishell, "syntax error near unexpected token \
+			`;'\n", NULL, 258));
 	scripts_line = ft_new_split(minishell->input_str, ';', "\"'");
-	minishell->scripts_num = words_count(minishell->input_str,';', "\"'");
+	minishell->scripts_num = words_count(minishell->input_str, ';', "\"'");
 	if (minishell->scripts_num == 1)
 		minishell->scripts = ft_create_node_script(scripts_line[0]);
 	else
-		minishell->scripts = ft_create_stack_scripts(scripts_line, minishell->scripts_num);
+		minishell->scripts = ft_create_stack_scripts(scripts_line,
+				minishell->scripts_num);
 	if (minishell->scripts == NULL)
 		return (false);
 	return (true);
@@ -40,12 +42,12 @@ bool	token_checker(struct token_stream *stream, struct minishell *minishell)
 	bracket = false;
 	while (stream)
 	{
-		if (stream->token_name[0] == '('
-			&& tmp->token_name[0] == ')')
-			return (error_exit(minishell, "esh: syntax error near unexpected token `('\n", NULL, 258));
-		else if (stream->token_name[0] == '<'
-			&& tmp->token_name[0] == '>')
-			return (error_exit(minishell, "esh: syntax error near unexpected token `<'\n", NULL, 258));
+		if (stream->token_name[0] == '(' && tmp->token_name[0] == ')')
+			return (error_exit(minishell, "esh: syntax error near unexpected token \
+				`('\n", NULL, 258));
+		else if (stream->token_name[0] == '<' && tmp->token_name[0] == '>')
+			return (error_exit(minishell, "esh: syntax error near unexpected token \
+				`<'\n", NULL, 258));
 		if (stream->token_name[0] == '(')
 			bracket = true;
 		else if (stream->token_name[0] == ')')
@@ -55,20 +57,24 @@ bool	token_checker(struct token_stream *stream, struct minishell *minishell)
 	}
 	if (tmp->token_name[0] == '<'
 		&& stream == NULL)
-		return (error_exit(minishell, "esh: syntax error near unexpected token `newline'\n", NULL, 258));
+		return (error_exit(minishell, "esh: syntax error near unexpected token\
+			`newline'\n", NULL, 258));
 	if (bracket == true)
-		return (error_exit(minishell, "esh: syntax error near unexpected token `)'\n", NULL, 258));
+		return (error_exit(minishell, "esh: syntax error near unexpected token\
+			 `)'\n", NULL, 258));
 	return (false);
 }
 
-static bool	check_paired_quotes(char *string){
-	int	i;
-	bool open;
-	char quotes_type;
+static bool	check_paired_quotes(char *string)
+{
+	int		i;
+	bool	open;
+	char	quotes_type;
 
 	i = 0;
 	open = false;
-	while (string[i]){
+	while (string[i])
+	{
 		if ((string[i] == '\'' || string[i] == '\"') && open == false)
 		{
 			open = true;
@@ -93,11 +99,9 @@ void	sanitize_token_stream(struct token_stream *token_stream)
 	prev = token_stream;
 	while (token_stream)
 	{
-		// printf("The token is %s\n", token_stream->token_name);
 		if (!my_strcmp(token_stream->token_name, "")
 			&& token_stream->next && token_stream->next->token_name[0] == '$')
 		{
-			// printf("We found an empty token\n");
 			prev->next = token_stream->next;
 			free(token_stream);
 			token_stream = prev->next;
@@ -107,7 +111,7 @@ void	sanitize_token_stream(struct token_stream *token_stream)
 		{
 			prev->next = token_stream->next;
 			free(token_stream);
-			token_stream = prev->next;	
+			token_stream = prev->next;
 		}
 		else
 		{
@@ -277,7 +281,6 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	if (have_dollar_var(script->input_line) == true)
 		script->input_line = string_dollar_sign(script->input_line);
 	tokens = ft_reader(script->input_line, &args);
-	// printer_split(tokens);
 	script->tokens_num = reader_word_count(script->input_line, &args);
 	if (star_exist(tokens) == true)
 	{
@@ -294,8 +297,5 @@ struct token_stream *lexical_analyzer_create(struct scripts *script, struct mini
 	if (can_be_arranged(token_stream) == true
 		|| can_be_arranged_left(token_stream) == true)
 		token_stream_rearrange(&token_stream);
-	// printer_token(token_stream);
-	// printf("hi\n");
-	// exit(1);
 	return (token_stream);
 }

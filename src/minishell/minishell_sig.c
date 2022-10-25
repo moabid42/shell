@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_sig.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:14:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 17:15:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 04:44:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// minishell->return_value = 1;
 		write(STDERR_FILENO, "\n", 1);
-		rl_on_new_line();//Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
-		rl_replace_line("", 0);//removes the content of the line with texts which is "" here
-		rl_redisplay(); //Change what's displayed on the screen to reflect the current contents of rl_line_buffer.
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
