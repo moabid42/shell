@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 23:16:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:17:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:48:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ bool	ast_not_right_type(struct ast *ast)
 	|| ast->value.token_type == DOUBLE_SMALLER
 	|| ast->value.token_type == LESS
 	|| ast->value.token_type == PIPE
-	|| ast->value.token_type == ANDAND
-	|| ast->value.token_type == OROR
+	|| ast->value.token_type == AND
+	|| ast->value.token_type == OR
 	|| ast->value.token_type == TRUE
 	|| ast->value.token_type == FALSE
 	|| ast->value.token_type == GREATER

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:39:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:57:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,44 @@ struct ast	*handle_not_right(struct minishell *minishell, struct ast *ast)
 	return (NULL);
 }
 
+struct ast	*check_bracket_and_assign(struct minishell *minishell,
+		struct token_stream **stm)
+{
+	if (is_bracket(minishell, (*stm)->token_name) == true)
+		(*stm) = (*stm)->next;
+	return (ast_create_first_node(minishell, *stm));
+}
+
+void	insert_node(struct minishell *minishell, )
+{
+	
+}
+
 struct ast	*ast_create_subtree(struct minishell *minishell,
-		struct token_stream **prev, struct token_stream **stream)
+		struct token_stream **prev, struct token_stream **stm)
 {
 	struct ast	*ast;
 
-	if (is_bracket(minishell, (*stream)->token_name) == true)
-		(*stream) = (*stream)->next;
-	ast = ast_create_first_node(minishell, *stream);
-	*prev = *stream;
-	*stream = (*stream)->next;
-	while (*stream)
+	ast = check_bracket_and_assign(minishell, stm);
+	*prev = *stm;
+	*stm = (*stm)->next;
+	while (*stm)
 	{
-		if (is_bracket(minishell, (*stream)->token_name) == true)
+		if (is_bracket(minishell, (*stm)->token_name) == true
+			|| (*stm)->token_type == AND || (*stm)->token_type == OR)
 		{
-			(*stream) = (*stream)->next;
+			(*stm) = (*stm)->next;
 			continue ;
 		}
-		if ((*stream)->token_type == ANDAND || (*stream)->token_type == OROR)
+		else
 			return (ast);
-		if (is_child(ast->value.token_type, *stream) == true)
-			ast_insert_child(node_create_child(*stream, minishell,
+		if (is_child(ast->value.token_type, *stm) == true)
+			ast_insert_child(node_create_child(*stm, minishell,
 					(*prev)->token_type), &ast, (*prev), minishell);
 		else
-			ast_insert_parent(node_create_parent((*stream)), &ast, minishell);
-		*prev = *stream;
-		(*stream) = (*stream)->next;
+			ast_insert_parent(node_create_parent((*stm)), &ast, minishell);
+		*prev = *stm;
+		(*stm) = (*stm)->next;
 	}
 	if (ast_not_right_type(ast) == false)
 		return (handle_not_right(minishell, ast));
@@ -79,8 +91,8 @@ bool	is_sub_tree(int export_fg, struct token_stream *prev,
 {
 	return (export_fg == false
 		&& prev->token_type == EQUAL
-		&& tmp->token_type != ANDAND
-		&& tmp->token_type != OROR
+		&& tmp->token_type != AND
+		&& tmp->token_type != OR
 		&& tmp->token_type != EQUAL);
 }
 
@@ -110,7 +122,7 @@ struct ast	*semantic_analyzer_create(struct minishell *minishell,
 		}
 		if (!my_strcmp(prev->token_name, "export"))
 			export_fg = true;
-		if (prev->token_type == ANDAND || prev->token_type == OROR)
+		if (prev->token_type == AND || prev->token_type == OR)
 		{
 			if (ast_is_assign(ast->left) == true)
 				minishell_ast_execute(ast->left, minishell);

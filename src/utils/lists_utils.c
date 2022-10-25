@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/24 11:48:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:48:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ enum token_type find_var_shit(char *token) {
 
 enum token_type find_logicalop(char *token) {
 	if (!my_strcmp(token, "&&"))
-		return (ANDAND);
+		return (AND);
 	else
-		return (OROR);
+		return (OR);
 }
 
 enum token_type find_bool(char *token) {
