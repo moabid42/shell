@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:46:30 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 22:11:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/25 22:12:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**token_expend_star(char **tokens, int prev_size)
 		{
 			star_expend_dir(new_tokens, &i);
 			tokens++;
-			continue;
+			continue ;
 		}
 		new_tokens[i] = ft_strdup(*tokens);
 		tokens++;

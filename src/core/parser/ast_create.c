@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:56:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 19:21:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 00:10:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ struct ast	*node_create_parent(struct token_stream *tmp)
 	return (node);
 }
 
-void	ast_insert_parent(struct ast *node, struct ast **root, struct minishell *minishell)
+void	ast_insert_parent(struct ast *node, struct ast **root,
+		struct minishell *minishell)
 {
 	struct ast	*tmp;
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 17:25:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 02:28:33 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,34 +50,6 @@ void	freeme(char **paths)
 	}
 	free(paths);
 }
-
-char	*get_path(char *cmd, t_env *env)
-{
-	char	**paths;
-	char	*path;
-	t_env	*head;
-	int i;
-
-	head = env;
-	while (head && ft_strnstr(head->name, "PATH", 4) == 0)
-		head = head->next;
-	if(!head)
-		return (NULL);
-	paths = ft_split(head->content, ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		path = parser(cmd, paths[i]);
-		if (path)
-			return (path);
-		i++;
-	}
-	freeme(paths);
-	return (NULL);
-}
-
 
 // bool	ft_iscommand(char *str, char **env)
 bool	ft_iscommand(char *str, t_env *env)
@@ -211,7 +183,6 @@ bool	node_contain_special(char *str, int c)
 	count = 0;
 	while (str[i])
 	{
-		// printf("%c   %d\n", str[i], count);
 		if (str[i] == c)
 			count++;
 		if (count == 2)
@@ -221,7 +192,6 @@ bool	node_contain_special(char *str, int c)
 	return (false);
 }
 
-// create a function the remove the character from the beginning and the end of the string
 char	*ft_special_trim(char *str, int c, int size)
 {
 	char	*new;
@@ -256,4 +226,18 @@ int	error_exit(struct minishell *minishell, char *str, char *var, int exit_code)
 	}
 	minishell->return_value = exit_code;
 	return (true);
+}
+
+struct ast	*error_exit_null(struct minishell *minishell, char *str, char *var, int exit_code)
+{
+	if (var == NULL)
+		write(2, str, ft_strlen(str));
+	else
+	{
+		write(2, str, ft_strlen(str));
+		write(2, var, ft_strlen(var));
+		write(2, "\'\n", 2);
+	}
+	minishell->return_value = exit_code;
+	return (NULL);
 }
