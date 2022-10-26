@@ -3,63 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:13:29 by frame             #+#    #+#             */
-/*   Updated: 2022/10/25 20:49:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 09:36:37 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-struct s_data
-{
-	int		i;
-	int		j;
-	bool	open;
-	char	q_type;
-	char	*ret_str;
-	char	*str;
-};
-
-static void	parentesis_open(struct s_data *d)
-{
-	d->open = true;
-	d->q_type = d->str[d->i];
-	d->ret_str[d->j++] = d->str[d->i++];
-}
-
-static void	open_true_dollarsign(struct s_data *d)
-{
-	d->ret_str[d->j++] = d->q_type;
-	d->ret_str[d->j++] = ' ';
-	if (d->str[d->i + 1])
-		d->ret_str[d->j++] = d->str[d->i++];
-	while (d->str[d->i] && is_alphanumeric(d->str[d->i]) == true
-		&& d->str[d->i] != '$')
-	{
-		d->ret_str[d->j] = d->str[d->i];
-		d->i++;
-		d->j++;
-	}
-	d->ret_str[d->j++] = ' ';
-	d->ret_str[d->j++] = d->q_type;
-}
-
-static void	closed_true_dollarsign(struct s_data *d)
-{
-	d->ret_str[d->j++] = ' ';
-	if (d->str[d->i + 1])
-		d->ret_str[d->j++] = d->str[d->i++];
-	while (d->str[d->i] && is_alphanumeric(d->str[d->i]) == true
-		&& d->str[d->i] != '$')
-	{
-		d->ret_str[d->j] = d->str[d->i];
-		d->i++;
-		d->j++;
-	}
-	d->ret_str[d->j++] = ' ';
-}
 
 static void	data_init(char *str, struct s_data *d)
 {

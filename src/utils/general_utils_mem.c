@@ -1,41 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.c                                             :+:      :+:    :+:   */
+/*   general_utils_mem.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 21:53:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 09:27:51 by frame            ###   ########.fr       */
+/*   Created: 2022/10/26 10:10:44 by frame             #+#    #+#             */
+/*   Updated: 2022/10/26 10:19:00 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils.h"
 
-static void	padding(char ch, int n)
+void	*ft_malloc(size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc(size);
+	if (ptr)
+		ft_bzero(ptr, size);
+	else
+	{
+		free(ptr);
+		exit(1);
+	}
+	return (ptr);
+}
+
+void	freeme(char **paths)
 {
 	int	i;
 
 	i = 0;
-	while (i < n)
+	while (paths[i])
 	{
-		putchar(ch);
+		free(paths[i]);
+		i++;
 	}
+	free(paths);
 }
 
-void	structure(struct s_ast *root, int level)
+void	free_split(char **strs)
 {
-	if (root == NULL)
+	int	i;
+
+	i = 0;
+	while (strs[i])
 	{
-		padding('\t', level);
-		puts("~");
+		free(strs[i]);
+		i++;
 	}
-	else
-	{
-		structure(root->right, level + 1);
-		padding('\t', level);
-		printf("%s[%d][%d]\n", root->value.token_name,
-			root->value.token_type, root->value.exit_status);
-		structure(root->left, level + 1);
-	}
+	free(strs);
+	strs = NULL;
 }

@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   reader_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:22:52 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/22 20:48:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 09:40:58 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reader.h"
 #include "libft.h"
 
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	int		i;
-// 	char	char_c;
+/* char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	char_c;
 
-// 	i = 0;
-// 	char_c = (char)c;
-// 	while (s[i] != '\0')
-// 	{
-// 		if (s[i] == char_c)
-// 			return ((char *)s + i);
-// 		i++;
-// 	}
-// 	if (c == '\0')
-// 		return ((char *)s + i);
-// 	return (0);
-// }
+	i = 0;
+	char_c = (char)c;
+	while (s[i] != '\0')
+	{
+		if (s[i] == char_c)
+			return ((char *)s + i);
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)s + i);
+	return (0);
+}
 
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	i;
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}*/
 
 int	check_for_word(char *string, t_args *args)
 {
@@ -70,7 +70,7 @@ int	check_for_word(char *string, t_args *args)
 	}
 	return (i);
 }
-#include <stdio.h>
+
 char	*create_the_word(char *string, int n)
 {
 	int		i;
@@ -86,6 +86,5 @@ char	*create_the_word(char *string, int n)
 		i++;
 	}
 	new_string[n] = '\0';
-	// dprintf(2, "The size is : %d", n);
 	return (new_string);
 }

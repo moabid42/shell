@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:21:03 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 09:25:02 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	is_valid(char *str)
 		return (true);
 }
 
-void ft_unset(char **argv, struct s_minishell *minishell)
+void	ft_unset(char **argv, struct s_minishell *minishell)
 {
 	t_env	*tmp;
 	int		i;

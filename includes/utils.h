@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 04:37:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 09:36:42 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ struct					s_token_stream;
 struct					s_variable;
 struct					s_minishell;
 typedef struct s_env	t_env;
+
+struct s_data
+{
+	int		i;
+	int		j;
+	bool	open;
+	char	q_type;
+	char	*ret_str;
+	char	*str;
+};
 
 char					*get_path(char *cmd, t_env *env);
 void					ft_error(char *str);
@@ -177,5 +187,8 @@ void					print_the_env(t_env *enviroment);
 void					minishell_process_command_pipe(struct s_ast *ast,
 							struct s_minishell *minishell, int type);
 void					freeme(char **paths);
+void					parentesis_open(struct s_data *d);
+static void				open_true_dollarsign(struct s_data *d);
+static void				closed_true_dollarsign(struct s_data *d);
 
 #endif

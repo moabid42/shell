@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 00:12:23 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:26:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 10:20:17 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ unsigned int	get_nb_tokens(char const *s)
 			while (s[i] && ft_isspace(s[i]))
 				i++;
 	}
-	if (ft_isspace(s[i- i]))
+	if (ft_isspace(s[i - i]))
 		nb_strs++;
 	return (nb_strs);
 }

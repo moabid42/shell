@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:32:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 10:25:34 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	heredoc_execute_caller(struct s_ast *tmp, int direction)
 		execute_heredoc(tmp->right->value.token_name, 1);
 }
 
-void	heredoc_forward_command(struct s_ast *ast, struct s_minishell *minishell)
+void	heredoc_forward_command(struct s_ast *ast,
+		struct s_minishell *minishell)
 {
 	pid_t	pid;
 	int		fd_in;

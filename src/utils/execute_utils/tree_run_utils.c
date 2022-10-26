@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_run_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:27:07 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 09:28:45 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**command_statement_create(struct s_ast *ast)
 {
-	int			i;
+	int				i;
 	struct s_ast	*tmp;
-	char		**command_statement;
+	char			**command_statement;
 
 	i = 0;
 	tmp = ast;
