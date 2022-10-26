@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 00:09:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:04:51 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char				*ft_special_trim(char *str, int c, int size);
 bool				node_contain_special(char *str, int c);
 bool				node_contain_special_single(char *str, int c);
 struct ast	*error_exit_null(struct minishell *minishell, char *str, char *var, int exit_code);
+char	*parser(char *cmd, char *paths);
 //////////////////////
 //  MINISHELL_UTILS //
 //////////////////////
@@ -119,6 +120,28 @@ void	advance(struct token_stream **prev, struct token_stream **tmp);
 struct ast	*check_bracket_and_assign(struct minishell *minishell,
 		struct token_stream **stm);
 
+////////////////////
+//  EXECUTE_UTILS //
+////////////////////
+
+void	file_reader(int fd_in);
+void	rise_error_and_exit(struct ast *ast);
+void	print_file(char *file);
+void	new_line_remove(char *line);
+int		ast_child_num(struct ast *node);
+
+bool	is_builtin_ast(char *cmd);
+bool	ast_is_simple(struct ast *ast);
+int	openfile(char *file, int re_or_wr);
+
+char	**command_statement_create(struct ast *ast);
+void	command_statement_execute(char **command_statement, char *path,
+			struct minishell *minishell, int fd_out);
+char	*get_path(char *cmd, t_env *env);
+bool	a_err(struct minishell *m, char *var, int value);
+void	command_run(char **command_statement, char *command_path,
+				struct minishell *m, struct ast *ast);
+
 //francisco shit
 int		ignore_inside_special(char *string, char special);
 char	*ft_cutter (char *string, int n_byte);
@@ -136,4 +159,6 @@ void	printer_variable(struct s_variable *variable);
 
 void print_the_env(t_env *enviroment);
 
+void	minishell_process_command_pipe(struct ast *ast, struct minishell *minishell, int type);
+void	freeme(char **paths);
 #endif

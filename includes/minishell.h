@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 22:31:00 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 02:19:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ struct minishell {
 	bool			single;
 	bool			dollar_in;
 	bool			export_fg;
+	int				fd_out;
 	long long		byte_code;
 	long long		brakets_flag;
 	int				index_flag;
@@ -120,6 +121,6 @@ char	*copy_till_bit(char *str, int n_byte);
 char	**split_name_content(char *str);
 int		list_len(t_env *env);
 char	*make_env_string(t_env *env);
-char	**env_to_string(t_env *env);
+char	**e_to_s(t_env *env);
 
 #endif

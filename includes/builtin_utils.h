@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:00:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/09/19 19:02:20 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 00:20:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_env	*append_new_node(t_env *enviroment, t_env *node);
 char	*copy_till_bit(char *str, int n_byte);
 char	**split_name_content(char *str);
 t_env	*create_the_env(char **env);
-char    **env_to_string(t_env *env);
+char    **e_to_s(t_env *env);
 bool	is_a_valid_identifier(char *str);
 /*** BUILDinS ***/
 char	*get_pwd();

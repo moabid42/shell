@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:04:04 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/25 04:30:35 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 00:20:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*make_env_string(t_env *env)
 	return (string);
 }
 
-char	**env_to_string(t_env *env)
+char	**e_to_s(t_env *env)
 {
 	t_env	*tmp;
 	char	**enviroment;
