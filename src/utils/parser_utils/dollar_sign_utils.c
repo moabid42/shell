@@ -6,7 +6,7 @@
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:33:37 by frame             #+#    #+#             */
-/*   Updated: 2022/10/26 09:37:58 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/26 10:40:59 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parentesis_open(struct s_data *d)
 	d->ret_str[d->j++] = d->str[d->i++];
 }
 
-static void	open_true_dollarsign(struct s_data *d)
+void	open_true_dollarsign(struct s_data *d)
 {
 	d->ret_str[d->j++] = d->q_type;
 	d->ret_str[d->j++] = ' ';
@@ -36,7 +36,7 @@ static void	open_true_dollarsign(struct s_data *d)
 	d->ret_str[d->j++] = d->q_type;
 }
 
-static void	closed_true_dollarsign(struct s_data *d)
+void	closed_true_dollarsign(struct s_data *d)
 {
 	d->ret_str[d->j++] = ' ';
 	if (d->str[d->i + 1])

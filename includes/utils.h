@@ -6,7 +6,7 @@
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 09:36:42 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/26 10:44:16 by frame            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,12 @@ void					minishell_process_command_pipe(struct s_ast *ast,
 							struct s_minishell *minishell, int type);
 void					freeme(char **paths);
 void					parentesis_open(struct s_data *d);
-static void				open_true_dollarsign(struct s_data *d);
-static void				closed_true_dollarsign(struct s_data *d);
+
+void					open_true_dollarsign(struct s_data *d);
+void					closed_true_dollarsign(struct s_data *d);
+char					*quotes_remover(char *str, char *set, struct s_minishell *minishell);
+
+
+int						ft_atoi_special(char *str);
 
 #endif
