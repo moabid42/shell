@@ -13,14 +13,14 @@
 #include "builtin.h"
 #include "builtin_utils.h"
 
-char *get_pwd()
+char	*get_pwd(void)
 {
 	char	*buf;
 	char	*pwd;
 
 	buf = malloc(sizeof(char) * 256);
 	pwd = getcwd(buf, 256);
-	if(pwd == NULL)
+	if (pwd == NULL)
 		return (NULL);
 	return (pwd);
 }
@@ -28,13 +28,13 @@ char *get_pwd()
 void	ft_pwd (struct s_minishell *minishell)
 {
 	char	*pwd;
-	int i;
+	int		i;
 
 	pwd = get_pwd ();
-	if(pwd == NULL)
+	if (pwd == NULL)
 		exit (0);
 	i = 0;
-	while(pwd[i])
+	while (pwd[i])
 	{
 		write(1, &pwd[i], 1);
 		i++;
