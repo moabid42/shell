@@ -6,16 +6,17 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 20:38:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:21:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	token_checker(struct s_token_stream *stream, struct s_minishell *minishell)
+bool	token_checker(struct s_token_stream *stream,
+		struct s_minishell *minishell)
 {
 	struct s_token_stream	*tmp;
-	bool				bracket;
+	bool					bracket;
 
 	tmp = stream;
 	bracket = false;

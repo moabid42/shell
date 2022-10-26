@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_help_funcs.c                                   :+:      :+:    :+:   */
+/*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 23:28:54 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 12:42:13 by moabid           ###   ########.fr       */
+/*   Created: 2022/10/26 13:04:03 by moabid            #+#    #+#             */
+/*   Updated: 2022/10/26 13:04:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_bracket(struct s_minishell *minishell, char *str)
+void	closed_quotes(struct s_data *d)
 {
-	if (my_strcmp(str, "(") == 0 || my_strcmp(str, ")") == 0)
-	{
-		if (my_strcmp(str, "(") == 0)
-			minishell->open++;
-		else
-			minishell->open--;
-		return (true);
-	}
-	return (false);
+	d->open = false;
+	d->ret_str[d->j] = d->str[d->i];
+	d->i++;
+	d->j++;
+}
+
+void	other_cases(struct s_data *d)
+{
+	d->ret_str[d->j] = d->str[d->i];
+	d->i++;
+	d->j++;
 }

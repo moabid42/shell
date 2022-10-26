@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:35:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:25:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	new_line_remove(char *line)
 
 int	ast_child_num(struct s_ast *node)
 {
-	int			num;
+	int				num;
 	struct s_ast	*tmp;
 
 	num = 0;

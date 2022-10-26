@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:05:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 04:37:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:10:46 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ struct					s_scripts;
 struct					s_token_stream;
 struct					s_variable;
 struct					s_minishell;
+struct					s_data;
 typedef struct s_env	t_env;
 
 char					*get_path(char *cmd, t_env *env);
@@ -119,6 +120,8 @@ bool					is_bracket(struct s_minishell *minishell, char *str);
 
 ///////////////////////////     DOLLAR_SIGN   ///////////////////////////
 char					*string_dollar_sign(char *str);
+void					other_cases(struct s_data *d);
+void					closed_quotes(struct s_data *d);
 
 ///////////////////////////     TREE_BUILDER   ///////////////////////////
 bool					export(struct s_minishell *minishell,

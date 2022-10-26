@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:25:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:21:44 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	minishell_run_equal(struct s_ast *ast, struct s_minishell *minishell)
 void	minishell_process_command(struct s_ast *ast, struct s_minishell *m)
 {
 	struct s_ast	*jump;
-	char		**command_statement;
-	char		*command_path;
+	char			**command_statement;
+	char			*command_path;
 
 	jump = ast;
 	if (ast->value.token_type == WORD && a_err(m, ast->value.token_name, 127))
@@ -67,7 +67,8 @@ void	minishell_process_bool(struct s_ast *ast, struct s_minishell *minishell)
 		minishell->return_value = 0;
 }
 
-void	minishell_process_pipeline(struct s_ast *ast, struct s_minishell *minishell)
+void	minishell_process_pipeline(struct s_ast *ast,
+			struct s_minishell *minishell)
 {
 	minishell->type = COMPLEXE;
 	if (ast->value.token_type == PIPE)

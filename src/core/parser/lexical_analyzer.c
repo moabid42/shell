@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:13:19 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,14 @@ struct s_token_stream	*lexical_analyzer_create(struct s_scripts *script,
 		script->tokens_num = count_tokens(tokens);
 	}
 	return (token_stream_create(minishell, tokens, script));
+}
+
+struct s_scripts	*ft_create_node_script(char *cmd)
+{
+	struct s_scripts	*new_node;
+
+	new_node = malloc(sizeof(struct s_scripts));
+	new_node->input_line = ft_strdup(cmd);
+	new_node->next = NULL;
+	return (new_node);
 }

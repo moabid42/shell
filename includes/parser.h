@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 04:31:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:13:46 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ bool					token_checker(struct s_token_stream *stream,
 							struct s_minishell *minishell);
 struct s_token_stream	*lexical_analyzer_create(struct s_scripts *script,
 							struct s_minishell *minishell);
+struct s_scripts		*ft_create_node_script(char *cmd);
 
 /////////////////////
 //  SYNTAX_ANAL    //

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:10:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ struct s_variable {
 	char				*var;
 	char				*value;
 	struct s_variable	*next;
+};
+
+struct s_data {
+	int		i;
+	int		j;
+	bool	open;
+	char	q_type;
+	char	*ret_str;
+	char	*str;
 };
 
 struct s_minishell {

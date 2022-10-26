@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:22:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// Number of childs complex 
 int	child_n_c(struct s_ast *node)
 {
-	int			num;
+	int				num;
 	struct s_ast	*tmp;
 
 	num = 0;
