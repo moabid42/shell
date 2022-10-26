@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:56:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:21:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	child_sanitize(struct s_ast *node, struct s_token_stream *tmp,
 		node->value.token_name = tmp->token_name;
 }
 
-struct s_ast	*node_create_child(struct s_token_stream *tmp, struct s_minishell
+struct s_ast	*node_create_child(struct s_token_stream *tmp,
+			struct s_minishell
 	*minishell, int prev_type)
 {
 	struct s_ast	*node;
@@ -62,7 +63,7 @@ void	ast_insert_child(struct s_ast *node, struct s_ast **ast,
 	struct s_token_stream *prev, struct s_minishell *minishell)
 {
 	struct s_ast	*iterator;
-	char		*prev_token;
+	char			*prev_token;
 
 	iterator = *ast;
 	prev_token = prev->token_name;

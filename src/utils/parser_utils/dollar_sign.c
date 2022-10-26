@@ -6,21 +6,11 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:13:29 by frame             #+#    #+#             */
-/*   Updated: 2022/10/25 20:49:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:03:27 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-struct s_data
-{
-	int		i;
-	int		j;
-	bool	open;
-	char	q_type;
-	char	*ret_str;
-	char	*str;
-};
 
 static void	parentesis_open(struct s_data *d)
 {
@@ -69,21 +59,6 @@ static void	data_init(char *str, struct s_data *d)
 	d->ret_str = malloc(100000);
 	d->ret_str[100000 - 1] = '\0';
 	d->str = str;
-}
-
-static void	closed_quotes(struct s_data *d)
-{
-	d->open = false;
-	d->ret_str[d->j] = d->str[d->i];
-	d->i++;
-	d->j++;
-}
-
-static void	other_cases(struct s_data *d)
-{
-	d->ret_str[d->j] = d->str[d->i];
-	d->i++;
-	d->j++;
 }
 
 char	*string_dollar_sign(char *str)

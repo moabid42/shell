@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:20:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "builtin.h"
 #include "parser.h"
 
-struct s_ast	*sub_tree_builder(struct s_ast *ast, struct s_minishell *minishell,
+struct s_ast	*sub_tree_builder(struct s_ast *ast,
+		struct s_minishell *minishell,
 		struct s_token_stream **prev, struct s_token_stream **stm)
 {
 	*prev = *stm;

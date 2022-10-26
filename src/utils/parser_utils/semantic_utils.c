@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:53:19 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:02:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ struct s_ast	*find_end_right(struct s_ast *node)
 	return (node);
 }
 
-struct s_ast	*handle_not_right_2(struct s_minishell *minishell, struct s_ast *ast)
+struct s_ast	*handle_not_right_2(struct s_minishell *minishell,
+					struct s_ast *ast)
 {
 	minishell->return_value = 127;
 	if (!ast->left)
@@ -60,7 +61,8 @@ bool	is_sub_tree(int export_fg, struct s_token_stream *prev,
 		&& tmp->token_type != EQUAL);
 }
 
-struct s_ast	*handle_not_right(struct s_minishell *minishell, struct s_ast *ast)
+struct s_ast	*handle_not_right(struct s_minishell *minishell,
+				struct s_ast *ast)
 {
 	minishell->return_value = 127;
 	if (!ft_isalnum(ast->value.token_name[0]))

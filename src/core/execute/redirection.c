@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 03:05:47 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:22:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ void	process_direct(struct s_ast *ast, struct s_minishell *minishell)
 		process_pipe_run_first(tmp, ast, minishell, 1);
 }
 
-void	process_redirect_overwrite(struct s_ast *ast, struct s_minishell *minishell)
+void	process_redirect_overwrite(struct s_ast *ast,
+		struct s_minishell *minishell)
 {
-	int			fd_out;
+	int				fd_out;
 	struct s_ast	*tmp;
 
 	tmp = ast;
@@ -68,9 +69,10 @@ void	process_redirect_overwrite(struct s_ast *ast, struct s_minishell *minishell
 		process_pipe_run_first(tmp->left, ast->left, minishell, fd_out);
 }
 
-void	process_redirect_append(struct s_ast *ast, struct s_minishell *minishell)
+void	process_redirect_append(struct s_ast *ast,
+		struct s_minishell *minishell)
 {
-	int			fd_out;
+	int				fd_out;
 	struct s_ast	*tmp;
 
 	tmp = ast;

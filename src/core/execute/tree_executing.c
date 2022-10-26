@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:21:54 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	command_statement_run(char **command_statement,
 
 char	**command_statement_create_complexe(struct s_ast *ast)
 {
-	int			i;
+	int				i;
 	struct s_ast	*tmp;
-	char		**command_statement;
+	char			**command_statement;
 
 	i = 0;
 	tmp = ast;
