@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:38:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:52:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,19 @@ char	*get_input_terminal(int fd)
 
 void	minishell_destroy(struct s_minishell *minishell)
 {
+}
+
+bool	both_quote(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i] == '\'' && str[i + 1] == '\"' && str[i + 2] == '$')
+			|| (str[i] == '\"' && str[i + 1] == '\'' && str[i + 2] == '$'))
+			return (true);
+		i++;
+	}
+	return (false);
 }

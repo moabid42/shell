@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:23:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:00:39 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@
 #include "execute.h"
 #include "parser.h"
 #include "builtin_utils.h"
-
-bool	all_digits(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i])
-			&& str[i] != '-'
-			&& str[i] != '+')
-			return (false);
-		++i;
-	}
-	return (true);
-}
 
 int	argv_length(char **argv)
 {
@@ -73,6 +57,19 @@ bool	are_all_numbers(char **argv, int length)
 	return (true);
 }
 
+void	exit_forward(char **argv)
+{
+	if (all_digits(argv[1]) == true && argv[1][0] != '\0')
+		exit(ft_atoi_special(argv[1]));
+	else
+	{
+		dprintf(2, "esh: exit: %s: "\
+		"numeric argument required\n", argv[1]);
+		free_split(argv);
+		exit(255);
+	}
+}
+
 void	ft_exit(char **argv, struct s_minishell *minishell)
 {
 	int			status;
@@ -91,17 +88,7 @@ void	ft_exit(char **argv, struct s_minishell *minishell)
 	if (minishell->type == SIMPLE)
 		dprintf(2, "exit\n");
 	if (argv[1])
-	{
-		if (all_digits(argv[1]) == true && argv[1][0] != '\0')
-			exit(ft_atoi_special(argv[1]));
-		else
-		{
-			dprintf(2, "esh: exit: %s: "\
-			"numeric argument required\n", argv[1]);
-			free_split(argv);
-			exit(255);
-		}
-	}
+		exit_forward(argv);
 	else
 	{
 		free_split(argv);
