@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:32:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:37:48 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	execute_heredoc(char *delimiter, int magic)
 	}
 }
 
-void	heredoc_execute_caller(struct ast *tmp, int direction)
+void	heredoc_execute_caller(struct s_ast *tmp, int direction)
 {
 	if (tmp->left->value.token_type == DOUBLE_SMALLER)
 		heredoc_execute_caller(tmp->left, direction);
@@ -57,7 +57,7 @@ void	heredoc_execute_caller(struct ast *tmp, int direction)
 		execute_heredoc(tmp->right->value.token_name, 1);
 }
 
-void	heredoc_forward_command(struct ast *ast, struct minishell *minishell)
+void	heredoc_forward_command(struct s_ast *ast, struct s_minishell *minishell)
 {
 	pid_t	pid;
 	int		fd_in;
@@ -75,11 +75,11 @@ void	heredoc_forward_command(struct ast *ast, struct minishell *minishell)
 		wait(NULL);
 }
 
-void	heredoc_statement_execute(struct ast *ast,
-	struct minishell *minishell, int out)
+void	heredoc_statement_execute(struct s_ast *ast,
+	struct s_minishell *minishell, int out)
 {
-	struct ast	*tmp;
-	struct ast	*end;
+	struct s_ast	*tmp;
+	struct s_ast	*end;
 
 	tmp = ast;
 	end = ast_seek_end(tmp);
@@ -93,7 +93,7 @@ void	heredoc_statement_execute(struct ast *ast,
 		print_file("/tmp/bullshit");
 }
 
-struct ast	*ast_seek_end(struct ast *ast)
+struct s_ast	*ast_seek_end(struct s_ast *ast)
 {
 	if (ast->value.token_type == COMMAND || ast->left == NULL)
 		return (ast);

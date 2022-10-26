@@ -6,21 +6,20 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:42:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:38:24 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
 
-void	minishell_create(struct minishell *minishell, char **env)
+void	minishell_create(struct s_minishell *minishell, char **env)
 {
 	minishell->env = minishell_env_init(env);
 	if (minishell->env == NULL)
 		ft_error(MINI_INIT_ERROR);
 	minishell->g_env = NULL;
 	minishell->return_value = 0;
-	minishell->prompt = PROMPT;
 	minishell->input_str = NULL;
 	minishell->variables = NULL;
 	minishell->scripts = NULL;
@@ -30,7 +29,7 @@ void	minishell_create(struct minishell *minishell, char **env)
 	minishell->handled = false;
 }
 
-void	minishell_get_input(struct minishell *minishell)
+void	minishell_get_input(struct s_minishell *minishell)
 {
 	if (isatty(STDIN_FILENO))
 	{
@@ -75,6 +74,6 @@ char	*get_input_terminal(int fd)
 	return (line);
 }
 
-void	minishell_destroy(struct minishell *minishell)
+void	minishell_destroy(struct s_minishell *minishell)
 {
 }

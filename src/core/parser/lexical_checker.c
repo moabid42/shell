@@ -6,15 +6,15 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 20:38:33 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:56:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	token_checker(struct token_stream *stream, struct minishell *minishell)
+bool	token_checker(struct s_token_stream *stream, struct s_minishell *minishell)
 {
-	struct token_stream	*tmp;
+	struct s_token_stream	*tmp;
 	bool				bracket;
 
 	tmp = stream;
@@ -71,7 +71,7 @@ bool	check_paired_quotes(char *string)
 		return (true);
 }
 
-bool	have_dollar_var(char *string, struct minishell *minishell)
+bool	have_dollar_var(char *string, struct s_minishell *minishell)
 {
 	int	i;
 
@@ -86,7 +86,7 @@ bool	have_dollar_var(char *string, struct minishell *minishell)
 	return (false);
 }
 
-void	check_flag_dollar(char *str, struct minishell *minishell)
+void	check_flag_dollar(char *str, struct s_minishell *minishell)
 {
 	int	i;
 

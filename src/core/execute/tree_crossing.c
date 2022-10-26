@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:38:53 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "builtin.h"
 
 /// Number of childs complex 
-int	child_n_c(struct ast *node)
+int	child_n_c(struct s_ast *node)
 {
 	int			num;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	num = 0;
 	tmp = node;
@@ -41,7 +41,7 @@ int	child_n_c(struct ast *node)
 	return (num);
 }
 
-char	**duplicate_right_left(struct ast *tmp, int *i, char **cmds)
+char	**duplicate_right_left(struct s_ast *tmp, int *i, char **cmds)
 {
 	if (tmp->right)
 	{
@@ -78,7 +78,7 @@ void	command_statement_destroy(char **command_statement)
 	free(command_statement);
 }
 
-void	correct_args(char **cmds, struct minishell *minishell)
+void	correct_args(char **cmds, struct s_minishell *minishell)
 {
 	int	i;
 
@@ -89,9 +89,9 @@ void	correct_args(char **cmds, struct minishell *minishell)
 	cmds[2] = NULL;
 }
 
-int	minishell_ast_execute(struct ast *ast, struct minishell *minishell)
+int	minishell_ast_execute(struct s_ast *ast, struct s_minishell *minishell)
 {
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = ast;
 	if (!ast)

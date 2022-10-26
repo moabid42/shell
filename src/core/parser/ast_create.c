@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:56:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 00:10:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_sanitize(struct ast *node, struct token_stream *tmp,
-	struct minishell *minishell)
+void	child_sanitize(struct s_ast *node, struct s_token_stream *tmp,
+	struct s_minishell *minishell)
 {
 	if (node_contain_special(tmp->token_name, '\"') == true)
 		node->value.token_name = ft_special_trim(tmp->token_name, '\"',
@@ -35,12 +35,12 @@ void	child_sanitize(struct ast *node, struct token_stream *tmp,
 		node->value.token_name = tmp->token_name;
 }
 
-struct ast	*node_create_child(struct token_stream *tmp, struct minishell
+struct s_ast	*node_create_child(struct s_token_stream *tmp, struct s_minishell
 	*minishell, int prev_type)
 {
-	struct ast	*node;
+	struct s_ast	*node;
 
-	node = ft_malloc(sizeof(struct ast));
+	node = ft_malloc(sizeof(struct s_ast));
 	child_sanitize(node, tmp, minishell);
 	node->value.token_type = tmp->token_type;
 	if (node->value.token_type == WORD
@@ -58,10 +58,10 @@ struct ast	*node_create_child(struct token_stream *tmp, struct minishell
 	return (node);
 }
 
-void	ast_insert_child(struct ast *node, struct ast **ast,
-	struct token_stream *prev, struct minishell *minishell)
+void	ast_insert_child(struct s_ast *node, struct s_ast **ast,
+	struct s_token_stream *prev, struct s_minishell *minishell)
 {
-	struct ast	*iterator;
+	struct s_ast	*iterator;
 	char		*prev_token;
 
 	iterator = *ast;
@@ -89,11 +89,11 @@ void	ast_insert_child(struct ast *node, struct ast **ast,
 
 //////////////////////// PARENT ////////////////////////
 
-struct ast	*node_create_parent(struct token_stream *tmp)
+struct s_ast	*node_create_parent(struct s_token_stream *tmp)
 {
-	struct ast	*node;
+	struct s_ast	*node;
 
-	node = ft_malloc(sizeof(struct ast));
+	node = ft_malloc(sizeof(struct s_ast));
 	node->value.token_name = tmp->token_name;
 	node->value.token_type = tmp->token_type;
 	node->isroot = false;
@@ -102,10 +102,10 @@ struct ast	*node_create_parent(struct token_stream *tmp)
 	return (node);
 }
 
-void	ast_insert_parent(struct ast *node, struct ast **root,
-		struct minishell *minishell)
+void	ast_insert_parent(struct s_ast *node, struct s_ast **root,
+		struct s_minishell *minishell)
 {
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = (*root)->right;
 	if (node->value.token_type <= (*root)->value.token_type

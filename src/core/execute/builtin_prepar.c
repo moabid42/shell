@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 03:08:44 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:08:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_builtin(char *cmd)
 		|| !my_strcmp(cmd, "unset"));
 }
 
-void	builtin_run(char **cmd_list, struct minishell *minishell)
+void	builtin_run(char **cmd_list, struct s_minishell *minishell)
 {
 	if (!my_strcmp(cmd_list[0], "echo"))
 		ft_echo(cmd_list, minishell);

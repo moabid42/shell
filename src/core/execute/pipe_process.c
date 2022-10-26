@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:59:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:01:51 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_pipe_run_first(struct ast *ast,
-			struct ast *first, struct minishell *minishell, int fd_out)
+void	process_pipe_run_first(struct s_ast *ast,
+			struct s_ast *first, struct s_minishell *minishell, int fd_out)
 {
 	if (ast->left->value.token_type == PIPE)
 		process_pipe_run_first(ast->left, first, minishell, fd_out);
@@ -25,8 +25,8 @@ void	process_pipe_run_first(struct ast *ast,
 		minishell_ast_execute(ast->right, minishell);
 }
 
-void	minishell_process_command_pipe(struct ast *ast,
-			struct minishell *minishell, int type)
+void	minishell_process_command_pipe(struct s_ast *ast,
+			struct s_minishell *minishell, int type)
 {
 	pid_t	pid;
 	int		status;
@@ -55,7 +55,7 @@ void	minishell_process_command_pipe(struct ast *ast,
 		minishell->return_value = 0;
 }
 
-void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
+void	process_pipe_run_right(struct s_ast *ast, struct s_minishell *minishell)
 {
 	pid_t	pid2;
 	int		pfd[2];
@@ -79,7 +79,7 @@ void	process_pipe_run_right(struct ast *ast, struct minishell *minishell)
 	}
 }
 
-void	process_pipe_run_left(struct ast *ast, struct minishell *minishell)
+void	process_pipe_run_left(struct s_ast *ast, struct s_minishell *minishell)
 {
 	pid_t	pid2;
 	int		pfd[2];

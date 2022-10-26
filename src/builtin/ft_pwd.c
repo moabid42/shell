@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 17:47:09 by frmessin          #+#    #+#             */
-/*   Updated: 2022/09/19 19:03:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char *get_pwd()
 	return (pwd);
 }
 
-void	ft_pwd (struct minishell *minishell)
+void	ft_pwd (struct s_minishell *minishell)
 {
 	char	*pwd;
 	int i;

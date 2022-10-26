@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 22:02:20 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	struct minishell	minishell;
+	struct s_minishell	minishell;
 	int					exit_status;
 
 	if (argc != 1)

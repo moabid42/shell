@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 23:09:08 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	print_out_str(char *str)
 	ft_putstr(str);
 }
 
-void	ft_echo(char **arg, struct minishell *minishell)
+void	ft_echo(char **arg, struct s_minishell *minishell)
 {
 	int		i;
 	bool	no_nl;

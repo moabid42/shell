@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:55:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 04:31:42 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include "execute.h"
 # include "builtin.h"
 
-struct 	minishell;
-struct 	scripts;
+struct	s_minishell;
+struct	s_scripts;
 
-enum token_type
+enum e_token_type
 {
 	AND,
 	OR,
@@ -43,154 +43,149 @@ enum token_type
 	WORD
 };
 
-struct scripts {
-    char 				*input_line;
-    unsigned int 		tokens_num;
-    int                 exit_status;
-    int 				have_herdoc;
-	char				*delimiter;
-    struct token_stream *token_stream;
-    struct scripts 		*next;
+struct s_scripts
+{
+	char					*input_line;
+	unsigned int			tokens_num;
+	int						exit_status;
+	int						have_herdoc;
+	char					*delimiter;
+	struct s_token_stream	*token_stream;
+	struct s_scripts		*next;
 };
 
-struct token_stream {
-    char *token_name;
-    enum token_type token_type;
-	bool in_string;
-    bool closed;
-    struct token_stream *next;
+struct s_token_stream
+{
+	char					*token_name;
+	enum e_token_type		token_type;
+	bool					in_string;
+	bool					closed;
+	struct s_token_stream	*next;
 };
 
-struct AST_value {
-    char    *token_name;
-    int     exit_status;
-    enum token_type token_type;
+struct s_AST_value
+{
+	char				*token_name;
+	int					exit_status;
+	enum e_token_type	token_type;
 };
 
-struct ast {
-	bool	isroot;
-    struct AST_value value;
-    struct ast *right;
-    struct ast *left;
+struct s_ast {
+	bool				isroot;
+	struct s_AST_value	value;
+	struct s_ast		*right;
+	struct s_ast		*left;
 };
-
 
 // enums
-enum token_type find_type(char *token, struct minishell *minishell);
+enum e_token_type		find_type(char *token, struct s_minishell *minishell);
 
-enum token_type find_logicalop(char *token);
+enum e_token_type		find_logicalop(char *token);
 
-enum token_type find_var_shit(char *token, struct minishell *minishell);
+enum e_token_type		find_var_shit(char *token,
+							struct s_minishell *minishell);
 
-enum token_type find_pipe_or_space(char *token);
+enum e_token_type		find_pipe_or_space(char *token);
 
-enum token_type find_rediraction(char *token);
+enum e_token_type		find_rediraction(char *token);
 
-enum token_type find_wildcard(char *token);
+enum e_token_type		find_wildcard(char *token);
 
-enum token_type find_quotes(char *token);
+enum e_token_type		find_quotes(char *token);
 
-enum token_type find_parenth(char *token);
-
-
-void minishell_read_input(struct minishell *minishell);
-
-bool minishell_scripts_parse(struct minishell *minishell);
-
-void minishell_scripts_destory(struct minishell *minishell);
-
-
-void minishell_destroy_input(struct scripts *script);
-
-void minishell_process_input(struct scripts *script, struct minishell *minishell);
-
-
-struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell);
-
-void lexical_analyzer_destroy(struct token_stream **token_stream);
-
-
-bool syntax_analyzer_create(struct token_stream *token_stream, struct ast *ast, struct  minishell *minishell);
-
-void syntax_analyzer_destroy(struct minishell *minishell);
-
-struct ast *semantic_analyzer_create(struct minishell *minishell, struct token_stream *token_stream);
-
-void semantic_analyzer_destroy(struct minishell *minishell);
+enum e_token_type		ind_parenth(char *token);
 
 /////////////////////
 //    AST_CREATE   //
 /////////////////////
 
-struct ast  *node_create_child(struct token_stream *tmp, struct minishell *minishell, int prev_type);
-void        ast_insert_child(struct ast *node, struct ast **ast, struct token_stream *prev, struct minishell *minishell);
-
-struct ast  *node_create_parent(struct token_stream *tmp);
-void        ast_insert_parent(struct ast *node, struct ast **root, struct minishell *minishell);
+struct s_ast			*node_create_child(struct s_token_stream *tmp,
+							struct s_minishell *minishell, int prev_type);
+void					ast_insert_child(struct s_ast *node,
+							struct s_ast **ast, struct s_token_stream *prev,
+							struct s_minishell *minishell);
+struct s_ast			*node_create_parent(struct s_token_stream *tmp);
+void					ast_insert_parent(struct s_ast *node,
+							struct s_ast **root,
+							struct s_minishell *minishell);
 
 /////////////////////
 //  LEXICAL_ANAL   //
 /////////////////////
 
-bool                minishell_scripts_parse(struct minishell *minishell);
-bool	            token_checker(struct token_stream *stream, struct minishell *minishell);
-struct token_stream *lexical_analyzer_create(struct scripts *script, struct minishell *minishell);
+bool					minishell_scripts_parse(struct s_minishell *minishell);
+bool					token_checker(struct s_token_stream *stream,
+							struct s_minishell *minishell);
+struct s_token_stream	*lexical_analyzer_create(struct s_scripts *script,
+							struct s_minishell *minishell);
 
 /////////////////////
 //  SYNTAX_ANAL    //
 /////////////////////
 
-bool                syntax_analyzer_create(struct token_stream *token_stream,
-									struct ast *ast, struct minishell *minishell);
+bool					syntax_analyzer_create(struct s_token_stream
+							*token_stream,
+							struct s_ast *ast, struct s_minishell *minishell);
 
 /////////////////////
 //  SEMANTIC_ANAL  //
 /////////////////////
 
-
+struct s_ast			*semantic_analyzer_create(struct s_minishell *minishell,
+							struct s_token_stream *token_stream);
 
 /////////////////////
 //    EXPEND_STAR  //
 /////////////////////
 
-int                 star_count_dirs(void);
-int                 star_count(char **tokens);
-void                star_expend_dir(char **new_tokens, int *i);
-char                **token_expend_star(char **tokens, int prev_size);
-bool                star_exist(char **tokens);
+int						star_count_dirs(void);
+int						star_count(char **tokens);
+void					star_expend_dir(char **new_tokens, int *i);
+char					**token_expend_star(char **tokens, int prev_size);
+bool					star_exist(char **tokens);
 
 /////////////////////
 //    EXPEND_VAR   //
 /////////////////////
 
-int                 isdir(const char* fileName);
-char                *find_return_expend(struct minishell *minishell, char return_var);
-char                *minishell_find_variable(struct minishell *minishell, char *variable);
+int						isdir(const char *fileName);
+char					*find_return_expend(struct s_minishell *minishell,
+							char return_var);
+char					*minishell_find_variable(struct s_minishell *minishell,
+							char *variable);
 
 /////////////////////
 //    REORDERING   //
 /////////////////////
 
-void	token_stream_remove(struct token_stream **token_stream);
-bool	have_multi_redi(struct token_stream *token_stream);
-bool	can_be_arranged_left(struct token_stream *token_stream);
-bool	can_be_arranged(struct token_stream *token_stream);
-void	token_stream_rearrange(struct token_stream **token_stream);
+void					token_stream_remove(struct s_token_stream
+							**token_stream);
+bool					have_multi_redi(struct s_token_stream
+							*token_stream);
+bool					can_be_arranged_left(struct s_token_stream
+							*token_stream);
+bool					can_be_arranged(struct s_token_stream
+							*token_stream);
+void					token_stream_rearrange(struct s_token_stream
+							**token_stream);
 
 /////////////////////
 //    FIRST_NODE   //
 /////////////////////
 
-struct ast	*ast_create_first_node(struct minishell *minishell,
-					struct token_stream *token_stream);
+struct s_ast			*ast_create_first_node(struct s_minishell *minishell,
+							struct s_token_stream *token_stream);
 
 /////////////////////
 //    LEXICAL_CK   //
 /////////////////////
 
-void	check_flag_dollar(char *str, struct minishell *minishell);
-bool	have_dollar_var(char *string, struct minishell *minishell);
-bool	token_checker(struct token_stream *stream, struct minishell *minishell);
-bool	check_paired_quotes(char *string);
+void					check_flag_dollar(char *str,
+							struct s_minishell *minishell);
+bool					have_dollar_var(char *string,
+							struct s_minishell *minishell);
+bool					token_checker(struct s_token_stream *stream,
+							struct s_minishell *minishell);
+bool					check_paired_quotes(char *string);
 
 #endif

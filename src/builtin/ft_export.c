@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:09:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	indentfier_exist(t_env *env, char *str)
 	return (false);
 }
 
-t_env *export_the_argv(struct minishell *minishell, char **argv, t_env *enviroment)
+t_env *export_the_argv(struct s_minishell *minishell, char **argv, t_env *enviroment)
 {
 	t_env *new;
 	int i;
@@ -123,7 +123,7 @@ t_env *export_the_argv(struct minishell *minishell, char **argv, t_env *envirome
 // 	return (true);
 // }
 
-void ft_export (char **argv, struct minishell *minishell)
+void ft_export (char **argv, struct s_minishell *minishell)
 {
 	t_env	*enviroment;
 	t_env	*head;

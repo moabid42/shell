@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:35:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:04:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	file_reader(int fd_in)
 	printf("\n");
 }
 
-void	rise_error_and_exit(struct ast *ast)
+void	rise_error_and_exit(struct s_ast *ast)
 {
 	dprintf(2, "esh: %s: No such file or directory\n",
 		ast->left->value.token_name);
@@ -59,10 +59,10 @@ void	new_line_remove(char *line)
 	line[i] = '\0';
 }
 
-int	ast_child_num(struct ast *node)
+int	ast_child_num(struct s_ast *node)
 {
 	int			num;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	num = 0;
 	tmp = node;

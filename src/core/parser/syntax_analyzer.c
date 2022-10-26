@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 21:33:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	syntax_analyzer_create(struct token_stream *token_stream,
-		struct ast *ast, struct minishell *minishell)
+bool	syntax_analyzer_create(struct s_token_stream *token_stream,
+		struct s_ast *ast, struct s_minishell *minishell)
 {
-	struct ast			*tmp;
-	struct token_stream	*iterator;
+	struct s_ast			*tmp;
+	struct s_token_stream	*iterator;
 
 	tmp = ast;
 	iterator = token_stream;

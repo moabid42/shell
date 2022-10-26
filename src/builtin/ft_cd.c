@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmessin <frmessin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 14:05:01 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/23 22:11:51 by frmessin         ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_home(t_env *env)
 	return (NULL);
 }
 
-void	ft_cd(char **argv, struct minishell *minishell)
+void	ft_cd(char **argv, struct s_minishell *minishell)
 {
 	char	*old_path;
 	t_env	*tmp;

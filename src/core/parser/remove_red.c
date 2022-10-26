@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:04:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:10:50 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	have_multi_redi(struct token_stream *token_stream)
+bool	have_multi_redi(struct s_token_stream *token_stream)
 {
 	while (token_stream)
 	{
@@ -25,19 +25,19 @@ bool	have_multi_redi(struct token_stream *token_stream)
 	return (false);
 }
 
-void	node_remove(struct token_stream *prev, struct token_stream *next,
-					struct token_stream *iter)
+void	node_remove(struct s_token_stream *prev, struct s_token_stream *next,
+					struct s_token_stream *iter)
 {
 	openfile(next->token_name, 1);
 	free(next);
 	free(iter);
 }
 
-void	token_stream_remove(struct token_stream **token_stream)
+void	token_stream_remove(struct s_token_stream **token_stream)
 {
-	struct token_stream	*iter;
-	struct token_stream	*next;
-	struct token_stream	*prev;
+	struct s_token_stream	*iter;
+	struct s_token_stream	*next;
+	struct s_token_stream	*prev;
 
 	iter = *token_stream;
 	prev = iter;

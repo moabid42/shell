@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 00:08:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "builtin.h"
 #include "parser.h"
 
-struct ast	*sub_tree_builder(struct ast *ast, struct minishell *minishell,
-		struct token_stream **prev, struct token_stream **stm)
+struct s_ast	*sub_tree_builder(struct s_ast *ast, struct s_minishell *minishell,
+		struct s_token_stream **prev, struct s_token_stream **stm)
 {
 	*prev = *stm;
 	*stm = (*stm)->next;
@@ -40,10 +40,10 @@ struct ast	*sub_tree_builder(struct ast *ast, struct minishell *minishell,
 	return (NULL);
 }
 
-struct ast	*ast_create_subtree(struct minishell *minishell,
-		struct token_stream **prev, struct token_stream **stm)
+struct s_ast	*ast_create_subtree(struct s_minishell *minishell,
+		struct s_token_stream **prev, struct s_token_stream **stm)
 {
-	struct ast	*ast;
+	struct s_ast	*ast;
 
 	ast = check_bracket_and_assign(minishell, stm);
 	ast = sub_tree_builder(ast, minishell, prev, stm);
@@ -56,8 +56,8 @@ struct ast	*ast_create_subtree(struct minishell *minishell,
 	return (ast);
 }
 
-struct ast	*assign_child(struct ast *ast, struct token_stream *prev,
-		struct token_stream *tmp, struct minishell *minishell)
+struct s_ast	*assign_child(struct s_ast *ast, struct s_token_stream *prev,
+		struct s_token_stream *tmp, struct s_minishell *minishell)
 {
 	if (is_child(ast->value.token_type, tmp) == true)
 		ast_insert_child(node_create_child(tmp, minishell,
@@ -67,8 +67,8 @@ struct ast	*assign_child(struct ast *ast, struct token_stream *prev,
 	return (ast);
 }
 
-struct ast	*tree_builder(struct minishell *m, struct ast *ast,
-			struct token_stream *p, struct token_stream *tmp)
+struct s_ast	*tree_builder(struct s_minishell *m, struct s_ast *ast,
+			struct s_token_stream *p, struct s_token_stream *tmp)
 {
 	while (tmp)
 	{
@@ -97,12 +97,12 @@ struct ast	*tree_builder(struct minishell *m, struct ast *ast,
 	return (ast);
 }
 
-struct ast	*semantic_analyzer_create(struct minishell *minishell,
-			struct token_stream *token_stream)
+struct s_ast	*semantic_analyzer_create(struct s_minishell *minishell,
+			struct s_token_stream *token_stream)
 {
-	struct ast			*ast;
-	struct token_stream	*tmp;
-	struct token_stream	*prev;
+	struct s_ast			*ast;
+	struct s_token_stream	*tmp;
+	struct s_token_stream	*prev;
 
 	tmp = token_stream;
 	prev = tmp;

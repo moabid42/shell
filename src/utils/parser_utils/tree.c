@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:53:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/23 23:23:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void padding ( char ch, int n )
     putchar(ch);
 }
 
-void structure ( struct ast *root, int level )
+void structure ( struct s_ast *root, int level )
 {
   if (root == NULL)
   {

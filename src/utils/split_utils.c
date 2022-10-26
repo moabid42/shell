@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 00:12:23 by moabid            #+#    #+#             */
-/*   Updated: 2022/07/19 13:03:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:26:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	get_next_str(char **next_str, unsigned int *next_str_len)
 	}
 }
 
-char	**ft_split_tokens(struct scripts *script)
+char	**ft_split_tokens(struct s_scripts *script)
 {
 	char			**tokens;
 	char			*next_str;

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:16:01 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:39:49 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_strlen_newline(char *str)
 	return (i);
 }
 
-bool	is_weirdo(char *input_line, struct minishell *minishell)
+bool	is_weirdo(char *input_line, struct s_minishell *minishell)
 {
 	if (!my_strcmp(input_line, "<<")
 		|| !my_strcmp(input_line, "<>")

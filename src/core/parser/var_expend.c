@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 19:37:08 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 21:34:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int	isdir(const char *fileName)
 	return (S_ISREG(path.st_mode));
 }
 
-char	*find_return_expend(struct minishell *minishell, char return_var)
+char	*find_return_expend(struct s_minishell *minishell, char return_var)
 {
 	if (return_var == '?')
 		return (ft_itoa(minishell->return_value));
 	return (NULL);
 }
 
-char	*minishell_find_variable(struct minishell *minishell, char *variable)
+char	*minishell_find_variable(struct s_minishell *minishell, char *variable)
 {
 	struct s_variable	*iterator;
 	t_env				*tmp;

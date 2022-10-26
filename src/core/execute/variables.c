@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:34:20 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:38:18 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	minishell_var_lookup(char *var_str, struct s_variable *variable)
 }
 
 void	minishell_save_variable(char *variable_assigned,
-		struct minishell *minishell)
+		struct s_minishell *minishell)
 {
 	char				**variable_list;
 	struct s_variable	*new;
