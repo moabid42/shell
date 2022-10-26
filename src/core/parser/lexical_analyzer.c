@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 21:31:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	minishell_scripts_parse(struct minishell *minishell)
+bool	minishell_scripts_parse(struct s_minishell *minishell)
 {
 	char	**scripts_line;
 
@@ -33,9 +33,9 @@ bool	minishell_scripts_parse(struct minishell *minishell)
 	return (true);
 }
 
-void	sanitize_token_stream(struct token_stream *token_stream)
+void	sanitize_token_stream(struct s_token_stream *token_stream)
 {
-	struct token_stream	*prev;
+	struct s_token_stream	*prev;
 
 	prev = token_stream;
 	while (token_stream)
@@ -62,10 +62,10 @@ void	sanitize_token_stream(struct token_stream *token_stream)
 	}
 }
 
-struct token_stream	*token_stream_create(struct minishell *minishell,
-		char **tokens, struct scripts *script)
+struct s_token_stream	*token_stream_create(struct s_minishell *minishell,
+		char **tokens, struct s_scripts *script)
 {
-	struct token_stream	*token_stream;
+	struct s_token_stream	*token_stream;
 
 	token_stream = stack_create(minishell, tokens, script->tokens_num);
 	script->token_stream = token_stream;
@@ -80,8 +80,8 @@ struct token_stream	*token_stream_create(struct minishell *minishell,
 	return (token_stream);
 }
 
-struct token_stream	*lexical_analyzer_create(struct scripts *script,
-		struct minishell *minishell)
+struct s_token_stream	*lexical_analyzer_create(struct s_scripts *script,
+		struct s_minishell *minishell)
 {
 	char				**tokens;
 	t_args				args;

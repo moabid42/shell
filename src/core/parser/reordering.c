@@ -6,17 +6,17 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 04:55:44 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:04:37 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	rearrange_greater(struct token_stream **token_stream,
-		struct token_stream *next, struct token_stream *prev,
-		struct token_stream *iter)
+void	rearrange_greater(struct s_token_stream **token_stream,
+		struct s_token_stream *next, struct s_token_stream *prev,
+		struct s_token_stream *iter)
 {
-	struct token_stream	*tmp;
+	struct s_token_stream	*tmp;
 
 	if (prev == iter)
 	{
@@ -38,20 +38,20 @@ void	rearrange_greater(struct token_stream **token_stream,
 	}
 }
 
-void	rearrange_smaller(struct token_stream **token_stream,
-			struct token_stream *prev, struct token_stream *iter,
-			struct token_stream *next)
+void	rearrange_smaller(struct s_token_stream **token_stream,
+			struct s_token_stream *prev, struct s_token_stream *iter,
+			struct s_token_stream *next)
 {
 	prev->next = next->next;
 	next->next = *token_stream;
 	*token_stream = iter;
 }
 
-void	token_stream_rearrange(struct token_stream **token_stream)
+void	token_stream_rearrange(struct s_token_stream **token_stream)
 {
-	struct token_stream	*iter;
-	struct token_stream	*next;
-	struct token_stream	*prev;
+	struct s_token_stream	*iter;
+	struct s_token_stream	*next;
+	struct s_token_stream	*prev;
 
 	iter = *token_stream;
 	prev = iter;
@@ -75,7 +75,7 @@ void	token_stream_rearrange(struct token_stream **token_stream)
 	}
 }
 
-bool	can_be_arranged(struct token_stream *token_stream)
+bool	can_be_arranged(struct s_token_stream *token_stream)
 {
 	if (token_stream->token_name[0] == '<')
 		return (false);
@@ -88,7 +88,7 @@ bool	can_be_arranged(struct token_stream *token_stream)
 	return (false);
 }
 
-bool	can_be_arranged_left(struct token_stream *token_stream)
+bool	can_be_arranged_left(struct s_token_stream *token_stream)
 {
 	while (token_stream)
 	{

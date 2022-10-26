@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:19:39 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,72 +34,74 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-struct ast;
-struct scripts;
-enum e_redirection;
-typedef struct s_env t_env;
+struct					s_ast;
+struct					s_scripts;
+enum					e_redirection;
+typedef struct s_env	t_env;
 
 enum e_type {
-    SIMPLE,
-    COMPLEXE
+	SIMPLE,
+	COMPLEXE
 };
 
 struct s_variable {
-	char *var;
-	char *value;
-	struct s_variable *next;
+	char				*var;
+	char				*value;
+	struct s_variable	*next;
 };
 
-struct minishell {
-	t_env			*env;
-	char			**g_env;
-	char			*prompt; // can be changed when exporting PS1
-	char			*input_str;
-	int				input_len;
-	enum    		e_type type;
-	int				return_value;
-	int				open;
-	bool		 	start_right;
-	bool			handled;
-	bool			single;
-	bool			dollar_in;
-	bool			export_fg;
-	int				fd_out;
-	long long		byte_code;
-	long long		brakets_flag;
-	int				index_flag;
-	struct	s_variable *variables;
-	enum	e_redirection redirection;
-	unsigned int scripts_num;
-	struct	scripts *scripts;
+struct s_minishell {
+	t_env					*env;
+	char					**g_env;
+	char					*input_str;
+	int						input_len;
+	enum e_type				type;
+	int						return_value;
+	int						open;
+	bool					start_right;
+	bool					handled;
+	bool					single;
+	bool					dollar_in;
+	bool					export_fg;
+	int						fd_out;
+	long long				byte_code;
+	long long				brakets_flag;
+	int						index_flag;
+	struct s_variable		*variables;
+	enum e_redirection		redirection;
+	unsigned int			scripts_num;
+	struct s_scripts		*scripts;
 };
 
 ////////////////////
 //   INPUT_PROC   //
 ////////////////////
 
-void	minishell_ast_execute_subshells(struct ast *ast, struct minishell *minishell);
-void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell, struct token_stream *token_stream);
-void	minishell_process_input(struct scripts *script, struct minishell *minishell);
-void	minishell_destroy_input(struct scripts *script);
-void	minishell_read_input(struct minishell *minishell);
+void	minishell_ast_execute_subshells(struct s_ast *ast,
+			struct s_minishell *minishell);
+void	syntax_analyzer_run(struct s_ast *ast,
+			struct s_minishell *minishell, struct s_token_stream *token_stream);
+void	minishell_process_input(struct s_scripts *script,
+			struct s_minishell *minishell);
+void	minishell_destroy_input(struct s_scripts *script);
+void	minishell_read_input(struct s_minishell *minishell);
 
 ////////////////////
 // MINISHELL_INIT //
 ////////////////////
 
-void    minishell_create(struct minishell *minishell, char **env);
-void 	minishell_get_input(struct minishell *minishell);
+void	minishell_create(struct s_minishell *minishell, char **env);
+void	minishell_get_input(struct s_minishell *minishell);
 char	*get_input_terminal(int fd);
-void    minishell_destroy(struct minishell *minishell);
+void	minishell_destroy(struct s_minishell *minishell);
 
 ////////////////////
 //  MINISHELL_RUN //
 ////////////////////
 
-void	handle_weird(struct minishell *minishell);
+void	handle_weird(struct s_minishell *minishell);
 bool	is_weird(char *str);
-void    minishell_run(struct minishell *minishell);
+void	minishell_run(struct s_minishell *minishell);
 
 ////////////////////
 // MINISHELL_SEGN //

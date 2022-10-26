@@ -6,15 +6,15 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 03:05:47 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:07:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	redirection_exist(struct ast *ast)
+bool	redirection_exist(struct s_ast *ast)
 {
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = ast;
 	while (1)
@@ -28,7 +28,7 @@ bool	redirection_exist(struct ast *ast)
 	return (false);
 }
 
-void	process_redirect_left(struct ast *ast)
+void	process_redirect_left(struct s_ast *ast)
 {
 	int	fd_in;
 
@@ -42,9 +42,9 @@ void	process_redirect_left(struct ast *ast)
 	dup2(fd_in, 0);
 }
 
-void	process_direct(struct ast *ast, struct minishell *minishell)
+void	process_direct(struct s_ast *ast, struct s_minishell *minishell)
 {
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = ast;
 	minishell->redirection = DIRECT;
@@ -54,10 +54,10 @@ void	process_direct(struct ast *ast, struct minishell *minishell)
 		process_pipe_run_first(tmp, ast, minishell, 1);
 }
 
-void	process_redirect_overwrite(struct ast *ast, struct minishell *minishell)
+void	process_redirect_overwrite(struct s_ast *ast, struct s_minishell *minishell)
 {
 	int			fd_out;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = ast;
 	minishell->redirection = OVERWRITE;
@@ -68,10 +68,10 @@ void	process_redirect_overwrite(struct ast *ast, struct minishell *minishell)
 		process_pipe_run_first(tmp->left, ast->left, minishell, fd_out);
 }
 
-void	process_redirect_append(struct ast *ast, struct minishell *minishell)
+void	process_redirect_append(struct s_ast *ast, struct s_minishell *minishell)
 {
 	int			fd_out;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
 	tmp = ast;
 	minishell->redirection = APPEND;

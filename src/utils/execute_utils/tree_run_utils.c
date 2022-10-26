@@ -6,16 +6,16 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:27:07 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:33:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**command_statement_create(struct ast *ast)
+char	**command_statement_create(struct s_ast *ast)
 {
 	int			i;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 	char		**command_statement;
 
 	i = 0;
@@ -33,7 +33,7 @@ char	**command_statement_create(struct ast *ast)
 }
 
 void	command_statement_execute(char **command_statement, char *path,
-	struct minishell *minishell, int fd_out)
+	struct s_minishell *minishell, int fd_out)
 {
 	pid_t	pid;
 	int		status;
@@ -89,7 +89,7 @@ char	*get_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-bool	a_err(struct minishell *m, char *var, int value)
+bool	a_err(struct s_minishell *m, char *var, int value)
 {
 	m->return_value = value;
 	dprintf(2, "esh: %s: command not found .\n", var);
@@ -97,7 +97,7 @@ bool	a_err(struct minishell *m, char *var, int value)
 }
 
 void	command_run(char **command_statement, char *command_path,
-				struct minishell *m, struct ast *ast)
+				struct s_minishell *m, struct s_ast *ast)
 {
 	if (ast->value.token_type == DOUBLE_SMALLER)
 		heredoc_statement_execute(ast, m, m->fd_out);

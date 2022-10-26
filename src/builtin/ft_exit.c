@@ -6,7 +6,7 @@
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:16:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 01:53:08 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ bool	are_all_numbers(char **argv, int length)
 	return (true);
 }
 
-void	ft_exit(char **argv, struct minishell *minishell)
+void	ft_exit(char **argv, struct s_minishell *minishell)
 {
 	int			status;
 	int			length;

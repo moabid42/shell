@@ -6,7 +6,7 @@
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:46:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 01:37:28 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ bool	indentfier_exist(t_env *env, char *str)
 	return (false);
 }
 
-t_env	*export_the_argv(struct minishell *minishell,
-		char **argv, t_env *enviroment)
+t_env *export_the_argv(struct s_minishell *minishell, char **argv, t_env *enviroment)
 {
 	t_env	*new;
 	int		i;
@@ -124,7 +123,7 @@ t_env	*export_the_argv(struct minishell *minishell,
 	return (true);
 } */
 
-void	ft_export(char **argv, struct minishell *minishell)
+void ft_export(char **argv, struct s_minishell *minishell)
 {
 	t_env	*enviroment;
 	t_env	*head;

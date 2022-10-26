@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:09:05 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	command_statement_run(char **command_statement,
-	char *command_path, struct minishell *minishell)
+	char *command_path, struct s_minishell *minishell)
 {
 	if (is_builtin(command_statement[0]) == true)
 		builtin_run(command_statement, minishell);
@@ -21,10 +21,10 @@ void	command_statement_run(char **command_statement,
 		ft_error(command_statement[0]);
 }
 
-char	**command_statement_create_complexe(struct ast *ast)
+char	**command_statement_create_complexe(struct s_ast *ast)
 {
 	int			i;
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 	char		**command_statement;
 
 	i = 0;
@@ -48,8 +48,8 @@ char	**command_statement_create_complexe(struct ast *ast)
 	return (command_statement);
 }
 
-void	command_statement_execute_complexe(struct ast *ast,
-	struct minishell *minishell)
+void	command_statement_execute_complexe(struct s_ast *ast,
+	struct s_minishell *minishell)
 {
 	char	**command_statement;
 	char	*command_path;
@@ -60,8 +60,8 @@ void	command_statement_execute_complexe(struct ast *ast,
 	command_statement_destroy(command_statement);
 }
 
-void	redirection_run(struct ast *ast, struct ast *first,
-	struct minishell *minishell, int fd_out)
+void	redirection_run(struct s_ast *ast, struct s_ast *first,
+	struct s_minishell *minishell, int fd_out)
 {
 	if (ast->left->value.token_type == PIPE)
 		redirection_run(ast->left, first, minishell, fd_out);

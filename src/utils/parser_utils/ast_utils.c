@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 23:16:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 16:48:04 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_child(int root, struct token_stream *tmp)
+bool	is_child(int root, struct s_token_stream *tmp)
 {
 	if (tmp->token_type < DOUBLE_SMALLER)
 		return (false);
@@ -23,7 +23,7 @@ bool	is_child(int root, struct token_stream *tmp)
 	return (false);
 }
 
-struct ast	*ast_lookup(struct ast *node, char *token_name)
+struct s_ast	*ast_lookup(struct s_ast *node, char *token_name)
 {
 	if (my_strcmp(node->value.token_name, token_name) == 0)
 		return (node);
@@ -33,7 +33,7 @@ struct ast	*ast_lookup(struct ast *node, char *token_name)
 	return(NULL);
 }
 
-struct ast *find_prev(struct ast *node, char *token_name)
+struct s_ast *find_prev(struct s_ast *node, char *token_name)
 {
 	if (my_strcmp(node->value.token_name, token_name) == 0)
 	{
@@ -54,7 +54,7 @@ struct ast *find_prev(struct ast *node, char *token_name)
 	return (NULL);
 }
 
-bool	ast_not_right_type(struct ast *ast)
+bool	ast_not_right_type(struct s_ast *ast)
 {
 	return (ast->value.token_type == COMMAND 
 	|| ast->value.token_type == DOUBLE_SMALLER
@@ -71,7 +71,7 @@ bool	ast_not_right_type(struct ast *ast)
 	|| !my_strcmp(ast->value.token_name, "exit"));
 }
 
-bool	ast_is_assign(struct ast *ast)
+bool	ast_is_assign(struct s_ast *ast)
 {
 	return (ast->value.token_type == EQUAL
 		|| !my_strcmp(ast->value.token_name, "export"));

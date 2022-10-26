@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:18:35 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 17:18:36 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	var_handle(struct minishell *minishell,
-	struct token_stream *token_stream, struct ast *tmp)
+static void	var_handle(struct s_minishell *minishell,
+	struct s_token_stream *token_stream, struct s_ast *tmp)
 {
 	tmp->value.token_name = minishell_find_variable(minishell,
 			token_stream->token_name);
@@ -22,9 +22,9 @@ static void	var_handle(struct minishell *minishell,
 		tmp->value.token_name = ft_strdup("");
 }
 
-static void	cmd_handle(struct minishell *minishell,
-	struct token_stream *token_stream,
-	struct ast *tmp)
+static void	cmd_handle(struct s_minishell *minishell,
+	struct s_token_stream *token_stream,
+	struct s_ast *tmp)
 {
 	if (ft_iscommand(tmp->value.token_name, minishell->env) == true
 		|| ft_isexecutable(tmp->value.token_name) == true)
@@ -34,12 +34,12 @@ static void	cmd_handle(struct minishell *minishell,
 		tmp->value.token_type = BUILTIN;
 }
 
-struct ast	*ast_create_first_node(struct minishell *minishell,
-			struct token_stream *token_stream)
+struct s_ast	*ast_create_first_node(struct s_minishell *minishell,
+			struct s_token_stream *token_stream)
 {
-	struct ast	*tmp;
+	struct s_ast	*tmp;
 
-	tmp = ft_malloc(sizeof(struct ast));
+	tmp = ft_malloc(sizeof(struct s_ast));
 	if (token_stream->token_type == VARIABLE)
 		var_handle(minishell, token_stream, tmp);
 	else

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:23:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:33:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	is_builtin_ast(char *cmd)
 		|| !my_strcmp(cmd, "unset"));
 }
 
-bool	ast_is_simple(struct ast *ast)
+bool	ast_is_simple(struct s_ast *ast)
 {
 	if (ast->value.token_type == COMMAND
 		|| ast->value.token_type == DOUBLE_SMALLER

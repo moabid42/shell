@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 00:14:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:39:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "parser.h"
 #include "utils.h"
 
-void	minishell_ast_execute_subshells(struct ast *ast,
-	struct minishell *minishell)
+void	minishell_ast_execute_subshells(struct s_ast *ast,
+	struct s_minishell *minishell)
 {
 	if (ast->left->value.token_type < 2)
 		minishell_ast_execute_subshells(ast->left, minishell);
@@ -27,8 +27,8 @@ void	minishell_ast_execute_subshells(struct ast *ast,
 		minishell->return_value = minishell_ast_execute(ast->right, minishell);
 }
 
-void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell,
-	struct token_stream *token_stream)
+void	syntax_analyzer_run(struct s_ast *ast, struct s_minishell *minishell,
+	struct s_token_stream *token_stream)
 {
 	if (ast != NULL)
 	{
@@ -42,11 +42,11 @@ void	syntax_analyzer_run(struct ast *ast, struct minishell *minishell,
 	}
 }
 
-void	minishell_process_input(struct scripts *script,
-	struct minishell *minishell)
+void	minishell_process_input(struct s_scripts *script,
+	struct s_minishell *minishell)
 {
-	struct token_stream	*token_stream;
-	struct ast			*ast;
+	struct s_token_stream	*token_stream;
+	struct s_ast			*ast;
 
 	if (!script)
 		return ;
@@ -65,17 +65,17 @@ void	minishell_process_input(struct scripts *script,
 	minishell_process_input(script->next, minishell);
 }
 
-void	minishell_destroy_input(struct scripts *script)
+void	minishell_destroy_input(struct s_scripts *script)
 {
 	if (!script)
 		return ;
 	minishell_destroy_input(script->next);
 }
 
-void	minishell_read_input(struct minishell *minishell)
+void	minishell_read_input(struct s_minishell *minishell)
 {
-	struct scripts	*tmp_cr;
-	struct scripts	*tmp_ds;
+	struct s_scripts	*tmp_cr;
+	struct s_scripts	*tmp_ds;
 
 	signal(SIGINT, SIG_IGN);
 	if (!minishell_scripts_parse(minishell))

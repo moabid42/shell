@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:08:02 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:43:52 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_weird(struct minishell *minishell)
+void	handle_weird(struct s_minishell *minishell)
 {
 	if (!my_strcmp(minishell->input_str, "\"\""))
 		error_exit(minishell, "esh: :command not found\n",
@@ -44,7 +44,7 @@ bool	is_weird(char *str)
 		|| !my_strcmp(str, ".."));
 }
 
-void	minishell_run(struct minishell *minishell)
+void	minishell_run(struct s_minishell *minishell)
 {
 	while (1)
 	{

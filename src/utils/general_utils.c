@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:59:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:28:33 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_error(char *str)
 	exit(1);
 }
 
-void	minishell_error(struct minishell *minishell, char *str)
+void	minishell_error(struct s_minishell *minishell, char *str)
 {
 	minishell->return_value = 1;
 }
@@ -214,7 +214,7 @@ char	*ft_special_trim(char *str, int c, int size)
 	return (new);
 }
 
-int	error_exit(struct minishell *minishell, char *str, char *var, int exit_code)
+int	error_exit(struct s_minishell *minishell, char *str, char *var, int exit_code)
 {
 	if (var == NULL)
 		write(2, str, ft_strlen(str));
@@ -228,7 +228,7 @@ int	error_exit(struct minishell *minishell, char *str, char *var, int exit_code)
 	return (true);
 }
 
-struct ast	*error_exit_null(struct minishell *minishell, char *str, char *var, int exit_code)
+struct s_ast	*error_exit_null(struct s_minishell *minishell, char *str, char *var, int exit_code)
 {
 	if (var == NULL)
 		write(2, str, ft_strlen(str));

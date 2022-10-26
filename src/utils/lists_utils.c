@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 20:52:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 #include "parser.h"
 #include "utils.h"
 
-struct scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count) {
+struct s_scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count) {
 	int i;
-	struct scripts *new_node;
-	struct scripts *curr;
+	struct s_scripts *new_node;
+	struct s_scripts *curr;
 
 	i = 0;
-	new_node = (struct scripts *) ft_malloc(sizeof(struct scripts));
+	new_node = (struct s_scripts *) ft_malloc(sizeof(struct s_scripts));
 	curr = new_node;
 	while (i < count) {
 		if (i < count - 1)
-			new_node->next = (struct scripts *) ft_malloc(sizeof(struct scripts));
+			new_node->next = (struct s_scripts *) ft_malloc(sizeof(struct s_scripts));
 		new_node->input_line = ft_strdup(scripts_line[i]);
 		new_node->have_herdoc = 0;
 		if (i == (count - 1))
@@ -36,7 +36,7 @@ struct scripts *ft_create_stack_scripts(char **scripts_line, unsigned int count)
 	return (curr);
 }
 
-enum token_type find_redirection(char *token)
+enum e_token_type find_redirection(char *token)
 {
 	if (!my_strcmp(token, ">"))
 		return (GREATER);
@@ -48,7 +48,7 @@ enum token_type find_redirection(char *token)
 		return (DOUBLE_SMALLER);
 }
 
-enum token_type	find_var_shit(char *token, struct minishell *minishell)
+enum e_token_type	find_var_shit(char *token, struct s_minishell *minishell)
 {
 	if (token[0] == '$'
 		&& (token[1] == '\0'
@@ -62,21 +62,21 @@ enum token_type	find_var_shit(char *token, struct minishell *minishell)
 		return (EQUAL);
 }
 
-enum token_type find_logicalop(char *token) {
+enum e_token_type find_logicalop(char *token) {
 	if (!my_strcmp(token, "&&"))
 		return (AND);
 	else
 		return (OR);
 }
 
-enum token_type find_bool(char *token) {
+enum e_token_type find_bool(char *token) {
 	if (!my_strcmp(token, "true"))
 		return (TRUE);
 	else
 		return (FALSE);
 }
 
-enum token_type find_type(char *token, struct minishell *minishell)
+enum e_token_type find_type(char *token, struct s_minishell *minishell)
 {
 	if (!my_strcmp(token, "|"))
 		return (PIPE);
@@ -94,13 +94,13 @@ enum token_type find_type(char *token, struct minishell *minishell)
 	return (WORD);
 }
 
-bool	check_single(struct minishell *minishell, char c)
+bool	check_single(struct s_minishell *minishell, char c)
 {
 	// minishell->single = true;
 	return (c == '\'');
 }
 
-char	*quotes_remover(char *str, char *set, struct minishell *minishell)
+char	*quotes_remover(char *str, char *set, struct s_minishell *minishell)
 {
 	char	*new_str;
 	int		i;
@@ -133,19 +133,19 @@ char	*quotes_remover(char *str, char *set, struct minishell *minishell)
 	return (new_str);
 }
 
-struct token_stream *stack_create(struct minishell *minishell, char **tokens, unsigned int count) {
+struct s_token_stream *stack_create(struct s_minishell *minishell, char **tokens, unsigned int count) {
 	int i;
-	struct token_stream *new_node;
-	struct token_stream *curr;
+	struct s_token_stream *new_node;
+	struct s_token_stream *curr;
 
 	i = 0;
-	new_node = (struct token_stream *) ft_malloc(sizeof(struct token_stream));
+	new_node = (struct s_token_stream *) ft_malloc(sizeof(struct s_token_stream));
 	curr = new_node;
 	minishell->single = false;
 	while (i < count)
 	{
 		if (i < count - 1)
-			new_node->next = (struct token_stream *) ft_malloc(sizeof(struct token_stream));	
+			new_node->next = (struct s_token_stream *) ft_malloc(sizeof(struct s_token_stream));	
 		if (!my_strcmp("\'\'", tokens[i]))
 			minishell->single = true;
 		new_node->token_name = quotes_remover(tokens[i], "\"'", minishell);
@@ -174,8 +174,8 @@ void free_split(char **strs)
 	strs = NULL;
 }
 
-void printer(struct scripts *scripts) {
-	struct scripts *tmp;
+void printer(struct s_scripts *scripts) {
+	struct s_scripts *tmp;
 	int i;
 
 	tmp = scripts;
@@ -188,8 +188,8 @@ void printer(struct scripts *scripts) {
 	printf("\n");
 }
 
-void printer_token(struct token_stream *scripts) {
-	struct token_stream *tmp;
+void printer_token(struct s_token_stream *scripts) {
+	struct s_token_stream *tmp;
 	int i;
 
 	tmp = scripts;
@@ -202,17 +202,17 @@ void printer_token(struct token_stream *scripts) {
 	printf("\n");
 }
 
-struct scripts *ft_create_node_script(char *cmd)
+struct s_scripts *ft_create_node_script(char *cmd)
 {
-	struct scripts *new_node;
+	struct s_scripts *new_node;
 
-	new_node = malloc(sizeof(struct scripts));
+	new_node = malloc(sizeof(struct s_scripts));
 	new_node->input_line = ft_strdup(cmd);
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void garbage_collect_token(struct token_stream *lst) {
+void garbage_collect_token(struct s_token_stream *lst) {
 	if (lst == NULL)
 		return;
 	free(lst->token_name);

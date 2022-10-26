@@ -6,14 +6,14 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:29:51 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:38:44 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	less_statement_execute(char **command_statement,
-			struct ast *ast, struct minishell *minishell, int fd_out)
+			struct s_ast *ast, struct s_minishell *minishell, int fd_out)
 {
 	pid_t	pid;
 	int		fd_in;
@@ -40,7 +40,7 @@ void	less_statement_execute(char **command_statement,
 	close(fd_in);
 }
 
-int	get_fd_out(struct ast *ast, struct ast **jump)
+int	get_fd_out(struct s_ast *ast, struct s_ast **jump)
 {
 	int	fd_out;
 

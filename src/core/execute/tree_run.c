@@ -6,13 +6,13 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:25:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 02:26:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 03:25:08 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
+void	builtin_run_ast(struct s_ast *ast, struct s_minishell *minishell)
 {
 	char	**cmd_list;
 
@@ -27,7 +27,7 @@ void	builtin_run_ast(struct ast *ast, struct minishell *minishell)
 		ft_unset(cmd_list, minishell);
 }
 
-void	minishell_run_equal(struct ast *ast, struct minishell *minishell)
+void	minishell_run_equal(struct s_ast *ast, struct s_minishell *minishell)
 {
 	minishell_save_variable(ast->value.token_name, minishell);
 	if (ast->right)
@@ -36,9 +36,9 @@ void	minishell_run_equal(struct ast *ast, struct minishell *minishell)
 		minishell_ast_execute(ast->left, minishell);
 }
 
-void	minishell_process_command(struct ast *ast, struct minishell *m)
+void	minishell_process_command(struct s_ast *ast, struct s_minishell *m)
 {
-	struct ast	*jump;
+	struct s_ast	*jump;
 	char		**command_statement;
 	char		*command_path;
 
@@ -59,7 +59,7 @@ void	minishell_process_command(struct ast *ast, struct minishell *m)
 	command_statement_destroy(command_statement);
 }
 
-void	minishell_process_bool(struct ast *ast, struct minishell *minishell)
+void	minishell_process_bool(struct s_ast *ast, struct s_minishell *minishell)
 {
 	if (ast->value.token_type == FALSE)
 		minishell->return_value = 1;
@@ -67,7 +67,7 @@ void	minishell_process_bool(struct ast *ast, struct minishell *minishell)
 		minishell->return_value = 0;
 }
 
-void	minishell_process_pipeline(struct ast *ast, struct minishell *minishell)
+void	minishell_process_pipeline(struct s_ast *ast, struct s_minishell *minishell)
 {
 	minishell->type = COMPLEXE;
 	if (ast->value.token_type == PIPE)
