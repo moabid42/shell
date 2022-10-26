@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words_count.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:49:57 by frmessin          #+#    #+#             */
-/*   Updated: 2022/08/26 22:05:59 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:36:43 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,61 @@
 #include "parser.h"
 #include "utils.h"
 
-
-int increase_i(char *string, char split_char, char *special)
+int	increase_i(char *string, char split_char, char *special)
 {
 	int		special_index;
-	int i;
+	int		i;
 
 	i = 0;
 	special_index = in_special(string[i], special);
 	i += ignore_inside_special(&string[i], special[special_index]) + 1;
-	return i;
+	return (i);
 }
 
-int		words_count(char *string, char split_char, char *special)
-{
+struct s_count {
 	int		i;
-	int		flag;
 	int		word_count;
+	int		flag;
 	int		len;
+	char	split_char;
+};
 
-	len = ft_strlen(string);
-	flag = 0;
-	word_count = 0;
-	i = 0;
-	while(i < len)
+void	count_advance(struct s_count *count, char *string, char *special)
+{
+	if (in_special(string[count->i], special) >= 0 && count->flag == 0)
 	{
-		if(in_special(string[i], special) >= 0 && flag == 0)
-		{
-			i += increase_i(&string[i], split_char, special);
-			word_count++;
-			flag = 1;
-		}
-		else if(in_special(string[i], special) >= 0 && flag == 1)
-			i += increase_i(&string[i], split_char, special);
-		else if(string[i] != split_char && flag == 0)
-		{
-			word_count++;
-			flag = 1;
-			i++;
-		}
-		else if(string[i] == split_char)
-		{
-			while(string[i] == split_char)
-				i++;
-			flag = 0;
-		}
-		else if(flag == 1)
-			i++;
+		count->i += increase_i(&string[count->i], count->split_char, special);
+		count->word_count++;
+		count->flag = 1;
 	}
-	return (word_count);
+	else if (in_special(string[count->i], special) >= 0 && count->flag == 1)
+		count->i += increase_i(&string[count->i], count->split_char, special);
+	else if (string[count->i] != count->split_char && count->flag == 0)
+	{
+		count->word_count++;
+		count->flag = 1;
+		count->i++;
+	}
+	else if (string[count->i] == count->split_char)
+	{
+		while (string[count->i] == count->split_char)
+			count->i++;
+		count->flag = 0;
+	}
+	else if (count->flag == 1)
+		count->i++;
+}
+
+int	words_count(char *string, char split_char, char *special)
+{
+	struct s_count	count;
+
+	count.i = 0;
+	count.word_count = 0;
+	count.flag = 0;
+	count.len = ft_strlen(string);
+	count.split_char = split_char;
+	while (count.i < count.len)
+		count_advance(&count, string, special);
+	return (count.word_count);
 }

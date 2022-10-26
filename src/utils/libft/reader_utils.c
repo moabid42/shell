@@ -3,43 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   reader_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:22:52 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/22 20:48:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:31:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reader.h"
 #include "libft.h"
 
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	int		i;
-// 	char	char_c;
-
-// 	i = 0;
-// 	char_c = (char)c;
-// 	while (s[i] != '\0')
-// 	{
-// 		if (s[i] == char_c)
-// 			return ((char *)s + i);
-// 		i++;
-// 	}
-// 	if (c == '\0')
-// 		return ((char *)s + i);
-// 	return (0);
-// }
-
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
+void	init_var(int *i, int *j, bool *k)
+{
+	*i = 0;
+	*j = 0;
+	*k = 0;
+}
 
 int	check_for_word(char *string, t_args *args)
 {
@@ -47,9 +26,7 @@ int	check_for_word(char *string, t_args *args)
 	int		n;
 	bool	word;
 
-	i = 0;
-	n = 0;
-	word = false;
+	init_var(&i, &n, &word);
 	while (string[i])
 	{
 		if (ft_strchr(args->ign_char_inside, string[i]) != NULL)
@@ -70,7 +47,7 @@ int	check_for_word(char *string, t_args *args)
 	}
 	return (i);
 }
-#include <stdio.h>
+
 char	*create_the_word(char *string, int n)
 {
 	int		i;
@@ -86,6 +63,5 @@ char	*create_the_word(char *string, int n)
 		i++;
 	}
 	new_string[n] = '\0';
-	// dprintf(2, "The size is : %d", n);
 	return (new_string);
 }

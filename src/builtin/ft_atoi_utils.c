@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:52:43 by frame             #+#    #+#             */
-/*   Updated: 2022/10/26 01:55:21 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/26 16:01:04 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,20 @@ int	ft_atoi_special(char *str)
 			return (255);
 		return (num % 256);
 	}
+}
+
+bool	all_digits(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i])
+			&& str[i] != '-'
+			&& str[i] != '+')
+			return (false);
+		++i;
+	}
+	return (true);
 }

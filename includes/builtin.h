@@ -30,5 +30,5 @@ void	ft_unset(char **argv, struct s_minishell *minishell);
 void	cd_func(void);
 int		ft_atoi_special(char *str);
 bool	is_a_valid_identifier(char *str);
-
+bool	all_digits(char *str);
 #endif

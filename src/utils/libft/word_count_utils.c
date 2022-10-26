@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_count_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabid <moabid@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:23:45 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/22 20:47:55 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:35:44 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,29 @@ int	jump_char_inside(char *string, char *special, int *word_count, bool *word)
 	return (i);
 }
 
+void	init_var_2(int *i, bool *k)
+{
+	*i = 0;
+	*k = 0;
+}
+
+bool	init_j(int *j)
+{
+	*j = 0;
+	return (true);
+}
+
 int	single_word_strchr( char **single_word, char *string)
 {
-	// printf("The string is :%s and the signle word is :%s\n", string, *single_word);
 	bool	word;
 	size_t	len;
 	int		i;
 	int		j;
 
-	word = false;
-	i = 0;
-	while (single_word[i])
+	init_var_2(&i, &word);
+	while (single_word[i] && init_j(&j))
 	{
 		len = ft_strlen(single_word[i]);
-		j = 0;
 		while (string[j] && j < len)
 		{
 			if (string[j] == single_word[i][j])
@@ -61,7 +70,5 @@ int	single_word_strchr( char **single_word, char *string)
 			return (len);
 		i++;
 	}
-	// printf("The i is %d\n", len);
-	// printf("The single word is %s\n", single_word[i]);
 	return (word);
 }

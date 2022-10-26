@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:21:03 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 13:24:38 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:00:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,20 @@ bool	is_valid(char *str)
 		return (true);
 }
 
+void	run_valid(struct s_minishell *minishell, t_env *tmp,
+			char **argv, int i)
+{
+	while (tmp)
+	{
+		if (my_strcmp(tmp->name, argv[i]) == 0)
+		{
+			minishell->env = remove_env_var(minishell->env, tmp);
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	ft_unset(char **argv, struct s_minishell *minishell)
 {
 	t_env	*tmp;
@@ -76,17 +90,7 @@ void	ft_unset(char **argv, struct s_minishell *minishell)
 		{
 			tmp = minishell->env;
 			if (is_valid(argv[i]))
-			{
-				while (tmp)
-				{
-					if (my_strcmp(tmp->name, argv[i]) == 0)
-					{
-						minishell->env = remove_env_var(minishell->env, tmp);
-						break ;
-					}
-					tmp = tmp->next;
-				}
-			}
+				run_valid(minishell, tmp, argv, i);
 			else
 			{
 				dprintf(2, "esh: unset: `%s': not a valid identifier\n",
