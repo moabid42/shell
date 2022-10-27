@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:08:02 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 17:21:48 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:04:35 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	minishell_run(struct s_minishell *minishell)
 		signal_run(SIGINT);
 		termios_echoback(false);
 		minishell_get_input(minishell);
+		if (!minishell->input_str)
+			break ;
 		if (is_weird(minishell->input_str))
 			handle_weird(minishell);
 		else

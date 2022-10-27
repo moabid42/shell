@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 14:41:26 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:17:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ struct s_scripts		*ft_create_node_script(char *cmd);
 bool					syntax_analyzer_create(struct s_token_stream
 							*token_stream,
 							struct s_ast *ast, struct s_minishell *minishell);
+void					ini_var(int *i, int *j,
+							struct s_minishell *minishell, struct s_ast *ast);
+void					return_value(int status, struct s_minishell *minishell);
 
 /////////////////////
 //  SEMANTIC_ANAL  //

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 14:41:09 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:18:22 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ bool	check_for_pipes(struct s_token_stream *tmp)
 		tmp = tmp->next;
 	}
 	return (false);
+}
+
+void	ini_var(int *i, int *j,
+		struct s_minishell *minishell, struct s_ast *ast)
+{
+	*j = 0;
+	*i = 0;
+	minishell->pipe_count = get_number_pipes(ast, 1);
+	minishell->pid_count = 0;
+}
+
+void	return_value(int status, struct s_minishell *minishell)
+{
+	if (status == 32512)
+		minishell->return_value = 127;
+	else if (status != 0)
+		minishell->return_value = 1;
+	else
+		minishell->return_value = 0;
 }
 
 bool	syntax_analyzer_create(struct s_token_stream *token_stream,
