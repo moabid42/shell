@@ -6,13 +6,13 @@ HEADERS 	= $(shell find . -name "*.h")
 OBJECTS 	= $(patsubst %.c, %.o, $(SOURCES))
 DEPENDS 	= $(patsubst %.c, %.d, $(SOURCES))
 
-CFLAGS 		= -g -Wall
+CFLAGS 		= -Werror -Wall -Wextra -Wall
 RLFLAGS 	= -lreadline
 
 all: $(NAME)
 
 %.o: %.c
-	@$(CC) -Iincludes $(CFLAGS) -MMD -MP -c $< -o $@
+	@$(CC) -Iincludes $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
 	@echo "Dependencies Compiled !"
@@ -27,14 +27,9 @@ clean:
 fclean: clean
 	-@$(RM) $(NAME)
 
-test:
-	@$(shell ./esh_tester.sh) 
-
 run: all
 	./$(NAME)
 
 re: clean all
 
 .PHONY: re run fclean clean all
-
--include $(DEPENDS)

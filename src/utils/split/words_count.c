@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:49:57 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 16:36:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:58:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	increase_i(char *string, char split_char, char *special)
 	int		i;
 
 	i = 0;
+	(void)split_char;
 	special_index = in_special(string[i], special);
 	i += ignore_inside_special(&string[i], special[special_index]) + 1;
 	return (i);

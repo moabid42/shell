@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:56:17 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:21:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:51:56 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	ast_insert_parent(struct s_ast *node, struct s_ast **root,
 	struct s_ast	*tmp;
 
 	tmp = (*root)->right;
+	(void)minishell;
 	if (node->value.token_type <= (*root)->value.token_type
 		|| ((node->value.token_type / 2 == 0)
 			&& (node->value.token_type / 2 == 0)))

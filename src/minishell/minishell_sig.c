@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:14:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 04:44:17 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:53:49 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	termios_echoback(bool echo_ctl_chr)
 	struct termios	terminos_p;
 	int				status;
 
+	(void)echo_ctl_chr;
 	status = tcgetattr(STDOUT_FILENO, &terminos_p);
 	if (status == -1)
 		return (1);

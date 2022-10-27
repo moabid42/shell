@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:59:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 23:17:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:48:12 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	minishell_process_command_pipe(struct s_ast *ast,
 			process_redirect_append(ast, minishell);
 		else
 			process_direct(ast, minishell);
-		while (i < minishell->pipe_count)
-			waitpid(minishell->pids[i++], NULL, 0);
 		exit(minishell->return_value);
 	}
 	else

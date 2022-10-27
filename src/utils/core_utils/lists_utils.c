@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 00:55:07 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:55:17 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 struct s_scripts	*ft_create_stack_scripts(char **scripts_line,
 			unsigned int count)
 {
-	int					i;
+	unsigned int		i;
 	struct s_scripts	*new_node;
 	struct s_scripts	*curr;
 
@@ -66,6 +66,8 @@ char	*quotes_remover(char *str, char *set, struct s_minishell *minishell)
 
 	i = 0;
 	j = 0;
+	(void)set;
+	(void)minishell;
 	if (str[0] == '$' && (str[1] == '\"' || str[1] == '\''))
 		i = 1;
 	new_str = (char *) ft_malloc(sizeof(char) * (ft_strlen(str) + 1 - i));
@@ -81,7 +83,7 @@ char	*quotes_remover(char *str, char *set, struct s_minishell *minishell)
 struct s_token_stream	*stack_create(struct s_minishell *minishell,
 						char **tokens, unsigned int count)
 {
-	int						i;
+	unsigned int			i;
 	struct s_token_stream	*new_node;
 	struct s_token_stream	*curr;
 

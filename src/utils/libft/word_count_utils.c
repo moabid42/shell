@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:23:45 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 16:35:44 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:57:12 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_var_2(int *i, bool *k)
 	*k = 0;
 }
 
-bool	init_j(int *j)
+bool	init_j(size_t *j)
 {
 	*j = 0;
 	return (true);
@@ -49,7 +49,7 @@ int	single_word_strchr( char **single_word, char *string)
 	bool	word;
 	size_t	len;
 	int		i;
-	int		j;
+	size_t	j;
 
 	init_var_2(&i, &word);
 	while (single_word[i] && init_j(&j))

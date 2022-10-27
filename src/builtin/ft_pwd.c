@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 17:47:09 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 13:24:24 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:50:30 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	ft_pwd(struct s_minishell *minishell)
 	char	*pwd;
 	int		i;
 
-	pwd = get_pwd ();
+	(void)minishell;
+	pwd = get_pwd();
 	if (pwd == NULL)
 		exit (0);
 	i = 0;

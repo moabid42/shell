@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:05 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:53:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **env)
 	struct s_minishell	minishell;
 	int					exit_status;
 
+	(void)argv;
 	if (argc != 1)
 		ft_error(SYNTAX_ERROR);
 	else if (*env == NULL)

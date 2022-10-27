@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 23:16:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:19:49 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:57:53 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	is_child(int root, struct s_token_stream *tmp)
 		return (false);
 	if (tmp->token_type == PIPE && root == EQUAL)
 		return (true);
-	if (tmp->token_type > root)
+	if (tmp->token_type > (enum e_token_type)root)
 		return (true);
 	return (false);
 }
