@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 17:00:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,20 @@ static bool	check_multiple_n(char *string)
 
 static bool	set_no_nl(char *str)
 {
+	int	i;
+
+	i = 1;
 	if (bool_strcmp(str, "-n"))
 		return (true);
+	if (str[0] == '-')
+	{
+		while (str[i] == 'n')
+			i++;
+		if (i == 1)
+			return (false);
+		if (str[i] == '\0')
+			return (true);
+	}
 	return (false);
 }
 

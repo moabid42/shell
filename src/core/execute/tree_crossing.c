@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:36:31 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 01:48:43 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 16:32:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,11 @@ void	correct_args(char **cmds, struct s_minishell *minishell)
 	int	i;
 
 	i = 0;
-	if (minishell->dollar_in == false)
-		return ;
-	cmds[1] = ft_strjoin(cmds[1], cmds[2]);
-	cmds[2] = NULL;
+	if (!my_strcmp(cmds[0], "cat"))
+	{
+		cmds[1] = ft_strjoin(cmds[1], cmds[2]);
+		cmds[2] = NULL;
+	}
 }
 
 int	minishell_ast_execute(struct s_ast *ast, struct s_minishell *minishell)

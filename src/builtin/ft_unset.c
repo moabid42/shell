@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:21:03 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 16:00:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 02:08:13 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_env	*remove_env_var(t_env *enviroment, t_env *node_to_erase)
 	tmp = enviroment;
 	if (tmp && tmp == node_to_erase)
 	{
-		tmp = tmp->next;
+		enviroment = enviroment->next;
 		free(node_to_erase);
 	}
 	else

@@ -6,13 +6,23 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 02:01:21 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 14:41:09 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include "utils.h"
+
+struct s_scripts	*ft_create_node_script(char *cmd)
+{
+	struct s_scripts	*new_node;
+
+	new_node = malloc(sizeof(struct s_scripts));
+	new_node->input_line = ft_strdup(cmd);
+	new_node->next = NULL;
+	return (new_node);
+}
 
 bool	check_for_pipes(struct s_token_stream *tmp)
 {

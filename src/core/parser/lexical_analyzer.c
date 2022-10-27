@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:22 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 00:55:23 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 14:41:01 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,21 @@ void	sanitize_token_stream(struct s_token_stream *token_stream)
 	}
 }
 
+bool	had_here_doc_cat(struct s_token_stream *ts)
+{
+	if (!my_strcmp(ts->token_name, "cat"))
+		return (true);
+	while (ts->next)
+	{
+		if (!my_strcmp(ts->token_name, "<<")
+			&& ts->next->next
+			&& !my_strcmp(ts->next->next->token_name, "cat"))
+			return (true);
+		ts = ts->next;
+	}
+	return (false);
+}
+
 struct s_token_stream	*token_stream_create(struct s_minishell *minishell,
 		char **tokens, struct s_scripts *script)
 {
@@ -77,6 +92,9 @@ struct s_token_stream	*token_stream_create(struct s_minishell *minishell,
 	if (can_be_arranged(token_stream) == true
 		|| can_be_arranged_left(token_stream) == true)
 		token_stream_rearrange(&token_stream);
+	minishell->cat_fg = false;
+	if (had_here_doc_cat(token_stream) == true)
+		minishell->cat_fg = true;
 	return (token_stream);
 }
 
@@ -103,14 +121,4 @@ struct s_token_stream	*lexical_analyzer_create(struct s_scripts *script,
 		script->tokens_num = count_tokens(tokens);
 	}
 	return (token_stream_create(minishell, tokens, script));
-}
-
-struct s_scripts	*ft_create_node_script(char *cmd)
-{
-	struct s_scripts	*new_node;
-
-	new_node = malloc(sizeof(struct s_scripts));
-	new_node->input_line = ft_strdup(cmd);
-	new_node->next = NULL;
-	return (new_node);
 }

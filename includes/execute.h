@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 04:27:39 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 14:29:31 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void				heredoc_statement_execute(struct s_ast *ast,
 						struct s_minishell *minishell, int out);
 void				heredoc_forward_command(struct s_ast *ast,
 						struct s_minishell *minishell);
-void				heredoc_execute_caller(struct s_ast *tmp, int direction);
-void				execute_heredoc(char *delimiter, int magic);
+void				heredoc_execute_caller(struct s_ast *tmp, int direction,
+						struct s_minishell *minishell);
+void				execute_heredoc(char *delimiter, int magic,
+						struct s_minishell *m);
 
 ///////////////////
 //  stat_execut  //
