@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 22:36:12 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:21:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 01:58:20 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	redirection_run(struct s_ast *ast, struct s_ast *first,
 	if (ast->left->value.token_type == PIPE)
 		redirection_run(ast->left, first, minishell, fd_out);
 	if (ast->left->value.token_type != PIPE)
-		process_pipe_run_left(ast->left, minishell);
+		process_pipe_run_left(ast, minishell);
 	if (ast->right != first->right)
 		process_pipe_run_right(ast, minishell);
 	else

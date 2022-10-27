@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 04:55:44 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 02:01:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	token_stream_rearrange(struct s_token_stream **token_stream)
 
 bool	can_be_arranged(struct s_token_stream *token_stream)
 {
+	if (check_for_pipes(token_stream) == true)
+		return (false);
 	if (token_stream->token_name[0] == '<')
 		return (false);
 	while (token_stream)

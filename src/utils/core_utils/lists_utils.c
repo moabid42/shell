@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 20:20:26 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 16:53:42 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 00:55:07 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	quotes_advance(char *str, char **new_str, int *i, int *j)
 	if (str[(*i)] == '\'' || str[(*i)] == '\"')
 	{
 		(*i)++;
-		while (str[(*i)] != '\'' && str[(*i)] != '\"')
+		while (str[(*i)] != '\'' && str[(*i)] != '\"' && str[(*i)])
 			(*new_str)[(*j)++] = str[(*i)++];
 	}
 	else if (str[*i] == '\\')
