@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 15:36:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 22:45:57 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ struct s_minishell {
 	bool					no_path;
 	int						is_weird_cat;
 	int						fd_out;
+	int						pids[1000];
+	int						pid_count;
+	int						pipe_count;
 	long long				byte_code;
 	long long				brakets_flag;
 	int						index_flag;
@@ -107,6 +110,7 @@ void	minishell_get_input(struct s_minishell *minishell);
 char	*get_input_terminal(int fd);
 void	minishell_destroy(struct s_minishell *minishell);
 bool	both_quote(char *str);
+
 ////////////////////
 //  MINISHELL_RUN //
 ////////////////////

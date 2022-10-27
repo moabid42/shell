@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:59:55 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 17:40:15 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:17:41 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,21 @@ void	process_pipe_run_first(struct s_ast *ast,
 		minishell_ast_execute(ast->right, minishell);
 }
 
+int	get_number_pipes(struct s_ast *ast, int count)
+{
+	if (ast->value.token_type == PIPE)
+		get_number_pipes(ast->left, count++);
+	return (count);
+}
+
 void	minishell_process_command_pipe(struct s_ast *ast,
 			struct s_minishell *minishell, int type)
 {
 	pid_t	pid;
 	int		status;
+	int		i;
 
-	status = 0;
+	ini_var(&i, &status, minishell, ast);
 	pid = fork();
 	if (pid == -1)
 		ft_error("fork error");
@@ -43,16 +51,13 @@ void	minishell_process_command_pipe(struct s_ast *ast,
 			process_redirect_append(ast, minishell);
 		else
 			process_direct(ast, minishell);
+		while (i < minishell->pipe_count)
+			waitpid(minishell->pids[i++], NULL, 0);
 		exit(minishell->return_value);
 	}
 	else
 		waitpid(pid, &status, 0);
-	if (status == 32512)
-		minishell->return_value = 127;
-	else if (status != 0)
-		minishell->return_value = 1;
-	else
-		minishell->return_value = 0;
+	return_value(status, minishell);
 }
 
 void	process_pipe_run_right(struct s_ast *ast, struct s_minishell *minishell)
@@ -63,6 +68,7 @@ void	process_pipe_run_right(struct s_ast *ast, struct s_minishell *minishell)
 	if (pipe(pfd) == -1)
 		ft_error("pipe error");
 	pid2 = fork();
+	minishell->pids[minishell->pid_count++] = pid2;
 	if (pid2 == -1)
 		ft_error("fork error");
 	if (!pid2)
@@ -87,6 +93,7 @@ void	process_pipe_run_left(struct s_ast *ast, struct s_minishell *minishell)
 	if (pipe(pfd) == -1)
 		ft_error("pipe error");
 	pid2 = fork();
+	minishell->pids[minishell->pid_count++] = pid2;
 	if (pid2 == -1)
 		ft_error("fork error");
 	if (!pid2)

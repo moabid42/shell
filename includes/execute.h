@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:42:04 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 14:29:31 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:16:14 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void				minishell_process_command_pipe(struct s_ast *ast,
 void				process_pipe_run_first(struct s_ast *ast,
 						struct s_ast *first, struct s_minishell *minishell,
 						int fd_out);
+int					get_number_pipes(struct s_ast *ast, int count);
 
 ///////////////////
 //  redirection  //
