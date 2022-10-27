@@ -6,7 +6,7 @@
 /*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/27 01:20:12 by frame            ###   ########.fr       */
+/*   Updated: 2022/10/27 17:00:40 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ static bool	set_no_nl(char *str)
 		return (true);
 	if (str[0] == '-')
 	{
-		while(str[i] == 'n')
+		while (str[i] == 'n')
 			i++;
+		if (i == 1)
+			return (false);
+		if (str[i] == '\0')
+			return (true);
 	}
-	if(str[i] == '\0')
-		return (true);
 	return (false);
 }
 

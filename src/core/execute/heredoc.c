@@ -6,16 +6,15 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:32:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:22:41 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 14:47:29 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_heredoc(char *delimiter, int magic)
+void	execute_heredoc(char *delimiter, int magic, struct s_minishell *m)
 {
 	char	*line;
-	char	*tmp;
 	int		fd_out;
 
 	if (magic == 0)
@@ -24,37 +23,39 @@ void	execute_heredoc(char *delimiter, int magic)
 		fd_out = openfile("/tmp/bullshit", 2);
 	while (1)
 	{
-		write(magic, "heredoc> ", 10);
-		line = get_next_line(0);
-		tmp = ft_strdup(line);
-		new_line_remove(tmp);
-		if (line == NULL)
+		line = readline("> ");
+		if (!line)
 			break ;
-		if (!my_strcmp(tmp, delimiter)
-			&& ft_strlen(tmp) == ft_strlen(delimiter))
+		if (line[ft_strlen(line)] == '\n')
+			new_line_remove(line);
+		if (!my_strcmp(line, delimiter)
+			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, fd_out);
+		line = ft_strjoin(line, "\n");
+		if (m->cat_fg == true)
+			ft_putstr_fd(line, fd_out);
 		free(line);
 	}
 }
 
-void	heredoc_execute_caller(struct s_ast *tmp, int direction)
+void	heredoc_execute_caller(struct s_ast *tmp, int direction,
+			struct s_minishell *m)
 {
 	if (tmp->left->value.token_type == DOUBLE_SMALLER)
-		heredoc_execute_caller(tmp->left, direction);
+		heredoc_execute_caller(tmp->left, direction, m);
 	if (tmp->left->value.token_type != DOUBLE_SMALLER)
 	{
 		if (direction == 0)
-			execute_heredoc(tmp->left->value.token_name, 0);
+			execute_heredoc(tmp->left->value.token_name, 0, m);
 		else
-			execute_heredoc(tmp->right->value.token_name, 0);
+			execute_heredoc(tmp->right->value.token_name, 0, m);
 		return ;
 	}
 	else
-		execute_heredoc(tmp->right->value.token_name, 1);
+		execute_heredoc(tmp->right->value.token_name, 1, m);
 }
 
 void	heredoc_forward_command(struct s_ast *ast,
@@ -77,7 +78,7 @@ void	heredoc_forward_command(struct s_ast *ast,
 }
 
 void	heredoc_statement_execute(struct s_ast *ast,
-	struct s_minishell *minishell, int out)
+	struct s_minishell *m, int out)
 {
 	struct s_ast	*tmp;
 	struct s_ast	*end;
@@ -85,11 +86,11 @@ void	heredoc_statement_execute(struct s_ast *ast,
 	tmp = ast;
 	end = ast_seek_end(tmp);
 	if (end->value.token_type == COMMAND)
-		heredoc_execute_caller(tmp, RIGHT);
+		heredoc_execute_caller(tmp, RIGHT, m);
 	else
-		heredoc_execute_caller(tmp, LEFT);
+		heredoc_execute_caller(tmp, LEFT, m);
 	if (end->value.token_type == COMMAND)
-		heredoc_forward_command(end, minishell);
+		heredoc_forward_command(end, m);
 	else
 		print_file("/tmp/bullshit");
 }

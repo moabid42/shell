@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:46:30 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/25 22:12:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 14:39:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ bool	star_exist(char **tokens)
 		j = 0;
 		while (tokens[i][j])
 		{
-			if (tokens[i][j] == '*')
+			if (tokens[i][j] == '*' && tokens[i - 1][j] != '<')
 				return (true);
 			j++;
 		}	

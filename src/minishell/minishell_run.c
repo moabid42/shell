@@ -6,14 +6,30 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 17:08:02 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:20:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 17:21:48 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	is_only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	handle_weird(struct s_minishell *minishell)
 {
+	if (is_only_space(minishell->input_str) == true)
+		return ;
 	if (!my_strcmp(minishell->input_str, "\"\""))
 		error_exit(minishell, "esh: :command not found\n",
 			NULL, 127);
@@ -35,7 +51,8 @@ void	handle_weird(struct s_minishell *minishell)
 
 bool	is_weird(char *str)
 {
-	return (!my_strcmp(str, "\"\"")
+	return (is_only_space(str) == true
+		|| !my_strcmp(str, "\"\"")
 		|| !my_strcmp(str, "\".\"")
 		|| !my_strcmp(str, "<<<<<<")
 		|| !my_strcmp(str, "< < < < < <")
