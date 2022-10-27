@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frame <frame@student.42.fr>                +#+  +:+       +#+        */
+/*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:03:55 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/27 17:00:40 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:50:10 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_echo(char **arg, struct s_minishell *minishell)
 	bool	no_nl;
 
 	i = 1;
+	(void)minishell;
 	if (!arg[1])
 	{
 		write(1, "\n", 1);
@@ -76,5 +77,5 @@ void	ft_echo(char **arg, struct s_minishell *minishell)
 	}
 	if (!no_nl)
 		newline();
-	exit (0);
+	exit(0);
 }

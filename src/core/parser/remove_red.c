@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:04:16 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:52:45 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	have_multi_redi(struct s_token_stream *token_stream)
 void	node_remove(struct s_token_stream *prev, struct s_token_stream *next,
 					struct s_token_stream *iter)
 {
+	(void)prev;
 	openfile(next->token_name, 1);
 	free(next);
 	free(iter);

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 22:52:20 by frmessin          #+#    #+#             */
-/*   Updated: 2022/10/26 16:04:14 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:59:29 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "parser.h"
 #include "utils.h"
 
-char	*manage_word(int *start, char *string, char *special, char split_char)
+char	*manage_word(size_t *start, char *string,
+			char *special, char split_char)
 {
-	int		i;
+	size_t	i;
 	int		special_index;
 	char	*word;
 
@@ -40,7 +41,7 @@ char	*manage_word(int *start, char *string, char *special, char split_char)
 
 char	**ft_new_split(char *string, char split_char, char *special)
 {
-	int		i;
+	size_t	i;
 	int		tab;
 	char	**split_string;
 

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 02:32:03 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 14:47:29 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:51:18 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	heredoc_statement_execute(struct s_ast *ast,
 
 	tmp = ast;
 	end = ast_seek_end(tmp);
+	(void)out;
 	if (end->value.token_type == COMMAND)
 		heredoc_execute_caller(tmp, RIGHT, m);
 	else

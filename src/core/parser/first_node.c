@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:18:35 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:33:01 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 00:52:21 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	cmd_handle(struct s_minishell *minishell,
 	struct s_token_stream *token_stream,
 	struct s_ast *tmp)
 {
+	(void)token_stream;
 	if (ft_iscommand(tmp->value.token_name, minishell->env) == true
 		|| ft_isexecutable(tmp->value.token_name) == true)
 		tmp->value.token_type = COMMAND;
