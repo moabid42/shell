@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:45:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:13:46 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 02:01:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ bool					syntax_analyzer_create(struct s_token_stream
 
 struct s_ast			*semantic_analyzer_create(struct s_minishell *minishell,
 							struct s_token_stream *token_stream);
+bool					check_for_pipes(struct s_token_stream *tmp);
 
 /////////////////////
 //    EXPEND_STAR  //

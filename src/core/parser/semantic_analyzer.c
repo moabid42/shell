@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 13:20:54 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/27 01:59:33 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ struct s_ast	*sub_tree_builder(struct s_ast *ast,
 		*prev = *stm;
 		(*stm) = (*stm)->next;
 	}
-	return (NULL);
+	return (ast);
 }
 
 struct s_ast	*ast_create_subtree(struct s_minishell *minishell,
