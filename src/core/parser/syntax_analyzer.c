@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 23:33:39 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 23:18:22 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 16:33:38 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ bool	check_for_pipes(struct s_token_stream *tmp)
 	return (false);
 }
 
-void	ini_var(int *i, int *j,
-		struct s_minishell *minishell, struct s_ast *ast)
-{
-	*j = 0;
-	*i = 0;
-	minishell->pipe_count = get_number_pipes(ast, 1);
-	minishell->pid_count = 0;
-}
-
 void	return_value(int status, struct s_minishell *minishell)
 {
 	if (status == 32512)
@@ -54,6 +45,22 @@ void	return_value(int status, struct s_minishell *minishell)
 		minishell->return_value = 0;
 }
 
+int	get_cat_num(struct s_token_stream *token_stream)
+{
+	int	count;
+
+	count = 0;
+	while (token_stream)
+	{
+		if (!my_strcmp(token_stream->token_name, "cat")
+			&& token_stream->next
+			&& token_stream->next->token_name[0] == '|')
+			count++;
+		token_stream = token_stream->next;
+	}
+	return (count);
+}
+
 bool	syntax_analyzer_create(struct s_token_stream *token_stream,
 		struct s_ast *ast, struct s_minishell *minishell)
 {
@@ -62,6 +69,7 @@ bool	syntax_analyzer_create(struct s_token_stream *token_stream,
 
 	tmp = ast;
 	iterator = token_stream;
+	minishell->cat_num = get_cat_num(token_stream);
 	if (iterator->token_type < 3)
 	{
 		minishell->return_value = 258;

@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 21:08:58 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/28 00:53:32 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 16:08:58 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	minishell_create(struct s_minishell *minishell, char **env)
 }
 
 void	minishell_get_input(struct s_minishell *minishell)
-{
+{	
+	minishell->cat_num = 0;
 	if (isatty(STDIN_FILENO))
 	{
 		minishell->input_str = readline("\033[31mesh$\033[0m ");

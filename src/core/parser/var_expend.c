@@ -6,11 +6,20 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 19:37:08 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/26 03:20:11 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 16:33:44 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ini_var(int *i, int *j,
+		struct s_minishell *minishell, struct s_ast *ast)
+{
+	*j = 0;
+	*i = 0;
+	minishell->pipe_count = get_number_pipes(ast, 1);
+	minishell->pid_count = 0;
+}
 
 int	isdir(const char *fileName)
 {

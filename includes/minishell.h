@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 20:00:09 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 22:45:57 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 16:08:03 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ struct s_minishell {
 	int						pids[1000];
 	int						pid_count;
 	int						pipe_count;
+	int						cat_num;
 	long long				byte_code;
 	long long				brakets_flag;
 	int						index_flag;

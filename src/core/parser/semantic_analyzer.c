@@ -6,7 +6,7 @@
 /*   By: moabid <moabid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:21:59 by moabid            #+#    #+#             */
-/*   Updated: 2022/10/27 17:00:05 by moabid           ###   ########.fr       */
+/*   Updated: 2022/10/28 16:36:32 by moabid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ struct s_ast	*ast_create_subtree(struct s_minishell *minishell,
 	ast = check_bracket_and_assign(minishell, stm);
 	ast = ast_create_first_node(minishell, *stm);
 	ast = sub_tree_builder(ast, minishell, prev, stm);
-	structure(ast, 0);
 	if (ast != NULL)
 		return (ast);
 	if (ast_not_right_type(ast) == false)
